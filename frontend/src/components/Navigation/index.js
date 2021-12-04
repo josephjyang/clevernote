@@ -2,6 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import ProfileButton from './ProfileButton'
+import DemoLoginButton from '../DemoLoginButton'
 import './Navigation.css'
 
 function Navigation({ isLoaded }) {
@@ -15,6 +16,9 @@ function Navigation({ isLoaded }) {
     } else {
         sessionLinks = (
             <>
+                <li>
+                    <DemoLoginButton />
+                </li>
                 <li>
                     <NavLink to="/login">Log In</NavLink>
                 </li>
