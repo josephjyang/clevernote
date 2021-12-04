@@ -1,9 +1,8 @@
 nav {
     height: 50px;
-    background-color: rgb(204, 204, 255);
     display: flex;
     justify-content: flex-end;
-    margin-right: 20px;
+    /* margin-right: px; */
 }
 
 ul {
