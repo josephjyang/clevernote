@@ -1,4 +1,3 @@
-import { set } from "js-cookie";
 import React, { useState, useEffect } from "react";
 import { useDispatch } from 'react-redux';
 import * as sessionActions from '../../store/session';
@@ -6,10 +5,6 @@ import * as sessionActions from '../../store/session';
 function ProfileButton({user}) {
     const dispatch = useDispatch();
     const [showMenu, setShowMenu] = useState(false)
-
-    const handleClick = () => {
-        setShowMenu(true);
-    }
 
     const logout = (e) => {
         e.preventDefault();
@@ -23,6 +18,7 @@ function ProfileButton({user}) {
 
     useEffect(() => {
         if (!showMenu) return;
+
         const closeMenu = () => {
             setShowMenu(false);
         }
@@ -34,15 +30,15 @@ function ProfileButton({user}) {
 
     return (
         <>
-            <button onClick={handleClick}>
-                <i class="fas fa-user-circle"></i>
-            </button>
+            <div id="profile-icon">
+                <i onClick={openMenu} class="fas fa-user-circle"></i>
+            </div>
             {showMenu && (
                 <ul className="profile-dropdown">
                     <li>{user.username}</li>
                     <li>{user.email}</li>
                     <li>
-                        <button onClick={logout}>Log Out</button>
+                        <button id="logout" onClick={logout}>Log Out</button>
                     </li>
                 </ul>
             )}

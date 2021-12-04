@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import ProfileButton from './ProfileButton'
@@ -19,7 +19,7 @@ function Navigation({ isLoaded }) {
                     <NavLink to="/login">Log In</NavLink>
                 </li>
                 <li>
-                    <NavLink to="/signup">Sign Up</NavLink>
+                    <NavLink to="/signup" id="signup">Sign Up</NavLink>
                 </li>
             </>
         )
