@@ -6,14 +6,14 @@ import './SignupForm.css'
 
 function SignupFormPage() {
     const dispatch = useDispatch();
-    const user = useSelector(state => state.session.user);
+    const sessionUser = useSelector(state => state.session.user);
     const [email, setEmail] = useState('');
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [errors, setErrors] = useState([]);
 
-    if (user) return (
+    if (sessionUser) return (
         <Redirect to="/" />
     );
 

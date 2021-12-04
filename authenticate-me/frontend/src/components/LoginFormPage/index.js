@@ -6,12 +6,12 @@ import './LoginForm.css'
 
 function LoginFormPage() {
     const dispatch = useDispatch();
-    const user = useSelector(state => state.session.user);
+    const sessionUser = useSelector(state => state.session.user);
     const [credential, setCredential] = useState('');
     const [password, setPassword] = useState('');
     const [errors, setErrors] = useState([]);
 
-    if (user) return (
+    if (sessionUser) return (
         <Redirect to="/" />
     );
 
