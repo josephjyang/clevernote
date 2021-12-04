@@ -38,6 +38,7 @@ a:hover {
 #profile-icon {
     font-size: 25px;
     position: relative;
+    margin-right: 15px;
 }
 
 .profile-dropdown {
