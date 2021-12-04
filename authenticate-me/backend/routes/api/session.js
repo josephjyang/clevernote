@@ -42,7 +42,7 @@ router.post('/', validateLogin, asyncHandler(async(req, res, next) => {
     return res.json({ user })
 }))
 
-router.delete('/', (req, res) => {
+router.delete('/', (_req, res) => {
     res.clearCookie('token');
     return res.json({ message: 'success' })
 })
