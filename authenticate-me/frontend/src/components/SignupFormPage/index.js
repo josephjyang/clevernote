@@ -2,15 +2,15 @@ import React, { useState } from 'react';
 import * as sessionActions from '../../store/session';
 import { useDispatch, useSelector } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import './LoginForm.css'
+import './SignupForm.css'
 
-function LoginFormPage() {
+function SignupFormPage() {
     const dispatch = useDispatch();
     const user = useSelector(state => state.session.user);
     const [email, setEmail] = useState('');
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [conPassword, setConPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
     const [errors, setErrors] = useState([]);
 
     if (user) return (
@@ -19,12 +19,14 @@ function LoginFormPage() {
 
     const onSubmit = e => {
         e.preventDefault();
-        setErrors([]);
-        return dispatch(sessionActions.signup({ email, username, password }))
-            .catch(async res => {
-                const data = await res.json();
-                if (data && data.errors) setErrors(data.errors);
-            })
+        if (password === confirmPassword) {
+            setErrors([]);
+            return dispatch(sessionActions.signup({ email, username, password }))
+                .catch(async res => {
+                    const data = await res.json();
+                    if (data && data.errors) setErrors(data.errors);
+                })
+        } else return setErrors(['Confirm Password field must match the Password field'])
     }
 
     return (
@@ -57,8 +59,8 @@ function LoginFormPage() {
                 />
                 <input
                     type="password"
-                    value={conPassword}
-                    onChange={(e) => setConPassword(e.target.value)}
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
                     required
                     placeholder="Confirm Password"
                 />
@@ -68,4 +70,4 @@ function LoginFormPage() {
     )
 }
 
-export default LoginFormPage
+export default SignupFormPage
