@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch } from 'react-redux';
 import * as sessionActions from '../../store/session';
+import './DemoLoginButton.css'
 
 function DemoLoginButton() {
     const dispatch = useDispatch();
@@ -21,7 +22,7 @@ function DemoLoginButton() {
 
     return (
         <form onSubmit={onSubmit}>
-                <button type="submit">Demo Log In</button>
+                <button id="demo-login" type="submit">Demo Log In</button>
         </form>
     )
 }
