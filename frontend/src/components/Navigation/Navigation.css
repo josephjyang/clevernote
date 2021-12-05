@@ -28,6 +28,7 @@ a:hover {
     border: blue solid 2px;
     color: blue;
     padding: 5px 20px;
+    border-radius: 5px;
 }
 
 #signup:hover {
