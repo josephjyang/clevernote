@@ -40,9 +40,17 @@ function Navigation({ isLoaded }) {
 
     return (
         <nav>
-            <ul>
+            <NavLink exact to="/">
+                <div id="left">
+                        <img src="/images/logo.png" alt="clevernote-logo" id="logo" />
+                        <span id="title">Clevernote</span>
+                </div>
+            </NavLink>
+            <div id="right">
+                <ul>
                     {isLoaded && sessionLinks}
-            </ul>
+                </ul>
+            </div>
         </nav>
     )
 }

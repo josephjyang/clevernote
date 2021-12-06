@@ -1,16 +1,23 @@
 .signup-form {
     width: 35vw;
-    height: 100vh;
+    height: 80vh;
     margin: auto;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    margin-top: 10vh;
+}
+
+#sign-up-logo {
+    width: 100px;
+    margin: 0 auto;
 }
 
 h1 {
     font-weight: bold;
     font-size: 45px;
+    font-family: 'Crete Round', serif;
+    margin-bottom: 15px;
+    margin-top: 5px;
 }
 
 form {

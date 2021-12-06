@@ -16,6 +16,20 @@ module.exports = (sequelize, DataTypes) => {
         }
       }
     },
+    firstName: {
+      allowNull: false,
+      type: DataTypes.STRING,
+      validate: {
+        len: [4, 50],
+      }
+    },
+    lastName: {
+      allowNull: false,
+      type: DataTypes.STRING,
+      validate: {
+        len: [4, 50],
+      }
+    },
     email: {
       allowNull: false,
       type: DataTypes.STRING,
@@ -53,11 +67,14 @@ module.exports = (sequelize, DataTypes) => {
 
   User.associate = function(models) {
     // associations can be defined here
+    User.hasMany(models.Notebook, { foreignKey: "userId" });
+    User.hasMany(models.Note, { foreignKey: "userId" });
+    User.hasMany(models.Tag, { foreignKey: "userId" });
   };
 
   User.prototype.toSafeObject = function() {
-    const { id, username, email } = this;
-    return {id, username, email };
+    const { id, username, firstName, lastName, email } = this;
+    return {id, username, firstName, lastName, email };
   }
 
   User.prototype.validatePassword = function(password) {

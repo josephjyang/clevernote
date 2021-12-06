@@ -27,7 +27,8 @@ function LoginForm() {
 
     return (
         <div className="login-form">
-            <h1>CLEVERNOTE</h1>
+            <img src="/images/logo.png" alt="clevernote-logo" id="sign-up-logo" />
+            <h1>Clevernote</h1>
             <form onSubmit={onSubmit}>
                 <ul hidden={errors.length === 0}>
                     {errors.map((error, i) => <li key={i}>{error}</li>)}

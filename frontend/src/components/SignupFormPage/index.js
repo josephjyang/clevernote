@@ -31,11 +31,12 @@ function SignupFormPage() {
 
     return (
         <div className="signup-form">
-            <h1>CLEVERNOTE</h1>
+            <img src="/images/logo.png" alt="clevernote-logo" id="sign-up-logo" />
+            <h1>Clevernote</h1>
             <form onSubmit={onSubmit}>
-                <ul hidden={errors.length === 0}>
+                {errors.length > 0 && <ul>
                     {errors.map((error, i) => <li key={i}>{error}</li>)}
-                </ul>
+                </ul>}
                 <input
                     type="text"
                     value={email}

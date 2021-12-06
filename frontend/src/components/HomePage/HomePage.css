@@ -1,0 +1,44 @@
+h1 {
+    font-weight: bold;
+    font-size: 45px;
+    text-align: center;
+}
+
+#container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80vh;
+}
+
+#homepage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 75vw;
+}
+
+h3 {
+    text-align: center;
+}
+
+p #log-in-link {
+    text-decoration: underline;
+    /* color: orange; */
+}
+
+#sign-up-btn {
+    background-color: blue;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    padding: 10px 70px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+#sign-up-btn:hover {
+    background-color: rgb(0, 110, 255);
+}

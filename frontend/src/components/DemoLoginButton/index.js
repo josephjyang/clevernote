@@ -10,7 +10,7 @@ function DemoLoginButton() {
         e.preventDefault();
         // setErrors([]);
         console.log('submitting form')
-        const demoUser = { credential: "Demo-lition", password: "password" }
+        const demoUser = { credential: "jimhalpert", password: "password" }
         return await dispatch(sessionActions.login(demoUser))
     }
 

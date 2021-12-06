@@ -28,6 +28,7 @@ function ProfileButton({user}) {
         return () => document.removeEventListener("click", closeMenu)
     }, [showMenu])
 
+    console.log(user)
     return (
         <>
             <div id="profile-icon">
@@ -35,7 +36,7 @@ function ProfileButton({user}) {
             </div>
             {showMenu && (
                 <ul className="profile-dropdown">
-                    <li>{user.username}</li>
+                    <li>Welcome, {user.firstName} {user.lastName}!</li>
                     <li>{user.email}</li>
                     <li>
                         <button id="logout" onClick={logout}>Log Out</button>
