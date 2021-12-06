@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { Route, Switch } from 'react-router-dom'
-import Navigation from './components/Navigation';
 import HomePage from './components/HomePage';
 import SignupFormPage from './components/SignupFormPage';
 import UserDashBoard from './components/UserDashboard';
@@ -16,17 +15,16 @@ function App() {
 
   return (
       <>
-        <Navigation isLoaded={isLoaded} />
         {isLoaded && (
           <Switch>
             <Route path="/" exact>
-              <HomePage />
+              <HomePage isLoaded={isLoaded}/>
             </Route>
             <Route path="/dashboard">
-              <UserDashBoard />
+              <UserDashBoard isLoaded={isLoaded}/>
             </Route>
             <Route path="/signup">
-              <SignupFormPage />
+              <SignupFormPage isLoaded={isLoaded}/>
             </Route>
           </Switch>
         )}

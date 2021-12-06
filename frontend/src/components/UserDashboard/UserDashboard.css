@@ -1,27 +1,85 @@
+#content {
+    display: grid;
+    grid-template-columns: 17.5% 82.5%;
+}
+
 h2 {
     text-align: center;
     font-size: 40px;
 }
 
-#notes-container {
+#dash-header {
+    display: flex;
     width: 80vw;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(3, 1fr);
+    justify-content: space-between;
+    align-items: center;
+}
+
+#dash-header {
+    margin-left: 10px;
+}
+
+h4 {
+    font-size: 12px;
+    margin-right: 10px;
+}
+
+#dashboard-container {
+    position: relative;
+    z-index: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#notes-container {
+    overflow-x: scroll;
+    width: 80vw;
+    height: 300px;
+    box-shadow: 0px 3px 15px rgba(0,0,0,0.2);
+    border-radius: 10px;
+    /* background-color: blue; */
+}
+
+#notes-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#notes-header > p {
+    margin: 10px 0px 0px 15px;
+    font-weight: bold;
+}
+
+#notes-header > i {
+    font-size: 20px;
+    margin: 10px 15px 0 0;
 }
 
 .note {
+    display: inline-block;
     margin: 10px;
-    background-color: rgba(0, 145, 255, 0.5);
+    box-sizing: border-box;
+    padding-bottom: 15px;
     height: 200px;
-    overflow: scroll;
+    width: 200px;
     border-radius: 10px;
-    box-shadow:rgba(0, 0, 255, 0.3)
+    box-shadow: 0px 3px 15px rgba(0,0,0,0.2);
+    overflow-y: hidden;
 }
 
 .note p {
-    background-color: rgba(0, 0, 255, 0.3);
+    font-size: 12px;
     border-radius: 5px;
-    padding: 10px;
-    margin-bottom: 0;
+    padding: 0 10px;
+    margin-top: 0;
+    color: rgb(63, 63, 63)
+}
+
+.note h3 {
+    text-align: left;
+    margin-left: 10px;
+    margin-bottom: 5px;
+    font-size: 16px;
 }

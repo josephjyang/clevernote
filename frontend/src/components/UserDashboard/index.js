@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Redirect } from 'react-router-dom'
 import { loadNotes } from '../../store/notes'
+import Navigation from '../Navigation';
+import NoteFormModal from '../NoteFormModal';
 import './UserDashboard.css'
 
-function UserDashBoard() {
+function UserDashBoard({ isLoaded }) {
     const sessionUser = useSelector(state => state.session.user);
     const notes = useSelector(state => state.notes)
     
@@ -23,33 +25,53 @@ function UserDashBoard() {
         <Redirect to="/" />
     )
 
+    let currTime = new Date();
+    let timePeriod
+    if (currTime.getHours() > 17) timePeriod = "evening";
+    else if (currTime.getHours() > 12) timePeriod = "afternoon";
+    else timePeriod = "morning";
+
+    const options = {year: 'numeric', weekday: 'long', month: 'long', day: 'numeric' };
+    currTime = currTime.toLocaleDateString('en-US', options)
+
     return (
-        <div id="container">
-            <h1>Welcome, {sessionUser.firstName} {sessionUser.lastName}</h1>
-            <h2>My Notes</h2>
-            <div id="notes-container">
-                {userNotes.map(note => {
-                    const date = new Date(note.updatedAt);
-                    let time = '';
-                    if (date.getHours() > 12) time += date.getHours() - 12;
-                    else time += date.getHours();
-                    if (date.getMinutes() < 10) time += ":0" + date.getMinutes()
-                    else time += ":" + date.getMinutes();
-                    if (date.getHours() > 12) time += " pm"
-                    else time += " am"
-                    const options = { year: 'numeric', month: 'long', day: 'numeric' };
-                    return (
-                        <div key={note.id} className="note">
-                            <h3>
-                                {note.name}
-                            </h3>
-                            <p>
-                                {note.content}
-                                {`Updated at: ${date.toLocaleDateString('en-US', options)}, ${time}`}
-                            </p>
-                        </div>
-                    )
-                })}
+        <div id="content">
+            <Navigation isLoaded={isLoaded}/>
+            <div id="dashboard-container">
+                <div id="dash-header">
+                    <p>Good {timePeriod}, {sessionUser.firstName}!</p>
+                    <h4>
+                        {currTime.toUpperCase()}
+                    </h4>
+                </div>
+                <div id="notes-container">
+                    <div id="notes-header">
+                        <p>NOTES</p>
+                        <NoteFormModal />
+                    </div>
+                    {userNotes.map(note => {
+                        const date = new Date(note.updatedAt);
+                        let time = '';
+                        if (date.getHours() > 12) time += date.getHours() - 12;
+                        else time += date.getHours();
+                        if (date.getMinutes() < 10) time += ":0" + date.getMinutes()
+                        else time += ":" + date.getMinutes();
+                        if (date.getHours() > 12) time += " pm"
+                        else time += " am"
+                        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+                        return (
+                            <div key={note.id} className="note">
+                                <h3>
+                                    {note.name}
+                                </h3>
+                                <p>
+                                    {note.content}
+                                    {`Updated at: ${date.toLocaleDateString('en-US', options)}, ${time}`}
+                                </p>
+                            </div>
+                        )
+                    })}
+                </div>
             </div>
         </div>
     );

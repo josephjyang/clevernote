@@ -10,15 +10,17 @@ function Navigation({ isLoaded }) {
     const sessionUser = useSelector(state => state.session.user); 
     
     let sessionLinks;
+
     if (sessionUser) {
         sessionLinks = (
             <>
-                <li>
-                    <NavLink exact to="/">Home</NavLink>
-                </li>
-                <ProfileButton user={sessionUser} />
+                <div id="left-navbar">
+                    <div id="user-header">
+                        <ProfileButton user={sessionUser} />
+                    </div>
+                </div>
             </>
-        );
+        )
     } else {
         sessionLinks = (
             <>
@@ -47,22 +49,11 @@ function Navigation({ isLoaded }) {
             </>
         )
     }
-
     return (
         <nav>
-            <NavLink exact to="/">
-                <div id="left">
-                        <img src="/images/logo.png" alt="clevernote-logo" id="logo" />
-                        <span id="title">Clevernote</span>
-                </div>
-            </NavLink>
-            <div id="right">
-                <ul>
-                    {isLoaded && sessionLinks}
-                </ul>
-            </div>
+            {isLoaded && sessionLinks}
         </nav>
-    )
+    );
 }
 
 export default Navigation

@@ -1,6 +1,7 @@
 import { csrfFetch } from "./csrf";
 
 const LOAD_NOTES = "notes/LOAD_NOTES";
+const NEW_NOTE = "notes/NEW_NOTE";
 
 
 const getNotes = (user, notes) => {
@@ -10,6 +11,14 @@ const getNotes = (user, notes) => {
         notes
     };
 };
+
+const newNote = (user, note) => {
+    return {
+        type: NEW_NOTE,
+        user,
+        note
+    }
+}
 
 
 export const loadNotes = user => async dispatch => {
