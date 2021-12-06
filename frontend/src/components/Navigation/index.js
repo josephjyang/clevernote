@@ -22,18 +22,28 @@ function Navigation({ isLoaded }) {
     } else {
         sessionLinks = (
             <>
-                <li>
-                    <DemoLoginButton />
-                </li>
-                <li>
-                    <NavLink exact to="/">Home</NavLink>
-                </li>
-                <li>
-                    <LoginFormModal />
-                </li>
-                <li>
-                    <NavLink to="/signup" id="signup">Sign Up</NavLink>
-                </li>
+                <NavLink exact to="/">
+                    <div id="left">
+                        <img src="/images/logo.png" alt="clevernote-logo" id="logo" />
+                        <span id="title">Clevernote</span>
+                    </div>
+                </NavLink>
+                <div id="right">
+                    <ul>
+                        <li>
+                            <DemoLoginButton />
+                        </li>
+                        <li>
+                            <NavLink exact to="/">Home</NavLink>
+                        </li>
+                        <li>
+                            <LoginFormModal />
+                        </li>
+                        <li>
+                            <NavLink to="/signup" id="signup">Sign Up</NavLink>
+                        </li>
+                    </ul>
+                </div>
             </>
         )
     }

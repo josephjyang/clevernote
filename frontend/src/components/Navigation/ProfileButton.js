@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch } from 'react-redux';
+import { Redirect } from "react-router";
 import * as sessionActions from '../../store/session';
 
 function ProfileButton({user}) {
@@ -9,6 +10,9 @@ function ProfileButton({user}) {
     const logout = (e) => {
         e.preventDefault();
         dispatch(sessionActions.logout());
+        return (
+            <Redirect to="/" />
+        )
     };
 
     const openMenu = () => {
@@ -28,11 +32,10 @@ function ProfileButton({user}) {
         return () => document.removeEventListener("click", closeMenu)
     }, [showMenu])
 
-    console.log(user)
     return (
         <>
             <div id="profile-icon">
-                <i onClick={openMenu} class="fas fa-user-circle"></i>
+                <i onClick={openMenu} className="fas fa-user-circle"></i>
             </div>
             {showMenu && (
                 <ul className="profile-dropdown">
