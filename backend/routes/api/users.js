@@ -4,7 +4,7 @@ const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 
 const { setTokenCookie, requireAuth } = require('../../utils/auth');
-const { User } = require('../../db/models');
+const { User, Note, Notebook } = require('../../db/models');
 
 const router = express.Router();
 
@@ -35,6 +35,13 @@ router.post('/', validateSignup, asyncHandler(async(req, res) => {
     await setTokenCookie(res, user);
 
     return res.json({ user })
+}))
+
+router.get('/:id/notes', requireAuth, asyncHandler(async (req, res) => {
+    const userId = req.params.id
+    const notes = await Note.findAll({ order: [['updatedAt', 'DESC']], where: { userId }  });
+    // console.log(notes);
+    return res.json(notes)
 }))
 
 module.exports = router;

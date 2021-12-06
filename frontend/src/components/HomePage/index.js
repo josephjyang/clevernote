@@ -1,17 +1,46 @@
-import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
-import { Redirect, NavLink } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { NavLink } from 'react-router-dom';
 import { Modal } from "../../context/Modal"
 import LoginForm from '../LoginFormModal/LoginForm';
+import { loadNotes } from '../../store/notes'
 import './HomePage.css'
 
 function HomePage() {
     const sessionUser = useSelector(state => state.session.user);
+    const notes = useSelector(state => state.notes)
     const [showModal, setShowModal] = useState(false);
-
-    if (sessionUser) return (
-        <Redirect to="/" />
-    );
+    const userNotes = Object.values(notes);
+    // console.log(sessionUser);
+    const dispatch = useDispatch();
+    useEffect(() => {
+        if(sessionUser) dispatch(loadNotes(sessionUser));
+        else return;
+    }, [dispatch, sessionUser]);
+    
+    if (sessionUser) {       
+        return (
+        <div id="container">
+            <h1>Welcome, {sessionUser.firstName} {sessionUser.lastName}</h1>
+            <h2>My Notes</h2>
+            <div id="notes-container">
+                {userNotes.map(note => {
+                    return (
+                        <div class="note">
+                            <h3>
+                                {note.name}
+                            </h3>
+                            <p>
+                                {note.content}
+                                {note.updatedAt}
+                            </p>
+                        </div>
+                    )
+                })}
+            </div>
+        </div>
+        );
+    }
 
     if (!sessionUser) return (
         <div id="container">
