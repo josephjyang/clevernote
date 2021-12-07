@@ -18,35 +18,46 @@ function Notebooks({ isLoaded }) {
         if (user) dispatch(loadNotebooks(user));
         else return;
     }, [dispatch, user]);
-
+    
     return (
         <div id="notebooks-content">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th></th>
-                    </tr>
-                </thead>
-            </table>
-            {userNotebooks.map(notebook => {
-                const date = new Date(notebook.updatedAt);
-                const options = { year: 'numeric', month: 'short', day: 'numeric' };
-                return (
-                    <ul>
-                        <Link key={notebook.id} to={`/notes/${notebook.id}`}>
-                            <div className="notebook-block">
-                                <h3>
-                                    {notebook.name}
-                                </h3>
-                                <p id="notebook-update-time">
-                                    {`${date.toLocaleDateString('en-US', options)}`}
-                                </p>
-                            </div>
-                        </Link>
-                    </ul>
-                )
-            })}
+            <Navigation isLoaded={isLoaded}/>
+            <div id="notebooks-page">
+                <h2>Notebooks</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Created At</th>
+                            <th>Updated At</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {userNotebooks.map(notebook => {
+                            const updateDate = new Date(notebook.updatedAt);
+                            const createDate = new Date(notebook.createdAt);
+                            const options = { year: 'numeric', month: 'short', day: 'numeric' };
+                            return (
+                                <tr key={notebook.id}>
+                                    <td>
+                                    <Link to={`/notes/${notebook.id}`}>
+                                            <h3>
+                                                {notebook.name}
+                                            </h3>
+                                    </Link>
+                                    </td>
+                                    <td className="notebook-update-time">
+                                        {`${updateDate.toLocaleDateString('en-US', options)}`}
+                                    </td>
+                                    <td className="notebook-create-time">
+                                        {`${createDate.toLocaleDateString('en-US', options)}`}
+                                    </td>
+                                </tr>
+                            )
+                        })}
+                    </tbody>
+                </table>
+            </div>
         </div>
     );
 }

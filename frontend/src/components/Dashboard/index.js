@@ -38,19 +38,11 @@ function Dashboard({ isLoaded }) {
         <div id="content">
             <Navigation isLoaded={isLoaded} />
             {isLoaded && (
-                // <Switch>
                 <>
-                    {/* <Route path={`/${user.username}/notes`} exact>
-                        <Notes isLoaded={isLoaded} />
-                    </Route> */}
-                    <Route path={`/${user.username}`} exact>
+                    <Route path='/dashboard' exact>
                         <UserDashBoard isLoaded={isLoaded} />
                     </Route>
-                    {/* <Route path={`/${user.username}/notebooks`}>
-                        <Notebooks isLoaded={isLoaded} />
-                    </Route> */}
                 </>
-                // </Switch>
             )}
         </div>
     );

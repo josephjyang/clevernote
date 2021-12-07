@@ -60,7 +60,7 @@ export const removeNote = id => async dispatch => {
     }
 }
 
-export const loadNotes = user => async dispatch => {
+export const loadNotes = (user, notebook) => async dispatch => {
     const res = await csrfFetch(`/api/users/${user.id}/notes`);
     const data = await res.json();
     dispatch(getNotes(user, data));

@@ -4,9 +4,10 @@ import { NavLink, Switch, Route } from 'react-router-dom';
 // import ProfileButton from './ProfileButton'
 // import DemoLoginButton from '../DemoLoginButton'
 // import LoginFormModal from '../LoginFormModal';
-import NotesSidebar from '../NoteSidebar';
+import NotesSidebar from '../NotesSidebar';
 import NoteForm from '../NoteForm';
 import Navigation from '../Navigation';
+import UpdateNoteForm from '../UpdateNoteForm';
 import './Notes.css'
 
 function Notes({ isLoaded }) {
@@ -14,17 +15,13 @@ function Notes({ isLoaded }) {
     const user = useSelector(state => state.session.user);
 
     return (
-        <div id="notes-content">
-            <NotesSidebar />
-            <Switch>
-                <Route exact path={`/${user.username}/notes/new`}>
-                    <NoteForm />    
-                </Route>
-                <Route exact path={`/${user.username}/notes`}>
-                    <NoteForm />
-                </Route>
-            </Switch>
-        </div>
+        <>
+            <div id="notes-content">
+                <Navigation isLoaded={isLoaded}/>
+                <NotesSidebar />
+                <NoteForm />
+            </div>
+        </>
     );
 }
 

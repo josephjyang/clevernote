@@ -25,7 +25,7 @@ function App() {
             <Route path="/" exact>
               <HomePage isLoaded={isLoaded}/>
             </Route>
-            <Route path={`/${sessionUser.username}`} exact>
+            <Route path='/dashboard' exact>
               <DashBoard isLoaded={isLoaded}/>
             </Route>
             <Route path="/signup">
@@ -34,10 +34,10 @@ function App() {
             <Route path="/notes/:noteId">
                <UpdateNoteForm isLoaded={isLoaded}/>
             </Route>
-            <Route path={`/${sessionUser.username}/notes`} exact>
+            <Route path='/notes' exact>
               <Notes isLoaded={isLoaded} />
             </Route>
-            <Route path={`/${sessionUser.username}/notebooks`}>
+            <Route path='/notebooks'>
               <Notebooks isLoaded={isLoaded} />
             </Route>
           </Switch>
