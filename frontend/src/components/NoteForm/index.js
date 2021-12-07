@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import * as notesActions from '../../store/notes';
 import { useDispatch, useSelector } from 'react-redux';
-import { Redirect } from 'react-router-dom';
+import { Redirect, useHistory } from 'react-router-dom';
 import Navigation from '../Navigation';
 import './NoteForm.css'
 
@@ -11,10 +11,12 @@ function NoteForm({ isLoaded }) {
     const [errors, setErrors] = useState([]);
     const [name, setName] = useState('');
     const [content, setContent] = useState('');
+    const history = useHistory();
 
     if (!sessionUser) return (
         <Redirect to="/" />
     );
+
 
     const onSubmit = async e => {
         e.preventDefault();
@@ -24,7 +26,10 @@ function NoteForm({ isLoaded }) {
                 const data = await res.json();
                 if (data && data.errors) setErrors(data.errors);
             })
+         history.push("/dashboard")
     }
+
+
 
     return (
         <div id="content">

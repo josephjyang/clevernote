@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
 import * as notesActions from '../../store/notes';
 import { useDispatch, useSelector } from 'react-redux';
-import { Redirect, useParams } from 'react-router-dom';
+import { Redirect, useParams, useHistory } from 'react-router-dom';
 import Navigation from '../Navigation';
 import '../NoteForm/NoteForm.css'
 
 function UpdateNoteForm({ isLoaded }) {
     const { noteId } = useParams();
     const notes = useSelector(state => state.notes)
-    const note = notes[noteId]
-    
+    const note = notes[noteId] || {};
+    const history = useHistory();
     const dispatch = useDispatch();
     const sessionUser = useSelector(state => state.session.user);
     const [errors, setErrors] = useState([]);
@@ -22,12 +22,22 @@ function UpdateNoteForm({ isLoaded }) {
 
     const onSubmit = async e => {
         e.preventDefault();
-        setErrors([]);
-        await dispatch(notesActions.createNote({ name, content, user: sessionUser }))
-            .catch(async res => {
-                const data = await res.json();
-                if (data && data.errors) setErrors(data.errors);
-            })
+        
+        const payload = {
+            ...note,
+            name,
+            content
+        }
+
+        const updatedNote = await dispatch(notesActions.updateNote(payload))
+        if (updatedNote) history.push("/dashboard");
+    }
+
+    const deleteNote = async e => {
+        e.preventDefault()
+
+        await dispatch(notesActions.removeNote(noteId));
+        return history.push("/dashboard");
     }
 
     return (
@@ -35,7 +45,7 @@ function UpdateNoteForm({ isLoaded }) {
             <Navigation isLoaded={isLoaded} />
             <div className="note-form">
                 <h1>Update Note</h1>
-                <form onSubmit={onSubmit}>
+                <form id="updateform" onSubmit={onSubmit}>
                     <ul hidden={errors.length === 0}>
                         {errors.map((error, i) => <li key={i}>{error}</li>)}
                     </ul>
@@ -53,6 +63,7 @@ function UpdateNoteForm({ isLoaded }) {
                         cols={5}
                     />
                     <button type="submit">Update Note</button>
+                    <button onClick={deleteNote}>Delete Note</button>
                 </form>
             </div>
         </div>
