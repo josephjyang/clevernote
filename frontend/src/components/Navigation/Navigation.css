@@ -1,9 +1,90 @@
-nav {
+#homenav {
     height: 50px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    /* margin-right: px; */
+}
+
+nav {
+    background-color: blue;
+}
+
+#left-navbar {
+    background-color: rgb(19, 19, 19);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    height: 100vh;
+}
+
+#left-navbar a {
+    display: block;
+    box-sizing: border-box;
+}
+
+#new-note-btn {
+    border-radius: 20px;
+    width: 90%;
+    height: 40px;
+    margin: 10px;
+    font-size: 16px;
+    text-align: left;
+    padding-left: 15px;
+    background-color: rgb(0, 0, 230);
+    color: white;
+    border: none;
+    display: flex;
+    align-items: center;
+}
+
+.fa-plus {
+    margin-right: 10px;
+    font-size: 14px;
+}
+
+#navbar-links {
+    display: flex;
+    flex-direction: column;
+    height: 200px;
+    margin: 0 0 10px 15px;
+}
+
+#navbar-links a {
+    display: block;
+    color: rgb(179, 179, 179);
+    margin-top: 10px;
+}
+
+#navbar-links a > .fas {
+    margin-right: 5px;
+    display: inline-flex;
+    width: 20px;
+    justify-content: center;
+}
+
+#left-navbar a {
+    font-size: 15px;
+    font-weight: bold;
+}
+
+#left-navbar li:nth-child(n+3) {
+    margin: 5px 0;
+
+}
+
+#user-header {
+    display: flex;
+    align-items: center;
+    margin: 10px 0px 5px 15px;
+    color: whitesmoke;
+}
+
+#user-info {
+    display: flex;
+    box-sizing: border-box;
+    padding-left: 20px;
+    padding-bottom: 10px;
+    
 }
 
 #left {
@@ -21,7 +102,6 @@ nav {
     font-weight: bold;
     margin-left: 10px;
     font-family: 'Crete Round', serif;
-    /* color: blue; */
 }
 
 ul {
@@ -36,7 +116,11 @@ li {
 
 a {
     text-decoration: none;
-    color: black;
+    /* color: white; */
+}
+
+.profile-dropdown a {
+    color: white;
 }
 
 a:hover {
@@ -59,41 +143,93 @@ a:hover {
     font-size: 25px;
     position: relative;
     margin-right: 15px;
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+#profile-icon span {
+    font-size: 16px;
+    margin-left: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
 }
 
 .profile-dropdown {
     position: absolute;
     display: flex;
     flex-direction: column;
-    min-width: 200px;
+    min-width: 260px;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    padding: 10px 5px;
-    top: 55px;
-    right: 25px;
+    padding: 0;
+    top: 25px;
+    left: 10px;
+    background-color: rgb(45, 45, 45);
+    border-radius: 5px;
+    z-index: 10;
+    overflow: show;
 }
 
 .profile-dropdown li {
     box-sizing: border-box;
-    padding: 0 15px;
     width: 100%;
-    height: 35px;
-    text-align: center;
-    margin: auto;
+    text-align: left;
+    font-size: 12px;
+    padding-left: 10px;
+}
+
+.profile-dropdown li:nth-child(1) {
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    padding-left: 20px;
+    padding-top: 10px;
+}
+
+.profile-dropdown i {
+    margin-right: 10px;
+    font-size: 36px;
+}
+
+.profile-dropdown li:nth-child(-n+2) {
+    color: rgba(145, 145, 145, 0.8);
+    font-weight: bold;
+}
+
+.profile-dropdown li:nth-child(3) {
+    padding-top: 8px;
+    border-top: 1px gray solid;
+}
+
+.profile-dropdown li:nth-child(4) {
+    padding-bottom: 10px;
+    border-bottom: 1px gray solid;
+}
+
+.profile-dropdown span {
+    font-size: 15px;
+    margin: 0;
+}
+
+#email {
+    font-size: 12px;
+    margin: 0;
 }
 
 .profile-dropdown button {
-    width: 100%;
-    height: 100%;
-    display: block;
-    margin: 0;
-    background-color: white;
-    border: 2px solid blue;
+    padding: 0;
+    background-color: rgb(45, 45, 45);
+    border: none;
     font-family: 'DM Sans', sans-serif;
+    width: 100%;
+    text-align: left;
     font-size: 15px;
-    color: blue;
+    color: white;
 }
 
 #logout:hover {
-    border: rgb(0, 110, 255) solid 2px;
-    color: rgb(0, 110, 255);
+    color: blue;
+    background-color: grey;
 }

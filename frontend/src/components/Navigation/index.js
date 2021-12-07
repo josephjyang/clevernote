@@ -10,49 +10,68 @@ function Navigation({ isLoaded }) {
     const sessionUser = useSelector(state => state.session.user); 
     
     let sessionLinks;
+
     if (sessionUser) {
         sessionLinks = (
-            <>
-                <li>
-                    <NavLink exact to="/">Home</NavLink>
-                </li>
-                <ProfileButton user={sessionUser} />
-            </>
-        );
+            <div id="left-navbar">
+                <div id="user-header">
+                    <ProfileButton user={sessionUser} />
+                </div>
+                <NavLink to="/notes">
+                    <button id="new-note-btn">
+                        <i class="fas fa-plus"/>
+                        <span>New Note</span>
+                    </button>
+                </NavLink>
+                <div id="navbar-links">
+                    <NavLink to="/dashboard">
+                        <i class="fas fa-home"/>
+                        <span>Home</span>
+                    </NavLink>
+                    <NavLink to="/notes">
+                        <i className="fas fa-file-alt" />
+                        <span>Notes</span>
+                    </NavLink>
+                    <NavLink to="/notebooks">
+                        <i class="fas fa-book" />
+                        <span>Notebooks</span>
+                    </NavLink>
+                </div>
+            </div>
+        )
     } else {
         sessionLinks = (
-            <>
-                <li>
-                    <DemoLoginButton />
-                </li>
-                <li>
-                    <NavLink exact to="/">Home</NavLink>
-                </li>
-                <li>
-                    <LoginFormModal />
-                </li>
-                <li>
-                    <NavLink to="/signup" id="signup">Sign Up</NavLink>
-                </li>
-            </>
-        )
-    }
-
-    return (
-        <nav>
-            <NavLink exact to="/">
-                <div id="left">
+            <div id="homenav">
+                <NavLink exact to="/">
+                    <div id="left">
                         <img src="/images/logo.png" alt="clevernote-logo" id="logo" />
                         <span id="title">Clevernote</span>
+                    </div>
+                </NavLink>
+                <div id="right">
+                    <ul>
+                        <li>
+                            <DemoLoginButton />
+                        </li>
+                        <li>
+                            <NavLink exact to="/">Home</NavLink>
+                        </li>
+                        <li>
+                            <LoginFormModal />
+                        </li>
+                        <li>
+                            <NavLink to="/signup" id="signup">Sign Up</NavLink>
+                        </li>
+                    </ul>
                 </div>
-            </NavLink>
-            <div id="right">
-                <ul>
-                    {isLoaded && sessionLinks}
-                </ul>
             </div>
-        </nav>
-    )
+        )
+    }
+    return (
+        <>
+            {isLoaded && sessionLinks}
+        </>
+    );
 }
 
 export default Navigation
