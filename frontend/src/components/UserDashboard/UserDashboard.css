@@ -43,12 +43,21 @@ h4 {
     height: 300px;
     box-shadow: 0px 3px 15px rgba(0,0,0,0.2);
     border-radius: 10px;
+    position:relative;
+}
+
+#note-container {
+    width: max-content;
+    position: absolute;
+    top: 35px;
 }
 
 #notes-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    position: fixed;
+    width: 79vw;
 }
 
 #notes-header > p {
@@ -74,7 +83,7 @@ h4 {
 }
 
 .note:hover {
-    box-shadow: 0 8px 8px 0 rgba(0, 0, 0, 0.4)
+    box-shadow: 0 8px 20px 0 rgba(0, 0, 0, 0.4)
 }
 
 #note-content {
@@ -99,4 +108,12 @@ h4 {
     margin-left: 10px;
     margin-bottom: 5px;
     font-size: 16px;
+}
+
+#notes-container a {
+    color: black;
+}
+
+#notes-container i:hover {
+    color: blue;
 }

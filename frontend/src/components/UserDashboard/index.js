@@ -50,32 +50,34 @@ function UserDashBoard({ isLoaded }) {
                             <i className="fas fa-file-alt" />
                         </Link>
                     </div>
-                    {userNotes.map(note => {
-                        const date = new Date(note.updatedAt);
-                        let time = '';
-                        if (date.getHours() > 12) time += date.getHours() - 12;
-                        else time += date.getHours();
-                        if (date.getMinutes() < 10) time += ":0" + date.getMinutes()
-                        else time += ":" + date.getMinutes();
-                        if (date.getHours() > 12) time += " pm"
-                        else time += " am"
-                        const options = { year: 'numeric', month: 'long', day: 'numeric' };
-                        return (
-                            <div key={note.id} className="note">
-                                <Link to={`/notes/${note.id}`}>
-                                    <h3>
-                                        {note.name}
-                                    </h3>
-                                    <p id="note-content">
-                                        {note.content}
-                                    </p>
-                                    <p id="update-time">
-                                        {`Last update: ${date.toLocaleDateString('en-US', options)}, ${time}`}
-                                    </p>
-                                </Link>
-                            </div>
-                        )
-                    })}
+                    <div id="note-container">
+                        {userNotes.map(note => {
+                            const date = new Date(note.updatedAt);
+                            let time = '';
+                            if (date.getHours() > 12) time += date.getHours() - 12;
+                            else time += date.getHours();
+                            if (date.getMinutes() < 10) time += ":0" + date.getMinutes()
+                            else time += ":" + date.getMinutes();
+                            if (date.getHours() > 12) time += " pm"
+                            else time += " am"
+                            const options = { year: 'numeric', month: 'short', day: 'numeric' };
+                            return (
+                                <div key={note.id} className="note">
+                                    <Link to={`/notes/${note.id}`}>
+                                        <h3>
+                                            {note.name}
+                                        </h3>
+                                        <p id="note-content">
+                                            {note.content}
+                                        </p>
+                                        <p id="update-time">
+                                            {`${date.toLocaleDateString('en-US', options)}`}
+                                        </p>
+                                    </Link>
+                                </div>
+                            )
+                        })}
+                    </div>
                 </div>
             </div>
         </div>
