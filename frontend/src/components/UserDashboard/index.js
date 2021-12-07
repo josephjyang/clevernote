@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Redirect, NavLink } from 'react-router-dom'
+import { Redirect, Link } from 'react-router-dom'
 import { loadNotes } from '../../store/notes'
 import Navigation from '../Navigation';
 import './UserDashboard.css'
@@ -30,7 +30,7 @@ function UserDashBoard({ isLoaded }) {
     else if (currTime.getHours() > 12) timePeriod = "afternoon";
     else timePeriod = "morning";
 
-    const options = {year: 'numeric', weekday: 'long', month: 'long', day: 'numeric' };
+    const options = {year: 'numeric', weekday: 'long', month: 'short', day: 'numeric' };
     currTime = currTime.toLocaleDateString('en-US', options)
 
     return (
@@ -46,9 +46,9 @@ function UserDashBoard({ isLoaded }) {
                 <div id="notes-container">
                     <div id="notes-header">
                         <p>NOTES</p>
-                        <NavLink to={`/notes`}>
+                        <Link to="/notes">
                             <i className="fas fa-file-alt" />
-                        </NavLink>
+                        </Link>
                     </div>
                     {userNotes.map(note => {
                         const date = new Date(note.updatedAt);
@@ -62,7 +62,7 @@ function UserDashBoard({ isLoaded }) {
                         const options = { year: 'numeric', month: 'long', day: 'numeric' };
                         return (
                             <div key={note.id} className="note">
-                                <NavLink note={note} to={`/notes/${note.id}`}>
+                                <Link to={`/notes/${note.id}`}>
                                     <h3>
                                         {note.name}
                                     </h3>
@@ -72,7 +72,7 @@ function UserDashBoard({ isLoaded }) {
                                     <p id="update-time">
                                         {`Last update: ${date.toLocaleDateString('en-US', options)}, ${time}`}
                                     </p>
-                                </NavLink>
+                                </Link>
                             </div>
                         )
                     })}

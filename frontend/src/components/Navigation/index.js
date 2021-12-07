@@ -17,15 +17,24 @@ function Navigation({ isLoaded }) {
                 <div id="user-header">
                     <ProfileButton user={sessionUser} />
                 </div>
+                <NavLink to="/notes">
+                    <button id="new-note-btn">
+                        <i class="fas fa-plus"/>
+                        <span>New Note</span>
+                    </button>
+                </NavLink>
                 <div id="navbar-links">
                     <NavLink to="/dashboard">
-                        Home
+                        <i class="fas fa-home"/>
+                        <span>Home</span>
                     </NavLink>
                     <NavLink to="/notes">
-                        Notes
+                        <i className="fas fa-file-alt" />
+                        <span>Notes</span>
                     </NavLink>
                     <NavLink to="/notebooks">
-                        Notebooks
+                        <i class="fas fa-book" />
+                        <span>Notebooks</span>
                     </NavLink>
                 </div>
             </div>
