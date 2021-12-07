@@ -59,7 +59,7 @@ function UpdateNoteForm({ isLoaded }) {
                     <textarea
                         value={content}
                         onChange={(e) => setContent(e.target.value)}
-                        rows={5}
+                        rows={10}
                         cols={5}
                     />
                     <button type="submit">Update Note</button>

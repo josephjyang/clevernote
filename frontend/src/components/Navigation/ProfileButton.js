@@ -42,29 +42,29 @@ function ProfileButton({user}) {
                 <span>{user.firstName} {user.lastName} <i onClick={openMenu} className="fas fa-angle-down"></i></span>
             </div>
             {showMenu && (
-                <ul className="profile-dropdown">
-                    <li>ACCOUNT</li>
-                    <li id="user-info">
-                        <i className="fas fa-user-circle"></i>
-                        <div id="user-name">
-                            <span>{user.firstName} {user.lastName}</span><br />
-                            <span id="email">{user.email}</span>
-                        </div>
-                    </li>
-                    <li>
-                        <NavLink to={`/users/${user.id}`}>
-                            Account info...
-                        </NavLink>
-                    </li>
-                    <li>
-                        <NavLink to={`/users/${user.id}/preferences`}>
-                            Preferences
-                        </NavLink>
-                    </li>
-                    <li>
-                        <button id="logout" onClick={logout}>Sign out {user.firstName} {user.lastName}</button>
-                    </li>
-                </ul>
+            <ul className="profile-dropdown">
+                <li>ACCOUNT</li>
+                <li id="user-info">
+                    <i className="fas fa-user-circle"></i>
+                    <div id="user-name">
+                        <span>{user.firstName} {user.lastName}</span><br />
+                        <span id="email">{user.email}</span>
+                    </div>
+                </li>
+                <li>
+                    <NavLink to={`/users/${user.id}`}>
+                        Account info...
+                    </NavLink>
+                </li>
+                <li>
+                    <NavLink to={`/users/${user.id}/preferences`}>
+                        Preferences
+                    </NavLink>
+                </li>
+                <li>
+                    <button id="logout" onClick={logout}>Sign out {user.firstName} {user.lastName}</button>
+                </li>
+            </ul>
             )}
         </>
     )

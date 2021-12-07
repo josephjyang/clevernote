@@ -13,28 +13,26 @@ function Navigation({ isLoaded }) {
 
     if (sessionUser) {
         sessionLinks = (
-            <>
-                <div id="left-navbar">
-                    <div id="user-header">
-                        <ProfileButton user={sessionUser} />
-                    </div>
-                    <div id="navbar-links">
-                        <NavLink to="/dashboard">
-                            Home
-                        </NavLink>
-                        <NavLink to="/notes">
-                            Notes
-                        </NavLink>
-                        <NavLink to="/notebooks">
-                            Notebooks
-                        </NavLink>
-                    </div>
+            <div id="left-navbar">
+                <div id="user-header">
+                    <ProfileButton user={sessionUser} />
                 </div>
-            </>
+                <div id="navbar-links">
+                    <NavLink to="/dashboard">
+                        Home
+                    </NavLink>
+                    <NavLink to="/notes">
+                        Notes
+                    </NavLink>
+                    <NavLink to="/notebooks">
+                        Notebooks
+                    </NavLink>
+                </div>
+            </div>
         )
     } else {
         sessionLinks = (
-            <>
+            <div id="homenav">
                 <NavLink exact to="/">
                     <div id="left">
                         <img src="/images/logo.png" alt="clevernote-logo" id="logo" />
@@ -57,13 +55,13 @@ function Navigation({ isLoaded }) {
                         </li>
                     </ul>
                 </div>
-            </>
+            </div>
         )
     }
     return (
-        <nav>
+        <>
             {isLoaded && sessionLinks}
-        </nav>
+        </>
     );
 }
 

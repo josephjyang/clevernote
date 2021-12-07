@@ -1,20 +1,20 @@
-nav {
+#homenav {
     height: 50px;
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
+nav {
+    background-color: blue;
+}
+
 #left-navbar {
-    height: 100vh;
-    width: 17.5vw;
     background-color: rgb(40, 40, 40);
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    position: fixed;
-    top: 0px;
-    left: 0px;
+    height: 100vh;
 }
 
 #navbar-links {
@@ -108,15 +108,16 @@ a:hover {
     margin-right: 15px;
     display: flex;
     align-items: center;
+    width: 100%;
 }
 
 #profile-icon span {
     font-size: 16px;
-    margin-left: 10px;
+    margin-left: 15px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    min-width: 10vw;
+    width: 100%;
 }
 
 .profile-dropdown {
@@ -132,6 +133,7 @@ a:hover {
     color: black;
     border-radius: 5px;
     z-index: 10;
+    overflow: show;
 }
 
 .profile-dropdown li {
