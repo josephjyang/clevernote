@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Redirect } from 'react-router-dom'
+import { Redirect, NavLink } from 'react-router-dom'
 import { loadNotes } from '../../store/notes'
 import Navigation from '../Navigation';
-import NoteFormModal from '../NoteFormModal';
 import './UserDashboard.css'
 
 function UserDashBoard({ isLoaded }) {
@@ -47,7 +46,9 @@ function UserDashBoard({ isLoaded }) {
                 <div id="notes-container">
                     <div id="notes-header">
                         <p>NOTES</p>
-                        <NoteFormModal />
+                        <NavLink to={`/notes`}>
+                            <i className="fas fa-file-alt" />
+                        </NavLink>
                     </div>
                     {userNotes.map(note => {
                         const date = new Date(note.updatedAt);
@@ -61,13 +62,17 @@ function UserDashBoard({ isLoaded }) {
                         const options = { year: 'numeric', month: 'long', day: 'numeric' };
                         return (
                             <div key={note.id} className="note">
-                                <h3>
-                                    {note.name}
-                                </h3>
-                                <p>
-                                    {note.content}
-                                    {`Updated at: ${date.toLocaleDateString('en-US', options)}, ${time}`}
-                                </p>
+                                <NavLink note={note} to={`/notes/${note.id}`}>
+                                    <h3>
+                                        {note.name}
+                                    </h3>
+                                    <p id="note-content">
+                                        {note.content}
+                                    </p>
+                                    <p id="update-time">
+                                        {`Last update: ${date.toLocaleDateString('en-US', options)}, ${time}`}
+                                    </p>
+                                </NavLink>
                             </div>
                         )
                     })}

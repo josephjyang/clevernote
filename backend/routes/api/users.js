@@ -48,8 +48,15 @@ router.post('/', validateSignup, asyncHandler(async(req, res) => {
 router.get('/:id/notes', requireAuth, asyncHandler(async (req, res) => {
     const userId = req.params.id
     const notes = await Note.findAll({ order: [['updatedAt', 'DESC']], where: { userId }  });
-    // console.log(notes);
+
     return res.json(notes)
+}))
+
+router.post('/:id/notes', requireAuth, asyncHandler(async (req, res) => {
+    const { name, content, user } = req.body
+    const newNote = await Note.create({ name, content, userId: user.id });
+
+    return res.json(newNote)
 }))
 
 module.exports = router;

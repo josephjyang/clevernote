@@ -4,6 +4,8 @@ import { Route, Switch } from 'react-router-dom'
 import HomePage from './components/HomePage';
 import SignupFormPage from './components/SignupFormPage';
 import UserDashBoard from './components/UserDashboard';
+import NoteForm from './components/NoteForm';
+import UpdateNoteForm from './components/UpdateNoteForm';
 import * as sessionActions from './store/session';
 
 function App() {
@@ -25,6 +27,12 @@ function App() {
             </Route>
             <Route path="/signup">
               <SignupFormPage isLoaded={isLoaded}/>
+            </Route>
+            <Route path="/notes/:noteId">
+               <UpdateNoteForm isLoaded={isLoaded}/>
+            </Route>
+            <Route path="/notes">
+              <NoteForm isLoaded={isLoaded}/>
             </Route>
           </Switch>
         )}

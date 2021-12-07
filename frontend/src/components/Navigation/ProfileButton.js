@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import { Redirect } from "react-router";
 import { NavLink } from "react-router-dom";
 import * as sessionActions from '../../store/session';
+import { clearNotes } from "../../store/notes"
 
 function ProfileButton({user}) {
     const dispatch = useDispatch();
@@ -11,6 +12,7 @@ function ProfileButton({user}) {
     const logout = (e) => {
         e.preventDefault();
         dispatch(sessionActions.logout());
+        dispatch(clearNotes());
         return (
             <Redirect to="/" />
         )
@@ -37,7 +39,7 @@ function ProfileButton({user}) {
         <>
             <div id="profile-icon" >
                 <i onClick={openMenu} className="fas fa-user-circle"></i>
-                <span>{user.firstName} {user.lastName} <i onClick={openMenu} class="fas fa-angle-down"></i></span>
+                <span>{user.firstName} {user.lastName} <i onClick={openMenu} className="fas fa-angle-down"></i></span>
             </div>
             {showMenu && (
                 <ul className="profile-dropdown">

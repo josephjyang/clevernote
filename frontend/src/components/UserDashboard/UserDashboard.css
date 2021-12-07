@@ -59,13 +59,22 @@ h4 {
 
 .note {
     display: inline-block;
-    margin: 10px;
     box-sizing: border-box;
+    margin: 10px;
     padding-bottom: 15px;
-    height: 200px;
+    height: 240px;
     width: 200px;
     border-radius: 10px;
     box-shadow: 0px 3px 15px rgba(0,0,0,0.2);
+    overflow-y: hidden;
+}
+
+.note:hover {
+    box-shadow: 0 8px 8px 0 rgba(0, 0, 0, 0.4)
+}
+
+#note-content {
+    height: 165px;
     overflow-y: hidden;
 }
 
@@ -75,6 +84,10 @@ h4 {
     padding: 0 10px;
     margin-top: 0;
     color: rgb(63, 63, 63)
+}
+
+#update-time {
+    font-size: 10px;
 }
 
 .note h3 {

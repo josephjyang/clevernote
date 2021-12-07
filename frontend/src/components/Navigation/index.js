@@ -18,6 +18,17 @@ function Navigation({ isLoaded }) {
                     <div id="user-header">
                         <ProfileButton user={sessionUser} />
                     </div>
+                    <div id="navbar-links">
+                        <NavLink to="/dashboard">
+                            Home
+                        </NavLink>
+                        <NavLink to="/notes">
+                            Notes
+                        </NavLink>
+                        <NavLink to="/notebooks">
+                            Notebooks
+                        </NavLink>
+                    </div>
                 </div>
             </>
         )

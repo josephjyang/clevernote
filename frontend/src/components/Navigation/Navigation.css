@@ -17,6 +17,19 @@ nav {
     left: 0px;
 }
 
+#navbar-links {
+    display: flex;
+    flex-direction: column;
+    height: 200px;
+    margin: 10px 0 10px 10px;
+}
+
+#navbar-links a {
+    display: block;
+    color: rgb(179, 179, 179);
+    margin-top: 10px;
+}
+
 #left-navbar a {
     font-size: 14px;
     font-weight: bold;
