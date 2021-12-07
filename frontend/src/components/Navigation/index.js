@@ -17,23 +17,23 @@ function Navigation({ isLoaded }) {
                 <div id="user-header">
                     <ProfileButton user={sessionUser} />
                 </div>
-                <NavLink to="/notes">
+                <NavLink to={`/${sessionUser.username}/notes/new`}>
                     <button id="new-note-btn">
-                        <i class="fas fa-plus"/>
+                        <i className="fas fa-plus"/>
                         <span>New Note</span>
                     </button>
                 </NavLink>
                 <div id="navbar-links">
-                    <NavLink to="/dashboard">
-                        <i class="fas fa-home"/>
+                    <NavLink to={`/${sessionUser.username}`}>
+                        <i className="fas fa-home"/>
                         <span>Home</span>
                     </NavLink>
-                    <NavLink to="/notes">
+                    <NavLink to={`/${sessionUser.username}/notes`}>
                         <i className="fas fa-file-alt" />
                         <span>Notes</span>
                     </NavLink>
-                    <NavLink to="/notebooks">
-                        <i class="fas fa-book" />
+                    <NavLink to={`/${sessionUser.username}/notebooks`}>
+                        <i className="fas fa-book" />
                         <span>Notebooks</span>
                     </NavLink>
                 </div>

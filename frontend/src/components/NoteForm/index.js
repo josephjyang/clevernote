@@ -29,17 +29,18 @@ function NoteForm({ isLoaded }) {
          history.push("/dashboard")
     }
 
-
+    console.log("test")
 
     return (
-        <div id="content">
-            <Navigation isLoaded={isLoaded}/>
+        <>
             <div className="note-form">
                 <h1>Write New Note</h1>
                 <form onSubmit={onSubmit}>
-                    <ul hidden={errors.length === 0}>
-                        {errors.map((error, i) => <li key={i}>{error}</li>)}
-                    </ul>
+                    {
+                        errors.length >= 1 && <ul hidden={errors.length === 0}>
+                            {errors.map((error, i) => <li key={i}>{error}</li>)}
+                        </ul>
+                    }
                     <input
                         type="text"
                         value={name}
@@ -56,7 +57,7 @@ function NoteForm({ isLoaded }) {
                     <button type="submit">Create Note</button>
                 </form>
             </div>
-        </div>
+        </>
     )
 }
 

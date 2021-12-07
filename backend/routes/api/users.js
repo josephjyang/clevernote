@@ -59,4 +59,11 @@ router.post('/:id/notes', requireAuth, asyncHandler(async (req, res) => {
     return res.json(newNote)
 }))
 
+router.get('/:id/notebooks', requireAuth, asyncHandler(async (req, res) => {
+    const userId = req.params.id
+    const notebooks = await Notebook.findAll({ order: [['updatedAt', 'DESC']], where: { userId } });
+
+    return res.json(notebooks)
+}))
+
 module.exports = router;
