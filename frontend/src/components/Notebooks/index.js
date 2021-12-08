@@ -3,14 +3,16 @@ import { useSelector, useDispatch } from 'react-redux';
 import { loadNotebooks } from '../../store/notebooks';
 import { Link, Redirect } from 'react-router-dom';
 import Navigation from '../Navigation';
-import NewNotebookForm from '../NewNotebookForm'
+import NewNotebookForm from '../NewNotebookForm';
+import Notebook from '../Notebook';
 import { FormModal } from '../../context/FormModal';
 import './Notebooks.css'
 
 function Notebooks({ isLoaded }) {
     const user = useSelector(state => state.session.user);
+    const [showNotebook, setShowNotebook] = useState(false);
     const notebooks = useSelector(state => state.notebooks);
-    const [showForm, setShowForm] = useState(false)
+    const [showForm, setShowForm] = useState(false);
     const userNotebooks = Object.values(notebooks);
     userNotebooks.sort((a, b) => {
         return Date.parse(b.updatedAt) - Date.parse(a.updatedAt);
@@ -29,48 +31,45 @@ function Notebooks({ isLoaded }) {
     return (
         <div id="notebooks-content">
             <Navigation isLoaded={isLoaded}/>
-            <div id="notebooks-page">
+            {showNotebook && <Notebook isLoaded={isLoaded} id={showNotebook} setShowNotebook={setShowNotebook}/>}
+            {!showNotebook && <div id="notebooks-page">
                 <h2>Notebooks</h2>
-                <button id="edit-notebook-link" onClick={() => setShowForm(true)}>New Notebook</button>
-                {showForm && (
-                    <FormModal onClose={() => setShowForm(false)}>
-                        <NewNotebookForm hideForm={() => setShowForm(false)} />
-                    </FormModal>
-                )}
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Created At</th>
-                            <th>Updated At</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {userNotebooks.map(notebook => {
-                            const updateDate = new Date(notebook.updatedAt);
-                            const createDate = new Date(notebook.createdAt);
-                            const options = { year: 'numeric', month: 'short', day: 'numeric' };
-                            return (
-                                <tr key={notebook.id}>
-                                    <td>
-                                    <Link to={`/notebooks/${notebook.id}`}>
-                                            <h3>
-                                                {notebook.name}
-                                            </h3>
-                                    </Link>
-                                    </td>
-                                    <td className="notebook-update-time">
-                                        {`${updateDate.toLocaleDateString('en-US', options)}`}
-                                    </td>
-                                    <td className="notebook-create-time">
-                                        {`${createDate.toLocaleDateString('en-US', options)}`}
-                                    </td>
-                                </tr>
-                            )
-                        })}
-                    </tbody>
-                </table>
-            </div>
+                <div id="notebook-grid-header">
+                    <span>{userNotebooks.length} notebooks
+                        </span>
+                    <button id="new-notebook" onClick={() => setShowForm(true)}>New Notebook</button>
+                    {showForm && (
+                        <FormModal onClose={() => setShowForm(false)}>
+                            <NewNotebookForm hideForm={() => setShowForm(false)} />
+                        </FormModal>
+                    )}
+                </div>
+                <div id="notebook-grid">
+                    <div id="header">
+                        <div className="header">TITLE</div>
+                        <div className="header">CREATED</div>
+                        <div className="header">UPDATED</div>
+                    </div>
+                    {userNotebooks.map(notebook => {
+                        const updateDate = new Date(notebook.updatedAt);
+                        const createDate = new Date(notebook.createdAt);
+                        const options = { year: 'numeric', month: 'short', day: 'numeric' };
+                        return (
+                            <div className="notebook-row" key={notebook.id}>
+                                <div onClick={() => setShowNotebook(notebook.id)}className="notebook-cell">
+                                    {notebook.name}
+                                </div>
+                                <div className="notebook-cell time">
+                                    {`${updateDate.toLocaleDateString('en-US', options)}`}
+                                </div>
+                                <div className="notebook-cell time">
+                                    {`${createDate.toLocaleDateString('en-US', options)}`}
+                                </div>
+                            </div>
+                        )
+                    })}
+                </div>
+            </div>}
         </div>
     );
 }

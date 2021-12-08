@@ -2,16 +2,16 @@ import React, { useState } from 'react';
 import * as notebookActions from '../../store/notebooks';
 import { useDispatch, useSelector } from 'react-redux';
 import { Redirect, useHistory } from 'react-router-dom';
-import './NotebookForm.css'
+import './NotebookFormDelete.css'
 
-function NotebookForm({ id, hideForm }) {
+function NotebookFormDelete({ id, hideForm }) {
     const dispatch = useDispatch();
+    const history = useHistory();
     const sessionUser = useSelector(state => state.session.user);
     const notebooks = useSelector(state => state.notebooks)
     const notebook = notebooks[id]
-    const [name, setName] = useState(notebook.name);
     const [errors, setErrors] = useState([]);
-    
+
 
     if (!sessionUser) return (
         <Redirect to="/" />
@@ -21,18 +21,10 @@ function NotebookForm({ id, hideForm }) {
         e.preventDefault();
         setErrors([]);
 
-        const payload = {
-            ...notebook,
-            name
-        }
+        await dispatch(notebookActions.removeNotebook(notebook))
 
-        const updatedNotebook = await dispatch(notebookActions.updateNotebook(payload))
-            .catch(async res => {
-                const data = await res.json();
-                if (data && data.errors) setErrors(data.errors);
-            })
-        
-        if (updatedNotebook) hideForm();
+        hideForm();
+        history.push("/notebooks");
     }
 
     return (
@@ -41,17 +33,11 @@ function NotebookForm({ id, hideForm }) {
                 <ul hidden={errors.length === 0}>
                     {errors.map((error, i) => <li key={i}>{error}</li>)}
                 </ul>
-                <input
-                    type="text"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    required
-                    placeholder="Enter name"
-                />
-                <button type="submit">Update Notebook</button>
+                <p>Are you sure you want to delete {notebook.name}?</p>
+                <button type="submit">Delete Notebook</button>
             </form>
         </div>
     )
 }
 
-export default NotebookForm
+export default NotebookFormDelete
