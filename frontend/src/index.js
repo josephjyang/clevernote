@@ -10,6 +10,7 @@ import configureStore from './store';
 import { ModalProvider } from './context/Modal';
 import { FormModalProvider } from './context/FormModal';
 import { DeleteModalProvider } from './context/DeleteModal';
+import ClevernoteProvider from './context/ClevernoteContext';
 
 const store = configureStore();
 
@@ -27,9 +28,11 @@ function Root() {
       <ModalProvider>
         <FormModalProvider>
           <DeleteModalProvider>
-            <BrowserRouter>
-              <App />      
-            </BrowserRouter>
+            <ClevernoteProvider>
+              <BrowserRouter>
+                <App />      
+              </BrowserRouter>
+            </ClevernoteProvider>
           </DeleteModalProvider>
         </FormModalProvider>
       </ModalProvider>

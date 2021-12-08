@@ -14,13 +14,10 @@ function Notes({ isLoaded, setPage }) {
     const user = useSelector(state => state.session.user);
 
     return (
-        <>
             <div id="notes-content">
-                <Navigation setPage={setPage} isLoaded={isLoaded}/>
                 <NotesSidebar />
                 <NoteForm />
             </div>
-        </>
     );
 }
 

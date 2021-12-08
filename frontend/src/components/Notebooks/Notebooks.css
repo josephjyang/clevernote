@@ -1,11 +1,7 @@
 #notebooks-content {
     display: grid;
-    height: 100%;
-    width: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    grid-template-columns: 17.5% 82.5%;
+    position: relative;
+    grid-template-columns: 1fr;
 }
 
 #notebooks-page {

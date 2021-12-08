@@ -36,12 +36,12 @@ function App() {
             <Route path="/notes/:noteId">
                <UpdateNoteForm isLoaded={isLoaded}/>
             </Route>
-            <Route path='/notes' exact>
+            {/* <Route path='/notes' exact>
               <Notes isLoaded={isLoaded} />
-            </Route>
-            <Route path='/notebooks' exact>
+            </Route> */}
+            {/* <Route path='/notebooks' exact>
               <Notebooks isLoaded={isLoaded} />
-            </Route>
+            </Route> */}
             <Route path='/notebooks/:notebookId'>
               <Notebook isLoaded={isLoaded} />
             </Route>

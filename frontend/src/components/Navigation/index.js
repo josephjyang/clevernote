@@ -4,9 +4,11 @@ import { NavLink } from 'react-router-dom';
 import ProfileButton from './ProfileButton'
 import DemoLoginButton from '../DemoLoginButton'
 import LoginFormModal from '../LoginFormModal';
+import { usePage } from '../../context/ClevernoteContext';
 import './Navigation.css'
 
-function Navigation({ isLoaded, setPage }) {
+function Navigation({ isLoaded }) {
+    const { page, setPage } = usePage();
     const sessionUser = useSelector(state => state.session.user); 
     
     let sessionLinks;
@@ -24,20 +26,24 @@ function Navigation({ isLoaded, setPage }) {
                     </button>
                 </NavLink>
                 <div id="navbar-links">
-                    <NavLink to='/dashboard'>
-                    {/* <div onClick={() => setPage("dashboard")}> */}
+                    {/* <NavLink to='/dashboard'> */}
+                    <div onClick={() => setPage("dashboard")}>
                         <i className="fas fa-home"/>
                         <span>Home</span>
-                    {/* </div> */}
-                    </NavLink>
-                    <NavLink to='/notes'>
+                    </div>
+                    {/* </NavLink> */}
+                    {/* <NavLink to='/notes'> */}
+                    <div onClick={() => setPage("notes")}>
                         <i className="fas fa-file-alt" />
                         <span>Notes</span>
-                    </NavLink>
-                    <NavLink to={`/notebooks`}>
+                    </div>
+                    {/* </NavLink> */}
+                    {/* <NavLink to={`/notebooks`}> */}
+                    <div onClick={() => setPage("notebooks")}>
                         <i className="fas fa-book" />
                         <span>Notebooks</span>
-                    </NavLink>
+                    </div>
+                    {/* </NavLink> */}
                 </div>
             </div>
         )
