@@ -3,8 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Route, Switch } from 'react-router-dom'
 import HomePage from './components/HomePage';
 import SignupFormPage from './components/SignupFormPage';
-import DashBoard from './components/Dashboard';
-import NoteForm from './components/NoteForm';
+import Dashboard from './components/Dashboard';
+import Navigation from './components/Navigation';
 import UpdateNoteForm from './components/UpdateNoteForm';
 import Notes from './components/Notes';
 import Notebooks from './components/Notebooks';
@@ -18,18 +18,17 @@ function App() {
   useEffect(() => {
     dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true))
   }, [dispatch])
-  
-  const sessionUser = useSelector(state => state.session.user);
 
   return (
       <>
+        {/* <Navigation isLoaded={isLoaded} /> */}
         {isLoaded && (
           <Switch>
             <Route path="/" exact>
               <HomePage isLoaded={isLoaded}/>
             </Route>
             <Route path='/dashboard' exact>
-              <DashBoard isLoaded={isLoaded}/>
+              <Dashboard isLoaded={isLoaded}/>
             </Route>
             <Route path="/signup">
               <SignupFormPage isLoaded={isLoaded}/>

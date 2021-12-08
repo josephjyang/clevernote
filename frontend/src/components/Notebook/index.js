@@ -5,6 +5,7 @@ import { loadNotebookNotes } from '../../store/notes';
 import { FormModal } from '../../context/FormModal';
 import Navigation from '../Navigation';
 import NotebookForm from '../NotebookForm';
+import NotebookFormDelete from '../NotebookFormDelete';
 import * as notebookActions from '../../store/notebooks';
 import './Notebook.css'
 
@@ -26,14 +27,6 @@ function Notebook({ isLoaded }) {
         if (user && notebook) dispatch(loadNotebookNotes(user, notebook));
         else return;
     }, [dispatch, user, notebook]);
-
-    const remove = async () => {
-        await dispatch(notebookActions.removeNotebook(notebook))
-
-        return (
-            <Redirect to="/notebooks" />
-        )
-    }
 
     if (!user) return (
         <Redirect to="/" />
@@ -58,7 +51,12 @@ function Notebook({ isLoaded }) {
                                 <NotebookForm id={notebook.id} hideForm={() => setShowForm(false)}/>
                             </FormModal>
                         )}
-                        <button id="delete-notebook-link" onClick={remove}>Delete</button>
+                        <button id="delete-notebook-link" onClick={() => setShowForm(true)}>Delete</button>
+                        {showForm && (
+                            <FormModal onClose={() => setShowForm(false)}>
+                                <NotebookFormDelete id={notebook.id} hideForm={() => setShowForm(false)} />
+                            </FormModal>
+                        )}
                     </div>
                     {userNotes.map(note => {
                         const date = new Date(note.updatedAt);
