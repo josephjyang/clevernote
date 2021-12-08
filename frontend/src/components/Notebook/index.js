@@ -12,7 +12,7 @@ import { loadNotes } from '../../store/notes'
 import { loadNotebooks } from '../../store/notebooks'
 import './Notebook.css'
 
-function Notebook({ isLoaded, id }) {
+function Notebook({ isLoaded, id, setShowNotebook }) {
     const notebookId = id;
     // const { notebookId } = useParams();
     const history = useHistory();
@@ -40,8 +40,11 @@ function Notebook({ isLoaded, id }) {
 
     useEffect(() => {
         if (user && notebook) dispatch(loadNotebookNotes(user, notebook));
-        else return history.push("/notebooks");
-    }, [dispatch, user, notebook, history]);
+        else {
+            setShowNotebook(false);
+            return history.push("/notebooks")
+        };
+    }, [dispatch, user, notebook, history, setShowNotebook]);
 
     if (!user) return (
         <Redirect to="/" />

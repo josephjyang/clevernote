@@ -31,7 +31,7 @@ function Notebooks({ isLoaded }) {
     return (
         <div id="notebooks-content">
             <Navigation isLoaded={isLoaded}/>
-            {showNotebook && <Notebook isLoaded={isLoaded} id={showNotebook}/>}
+            {showNotebook && <Notebook isLoaded={isLoaded} id={showNotebook} setShowNotebook={setShowNotebook}/>}
             {!showNotebook && <div id="notebooks-page">
                 <h2>Notebooks</h2>
                 <div id="notebook-grid-header">
