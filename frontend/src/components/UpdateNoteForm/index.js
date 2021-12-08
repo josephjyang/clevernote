@@ -3,6 +3,7 @@ import * as notesActions from '../../store/notes';
 import { useDispatch, useSelector } from 'react-redux';
 import { Redirect, useParams, useHistory } from 'react-router-dom';
 import Navigation from '../Navigation';
+import NotesSidebar from '../NotesSidebar';
 import '../NoteForm/NoteForm.css'
 
 function UpdateNoteForm({ isLoaded }) {
@@ -12,7 +13,7 @@ function UpdateNoteForm({ isLoaded }) {
     const history = useHistory();
     const dispatch = useDispatch();
     const sessionUser = useSelector(state => state.session.user);
-    // const [errors, setErrors] = useState([]);
+    const [errors, setErrors] = useState([]);
     const [name, setName] = useState(note.name);
     const [content, setContent] = useState(note.content);
 
@@ -30,6 +31,10 @@ function UpdateNoteForm({ isLoaded }) {
         }
 
         const updatedNote = await dispatch(notesActions.updateNote(payload))
+            .catch(async res => {
+                const data = await res.json();
+                if (data && data.errors) setErrors(data.errors);
+            })
         if (updatedNote) history.push("/dashboard");
     }
 
@@ -41,14 +46,17 @@ function UpdateNoteForm({ isLoaded }) {
     }
 
     return (
-        <div id="content">
+        <div id="notes-content">
             <Navigation isLoaded={isLoaded} />
+            <NotesSidebar />
             <div className="note-form">
                 <h1>Update Note</h1>
                 <form id="updateform" onSubmit={onSubmit}>
-                    {/* <ul hidden={errors.length === 0}>
+                    {
+                    errors.length >= 1 && <ul hidden={errors.length === 0}>
                         {errors.map((error, i) => <li key={i}>{error}</li>)}
-                    </ul> */}
+                    </ul>
+                    }
                     <input
                         type="text"
                         value={name}

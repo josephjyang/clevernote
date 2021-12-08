@@ -4,6 +4,7 @@ import { Redirect } from "react-router";
 import { NavLink } from "react-router-dom";
 import * as sessionActions from '../../store/session';
 import { clearNotes } from "../../store/notes"
+import { clearNotebooks } from "../../store/notebooks"
 
 function ProfileButton({user}) {
     const dispatch = useDispatch();
@@ -13,6 +14,7 @@ function ProfileButton({user}) {
         e.preventDefault();
         dispatch(sessionActions.logout());
         dispatch(clearNotes());
+        dispatch(clearNotebooks());
         return (
             <Redirect to="/" />
         )

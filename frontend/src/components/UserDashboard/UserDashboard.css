@@ -38,9 +38,9 @@ h4 {
 }
 
 #notes-container {
-    overflow-y: scroll;
+    overflow-y: hidden;
     width: 80vw;
-    height: 300px;
+    height: 45vh;
     box-shadow: 0px 3px 15px rgba(0,0,0,0.2);
     border-radius: 10px;
     position:relative;
@@ -72,14 +72,33 @@ h4 {
 
 .note {
     display: inline-block;
+    position: relative;
     box-sizing: border-box;
     margin: 10px;
     padding-bottom: 15px;
-    height: 240px;
-    width: 200px;
+    height: 35vh;
+    width: 250px;
     border-radius: 10px;
     box-shadow: 0px 3px 15px rgba(0,0,0,0.2);
     overflow-y: hidden;
+    overflow-x: hidden;
+}
+
+.note-grid {
+    height: 100%;
+    width: 100%;
+    display: grid;
+    grid-template-rows: 8% 85% 7%;
+    padding: 10px;
+}
+
+.note-grid h3 {
+    text-align: left;
+    /* margin-left: 10px;
+    margin-bottom: 5px; */
+    margin: 0;
+    font-size: 16px;
+    padding-bottom: 5px;
 }
 
 .note:hover {
@@ -87,28 +106,24 @@ h4 {
 }
 
 #note-content {
-    height: 165px;
+    /* height: 24vh; */
+    width: 225px;
     overflow-y: hidden;
+    margin-top: 5px;
 }
 
-.note p {
-    font-size: 12px;
-    border-radius: 5px;
-    padding: 0 10px;
+.note-grid p {
+    font-size: 14px;
     margin-top: 0;
     color: rgb(63, 63, 63)
 }
 
 #update-time {
     font-size: 10px;
+    position: absolute;
+    bottom: 5px;
 }
 
-.note h3 {
-    text-align: left;
-    margin-left: 10px;
-    margin-bottom: 5px;
-    font-size: 16px;
-}
 
 #notes-container a {
     color: black;

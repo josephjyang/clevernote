@@ -59,4 +59,47 @@ router.post('/:id/notes', requireAuth, asyncHandler(async (req, res) => {
     return res.json(newNote)
 }))
 
+router.get('/:id/notebooks', requireAuth, asyncHandler(async (req, res) => {
+    const userId = req.params.id
+    const notebooks = await Notebook.findAll({ order: [['updatedAt', 'DESC']], where: { userId } });
+
+    return res.json(notebooks)
+}))
+
+router.post('/:id/notebooks', requireAuth, asyncHandler(async (req, res) => {
+    const userId = req.params.id;
+    const { name } = req.body
+    const notebook = await Notebook.create({ name, userId });
+
+    return res.json(notebook)
+}))
+
+router.get('/:id/notebooks/:notebookId/notes', requireAuth, asyncHandler(async (req, res) => {
+    const { id: userId, notebookId } = req.params
+    
+    const notes = await Note.findAll({ where: { userId, notebookId } });
+
+    return res.json(notes)
+}))
+
+router.put('/:id/notebooks/:notebookId', requireAuth, asyncHandler(async (req, res) => {
+    const { notebookId } = req.params;
+    const { name } = req.body;
+    const notebook = await Notebook.findByPk(notebookId);
+
+    const updatedNotebook = await notebook.update({ name });
+
+    return res.json(updatedNotebook)
+}))
+
+router.delete('/:id/notebooks/:notebookId', requireAuth, asyncHandler(async (req, res) => {
+    const { notebookId } = req.params
+    const notebook = await Notebook.findByPk(notebookId);
+    const notes = await Note.update({ notebookId: null }, {where: { notebookId }});
+
+    const deletedNotebook = await notebook.destroy();
+
+    return res.json(deletedNotebook)
+}))
+
 module.exports = router;

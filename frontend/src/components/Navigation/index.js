@@ -6,7 +6,7 @@ import DemoLoginButton from '../DemoLoginButton'
 import LoginFormModal from '../LoginFormModal';
 import './Navigation.css'
 
-function Navigation({ isLoaded }) {
+function Navigation({ isLoaded, setPage }) {
     const sessionUser = useSelector(state => state.session.user); 
     
     let sessionLinks;
@@ -17,23 +17,25 @@ function Navigation({ isLoaded }) {
                 <div id="user-header">
                     <ProfileButton user={sessionUser} />
                 </div>
-                <NavLink to="/notes">
+                <NavLink to='/notes/'>
                     <button id="new-note-btn">
-                        <i class="fas fa-plus"/>
+                        <i className="fas fa-plus"/>
                         <span>New Note</span>
                     </button>
                 </NavLink>
                 <div id="navbar-links">
-                    <NavLink to="/dashboard">
-                        <i class="fas fa-home"/>
+                    <NavLink to='/dashboard'>
+                    {/* <div onClick={() => setPage("dashboard")}> */}
+                        <i className="fas fa-home"/>
                         <span>Home</span>
+                    {/* </div> */}
                     </NavLink>
-                    <NavLink to="/notes">
+                    <NavLink to='/notes'>
                         <i className="fas fa-file-alt" />
                         <span>Notes</span>
                     </NavLink>
-                    <NavLink to="/notebooks">
-                        <i class="fas fa-book" />
+                    <NavLink to={`/notebooks`}>
+                        <i className="fas fa-book" />
                         <span>Notebooks</span>
                     </NavLink>
                 </div>
