@@ -46,16 +46,23 @@ nav {
     display: flex;
     flex-direction: column;
     height: 200px;
-    margin: 0 0 10px 15px;
-}
-
-#navbar-links a {
-    display: block;
-    color: rgb(179, 179, 179);
     margin-top: 10px;
 }
 
-#navbar-links a > .fas {
+.navbar-link {
+    display: flex;
+    align-items: center;
+    color: rgb(179, 179, 179);
+    height: 35px;
+    padding-left: 10px;
+}
+
+.navbar-link:hover {
+    cursor: pointer;
+    background-color: rgb(123, 123, 123);
+}
+
+.navbar-link > .fas {
     margin-right: 5px;
     display: inline-flex;
     width: 20px;

@@ -8,9 +8,15 @@ import './NoteForm.css'
 function NoteForm({ isLoaded }) {
     const dispatch = useDispatch();
     const sessionUser = useSelector(state => state.session.user);
+    const notebooks = useSelector(state => state.notebooks);
+    const userNotebooks = Object.values(notebooks);
+    userNotebooks.sort((a, b) => {
+        return Date.parse(b.updatedAt) - Date.parse(a.updatedAt);
+    })
     const [errors, setErrors] = useState([]);
     const [name, setName] = useState('');
     const [content, setContent] = useState('');
+    const [notebookId, setNotebookId] = useState();
     const history = useHistory();
 
     if (!sessionUser) return (
@@ -21,7 +27,7 @@ function NoteForm({ isLoaded }) {
     const onSubmit = async e => {
         e.preventDefault();
         setErrors([]);
-        await dispatch(notesActions.createNote({ name, content, user: sessionUser }))
+        await dispatch(notesActions.createNote({ name, content, userId: sessionUser.id, notebookId }))
             .catch(async res => {
                 const data = await res.json();
                 if (data && data.errors) setErrors(data.errors);
@@ -29,24 +35,31 @@ function NoteForm({ isLoaded }) {
          history.push("/dashboard")
     }
 
-    console.log("test")
 
     return (
         <>
             <div className="note-form">
-                <h1>Write New Note</h1>
                 <form onSubmit={onSubmit}>
                     {
                         errors.length >= 1 && <ul hidden={errors.length === 0}>
                             {errors.map((error, i) => <li key={i}>{error}</li>)}
                         </ul>
                     }
+                    <select
+                    id="notebook-select"
+                    onChange={e => setNotebookId(e.target.value)}
+                    >
+                        <option value="">Select a notebook</option>
+                        {userNotebooks.map(notebook => {
+                            return <option key={notebook.id} value={notebook.id}>{notebook.name}</option>
+                        })}
+                    </select>
                     <input
                         type="text"
                         value={name}
                         onChange={e => setName(e.target.value)}
                         required
-                        placeholder="Enter Name for Note"
+                        placeholder="Title"
                     />
                     <textarea
                         value={content}

@@ -53,8 +53,8 @@ router.get('/:id/notes', requireAuth, asyncHandler(async (req, res) => {
 }))
 
 router.post('/:id/notes', requireAuth, asyncHandler(async (req, res) => {
-    const { name, content, user } = req.body
-    const newNote = await Note.create({ name, content, userId: user.id });
+    const { name, content, userId, notebookId } = req.body
+    const newNote = await Note.create({ name, content, userId, notebookId });
     
     return res.json(newNote)
 }))

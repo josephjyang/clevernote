@@ -4,17 +4,14 @@ import { Redirect, Link, useHistory, useParams } from 'react-router-dom';
 import { loadNotebookNotes } from '../../store/notes';
 import { FormModal } from '../../context/FormModal';
 import { DeleteModal } from '../../context/DeleteModal';
-import Navigation from '../Navigation';
-import NotebookForm from '../NotebookForm';
+import NotebookFormUpdate from '../NotebookFormUpdate';
 import NotebookFormDelete from '../NotebookFormDelete';
-import * as notebookActions from '../../store/notebooks';
 import { loadNotes } from '../../store/notes'
 import { loadNotebooks } from '../../store/notebooks'
 import './Notebook.css'
 
 function Notebook({ isLoaded, id, setShowNotebook }) {
     const notebookId = id;
-    // const { notebookId } = useParams();
     const history = useHistory();
     const [showForm, setShowForm] = useState(false);
     const [showDelete, setShowDelete] = useState(false);
@@ -55,7 +52,6 @@ function Notebook({ isLoaded, id, setShowNotebook }) {
     return (
         <>
             <div id="notebook-content">
-                <Navigation isLoaded={isLoaded} />
                 <div id="notebook-sidebar" >
                     <div id="sidebar-header">
                         <h2>
@@ -64,7 +60,7 @@ function Notebook({ isLoaded, id, setShowNotebook }) {
                         <button id="edit-notebook-link" onClick={() => setShowForm(true)}>Edit</button>
                         {showForm && (
                             <FormModal onClose={() => setShowForm(false)}>
-                                <NotebookForm id={notebook.id} hideForm={() => setShowForm(false)}/>
+                                <NotebookFormUpdate id={notebook.id} hideForm={() => setShowForm(false)}/>
                             </FormModal>
                         )}
                         <button id="delete-notebook-link" onClick={() => setShowDelete(true)}>Delete</button>

@@ -1,22 +1,17 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
-import { NavLink, Switch, Route } from 'react-router-dom';
-// import ProfileButton from './ProfileButton'
-// import DemoLoginButton from '../DemoLoginButton'
-// import LoginFormModal from '../LoginFormModal';
+import React, { useState } from 'react';
 import NotesSidebar from '../NotesSidebar';
 import NoteForm from '../NoteForm';
-import Navigation from '../Navigation';
-import UpdateNoteForm from '../UpdateNoteForm';
+import NoteFormUpdate from '../NoteFormUpdate';
 import './Notes.css'
 
 function Notes({ isLoaded, setPage }) {
-    const user = useSelector(state => state.session.user);
+    const [note, setNote] = useState(false);
 
     return (
             <div id="notes-content">
-                <NotesSidebar />
-                <NoteForm />
+                <NotesSidebar setNote={setNote} />
+                {!note && <NoteForm />}
+                {note && <NoteFormUpdate noteId={note} isLoaded={isLoaded}/>}
             </div>
     );
 }

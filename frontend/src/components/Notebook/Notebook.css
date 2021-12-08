@@ -5,7 +5,7 @@
     position: absolute;
     top: 0;
     left: 0;
-    grid-template-columns: 17.5% 27.5% 1fr;
+    grid-template-columns: 40% 1fr;
 }
 
 #notebook-sidebar {

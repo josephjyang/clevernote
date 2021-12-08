@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { loadNotebooks } from '../../store/notebooks';
 import { Link, Redirect } from 'react-router-dom';
 import Navigation from '../Navigation';
-import NewNotebookForm from '../NewNotebookForm';
+import NewNotebookForm from '../NotebookFormNew';
 import Notebook from '../Notebook';
 import { FormModal } from '../../context/FormModal';
 import './Notebooks.css'

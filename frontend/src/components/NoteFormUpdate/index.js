@@ -2,12 +2,9 @@ import React, { useState } from 'react';
 import * as notesActions from '../../store/notes';
 import { useDispatch, useSelector } from 'react-redux';
 import { Redirect, useParams, useHistory } from 'react-router-dom';
-import Navigation from '../Navigation';
-import NotesSidebar from '../NotesSidebar';
 import '../NoteForm/NoteForm.css'
 
-function UpdateNoteForm({ isLoaded }) {
-    const { noteId } = useParams();
+function NoteFormUpdate({ isLoaded, noteId }) {
     const notes = useSelector(state => state.notes)
     const note = notes[noteId] || {};
     const history = useHistory();
@@ -46,36 +43,32 @@ function UpdateNoteForm({ isLoaded }) {
     }
 
     return (
-        <div id="notes-content">
-            <Navigation isLoaded={isLoaded} />
-            <NotesSidebar />
-            <div className="note-form">
-                <h1>Update Note</h1>
-                <form id="updateform" onSubmit={onSubmit}>
-                    {
-                    errors.length >= 1 && <ul hidden={errors.length === 0}>
-                        {errors.map((error, i) => <li key={i}>{error}</li>)}
-                    </ul>
-                    }
-                    <input
-                        type="text"
-                        value={name}
-                        onChange={e => setName(e.target.value)}
-                        required
-                        placeholder="Enter Name for Note"
-                    />
-                    <textarea
-                        value={content}
-                        onChange={(e) => setContent(e.target.value)}
-                        rows={10}
-                        cols={5}
-                    />
-                    <button type="submit">Update Note</button>
-                    <button onClick={deleteNote}>Delete Note</button>
-                </form>
-            </div>
+        <div className="note-form">
+            <h1>Update Note</h1>
+            <form id="updateform" onSubmit={onSubmit}>
+                {
+                errors.length >= 1 && <ul hidden={errors.length === 0}>
+                    {errors.map((error, i) => <li key={i}>{error}</li>)}
+                </ul>
+                }
+                <input
+                    type="text"
+                    value={name}
+                    onChange={e => setName(e.target.value)}
+                    required
+                    placeholder="Enter Name for Note"
+                />
+                <textarea
+                    value={content}
+                    onChange={(e) => setContent(e.target.value)}
+                    rows={10}
+                    cols={5}
+                />
+                <button type="submit">Update Note</button>
+                <button onClick={deleteNote}>Delete Note</button>
+            </form>
         </div>
     )
 }
 
-export default UpdateNoteForm
+export default NoteFormUpdate

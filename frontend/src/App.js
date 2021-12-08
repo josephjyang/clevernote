@@ -5,7 +5,7 @@ import HomePage from './components/HomePage';
 import SignupFormPage from './components/SignupFormPage';
 import Dashboard from './components/Dashboard';
 import Navigation from './components/Navigation';
-import UpdateNoteForm from './components/UpdateNoteForm';
+import UpdateNoteForm from './components/NoteFormUpdate';
 import Notes from './components/Notes';
 import Notebooks from './components/Notebooks';
 import Notebook from './components/Notebook'
@@ -33,9 +33,9 @@ function App() {
             <Route path="/signup">
               <SignupFormPage isLoaded={isLoaded}/>
             </Route>
-            <Route path="/notes/:noteId">
+            {/* <Route path="/notes/:noteId">
                <UpdateNoteForm isLoaded={isLoaded}/>
-            </Route>
+            </Route> */}
             {/* <Route path='/notes' exact>
               <Notes isLoaded={isLoaded} />
             </Route> */}

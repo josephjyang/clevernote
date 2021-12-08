@@ -19,31 +19,25 @@ function Navigation({ isLoaded }) {
                 <div id="user-header">
                     <ProfileButton user={sessionUser} />
                 </div>
-                <NavLink to='/notes/'>
+                <div onClick={() => setPage("notes")}>
                     <button id="new-note-btn">
                         <i className="fas fa-plus"/>
                         <span>New Note</span>
                     </button>
-                </NavLink>
+                </div>
                 <div id="navbar-links">
-                    {/* <NavLink to='/dashboard'> */}
-                    <div onClick={() => setPage("dashboard")}>
+                    <div className="navbar-link" onClick={() => setPage("dashboard")}>
                         <i className="fas fa-home"/>
                         <span>Home</span>
                     </div>
-                    {/* </NavLink> */}
-                    {/* <NavLink to='/notes'> */}
-                    <div onClick={() => setPage("notes")}>
+                    <div className="navbar-link" onClick={() => setPage("notes")}>
                         <i className="fas fa-file-alt" />
                         <span>Notes</span>
                     </div>
-                    {/* </NavLink> */}
-                    {/* <NavLink to={`/notebooks`}> */}
-                    <div onClick={() => setPage("notebooks")}>
+                    <div className="navbar-link" onClick={() => setPage("notebooks")}>
                         <i className="fas fa-book" />
                         <span>Notebooks</span>
                     </div>
-                    {/* </NavLink> */}
                 </div>
             </div>
         )

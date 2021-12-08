@@ -22,7 +22,7 @@
 
 .note-block {
     box-sizing: border-box;
-    height: 120px;
+    min-height: 120px;
     overflow-y: hidden;
     border-bottom: 1px gray solid;
     display: grid;

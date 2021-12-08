@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import * as notebookActions from '../../store/notebooks';
 import { useDispatch, useSelector } from 'react-redux';
 import { Redirect, useHistory } from 'react-router-dom';
-import './NotebookForm.css'
+import './NotebookFormUpdate.css'
 
-function NotebookForm({ id, hideForm }) {
+function NotebookFormUpdate({ id, hideForm }) {
     const dispatch = useDispatch();
     const sessionUser = useSelector(state => state.session.user);
     const notebooks = useSelector(state => state.notebooks)
@@ -54,4 +54,4 @@ function NotebookForm({ id, hideForm }) {
     )
 }
 
-export default NotebookForm
+export default NotebookFormUpdate
