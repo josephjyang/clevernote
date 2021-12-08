@@ -3,16 +3,21 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Redirect, Link, useHistory, useParams } from 'react-router-dom';
 import { loadNotebookNotes } from '../../store/notes';
 import { FormModal } from '../../context/FormModal';
+import { DeleteModal } from '../../context/DeleteModal';
 import Navigation from '../Navigation';
 import NotebookForm from '../NotebookForm';
 import NotebookFormDelete from '../NotebookFormDelete';
 import * as notebookActions from '../../store/notebooks';
+import { loadNotes } from '../../store/notes'
+import { loadNotebooks } from '../../store/notebooks'
 import './Notebook.css'
 
-function Notebook({ isLoaded }) {
-    const { notebookId } = useParams();
+function Notebook({ isLoaded, id }) {
+    const notebookId = id;
+    // const { notebookId } = useParams();
     const history = useHistory();
     const [showForm, setShowForm] = useState(false);
+    const [showDelete, setShowDelete] = useState(false);
     const user = useSelector(state => state.session.user);
     const notes = useSelector(state => state.notes)
     const notebooks = useSelector(state => state.notebooks)
@@ -20,21 +25,29 @@ function Notebook({ isLoaded }) {
     userNotes.sort((a, b) => {
         return Date.parse(b.updatedAt) - Date.parse(a.updatedAt);
     })
-    const notebook = notebooks[notebookId]
+    const notebook = notebooks[notebookId];
 
     const dispatch = useDispatch();
     useEffect(() => {
-        if (user && notebook) dispatch(loadNotebookNotes(user, notebook));
+        if (user) dispatch(loadNotes(user));
         else return;
-    }, [dispatch, user, notebook]);
+    }, [dispatch, user]);
+
+    useEffect(() => {
+        if (user) dispatch(loadNotebooks(user));
+        else return;
+    }, [dispatch, user]);
+
+    useEffect(() => {
+        if (user && notebook) dispatch(loadNotebookNotes(user, notebook));
+        else return history.push("/notebooks");
+    }, [dispatch, user, notebook, history]);
 
     if (!user) return (
         <Redirect to="/" />
     )
 
-    if(!notebook) return (
-        <Redirect to={`/notebooks/${notebookId}`} />
-    )
+    if(!notebook) return null;
 
     return (
         <>
@@ -51,11 +64,11 @@ function Notebook({ isLoaded }) {
                                 <NotebookForm id={notebook.id} hideForm={() => setShowForm(false)}/>
                             </FormModal>
                         )}
-                        <button id="delete-notebook-link" onClick={() => setShowForm(true)}>Delete</button>
-                        {showForm && (
-                            <FormModal onClose={() => setShowForm(false)}>
-                                <NotebookFormDelete id={notebook.id} hideForm={() => setShowForm(false)} />
-                            </FormModal>
+                        <button id="delete-notebook-link" onClick={() => setShowDelete(true)}>Delete</button>
+                        {showDelete && (
+                            <DeleteModal onClose={() => setShowDelete(false)}>
+                                <NotebookFormDelete id={notebook.id} hideForm={() => setShowDelete(false)} />
+                            </DeleteModal>
                         )}
                     </div>
                     {userNotes.map(note => {

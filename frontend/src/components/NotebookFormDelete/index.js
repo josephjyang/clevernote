@@ -21,16 +21,10 @@ function NotebookFormDelete({ id, hideForm }) {
         e.preventDefault();
         setErrors([]);
 
-        const deletedNotebook = await dispatch(notebookActions.removeNotebook(notebook))
-            .catch(async res => {
-                const data = await res.json();
-                if (data && data.errors) setErrors(data.errors);
-            })
+        await dispatch(notebookActions.removeNotebook(notebook))
 
-        if (deletedNotebook) {
-            hideForm();
-            history.push("/notebooks")
-        };
+        hideForm();
+        history.push("/notebooks");
     }
 
     return (

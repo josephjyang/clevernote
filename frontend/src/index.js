@@ -9,6 +9,7 @@ import * as sessionActions from './store/session'
 import configureStore from './store';
 import { ModalProvider } from './context/Modal';
 import { FormModalProvider } from './context/FormModal';
+import { DeleteModalProvider } from './context/DeleteModal';
 
 const store = configureStore();
 
@@ -25,9 +26,11 @@ function Root() {
     <Provider store={store}>
       <ModalProvider>
         <FormModalProvider>
-          <BrowserRouter>
-            <App />      
-          </BrowserRouter>
+          <DeleteModalProvider>
+            <BrowserRouter>
+              <App />      
+            </BrowserRouter>
+          </DeleteModalProvider>
         </FormModalProvider>
       </ModalProvider>
     </Provider>
