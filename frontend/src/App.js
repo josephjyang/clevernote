@@ -8,7 +8,9 @@ import NoteForm from './components/NoteForm';
 import UpdateNoteForm from './components/UpdateNoteForm';
 import Notes from './components/Notes';
 import Notebooks from './components/Notebooks';
+import Notebook from './components/Notebook'
 import * as sessionActions from './store/session';
+import * as notebookActions from './store/notebooks'
 
 function App() {
   const dispatch = useDispatch();
@@ -16,6 +18,7 @@ function App() {
   useEffect(() => {
     dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true))
   }, [dispatch])
+  
   const sessionUser = useSelector(state => state.session.user);
 
   return (
@@ -37,8 +40,11 @@ function App() {
             <Route path='/notes' exact>
               <Notes isLoaded={isLoaded} />
             </Route>
-            <Route path='/notebooks'>
+            <Route path='/notebooks' exact>
               <Notebooks isLoaded={isLoaded} />
+            </Route>
+            <Route path='/notebooks/:notebookId'>
+              <Notebook isLoaded={isLoaded} />
             </Route>
           </Switch>
         )}

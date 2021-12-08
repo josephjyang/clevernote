@@ -12,7 +12,7 @@ function HomePage({ isLoaded }) {
     const [showModal, setShowModal] = useState(false);
 
     if (sessionUser) return (
-        <Redirect to={`/dashboard`} />
+        <Redirect to='/dashboard' />
     )
 
     if (!sessionUser) return (

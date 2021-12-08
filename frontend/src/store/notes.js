@@ -4,10 +4,19 @@ const LOAD_NOTES = "notes/LOAD_NOTES";
 const NEW_NOTE = "notes/NEW_NOTE";
 const CLEAR_NOTES = "notes/CLEAR_NOTES"
 const DELETE_NOTE = "notes/DELETE_NOTE"
+const LOAD_NOTEBOOKNOTES = "notes/LOAD_NOTEBOOKNOTES";
 
 const getNotes = (user, notes) => {
     return {
         type: LOAD_NOTES,
+        user,
+        notes
+    };
+};
+
+const getNotebookNotes = (user, notes) => {
+    return {
+        type: LOAD_NOTEBOOKNOTES,
         user,
         notes
     };
@@ -60,10 +69,18 @@ export const removeNote = id => async dispatch => {
     }
 }
 
-export const loadNotes = (user, notebook) => async dispatch => {
+export const loadNotes = user => async dispatch => {
     const res = await csrfFetch(`/api/users/${user.id}/notes`);
     const data = await res.json();
     dispatch(getNotes(user, data));
+    return res;
+}
+
+export const loadNotebookNotes = (user, notebook) => async dispatch => {
+    console.log(notebook);
+    const res = await csrfFetch(`/api/users/${user.id}/notebooks/${notebook.id}/notes`);
+    const data = await res.json();
+    dispatch(getNotebookNotes(user, data));
     return res;
 }
 
@@ -100,6 +117,12 @@ export const notesReducer = (state = initialState, action) => {
             return newState
         case CLEAR_NOTES:
             return {}        
+        case LOAD_NOTEBOOKNOTES:
+            const notebookNotes = {}
+            action.notes.forEach(note => {
+                notebookNotes[note.id] = note;
+            })
+            return notebookNotes;
         default:
             return state;
     }

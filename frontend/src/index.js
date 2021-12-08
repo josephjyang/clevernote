@@ -8,6 +8,7 @@ import App from './App';
 import * as sessionActions from './store/session'
 import configureStore from './store';
 import { ModalProvider } from './context/Modal';
+import { FormModalProvider } from './context/FormModal';
 
 const store = configureStore();
 
@@ -23,9 +24,11 @@ function Root() {
   return (
     <Provider store={store}>
       <ModalProvider>
+        <FormModalProvider>
           <BrowserRouter>
             <App />      
           </BrowserRouter>
+        </FormModalProvider>
       </ModalProvider>
     </Provider>
   )

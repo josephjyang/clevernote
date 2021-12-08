@@ -10,14 +10,13 @@ import Navigation from '../Navigation';
 import UpdateNoteForm from '../UpdateNoteForm';
 import './Notes.css'
 
-function Notes({ isLoaded }) {
-    console.log("test");
+function Notes({ isLoaded, setPage }) {
     const user = useSelector(state => state.session.user);
 
     return (
         <>
             <div id="notes-content">
-                <Navigation isLoaded={isLoaded}/>
+                <Navigation setPage={setPage} isLoaded={isLoaded}/>
                 <NotesSidebar />
                 <NoteForm />
             </div>

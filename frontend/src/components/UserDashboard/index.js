@@ -5,7 +5,7 @@ import { loadNotes } from '../../store/notes'
 import Navigation from '../Navigation';
 import './UserDashboard.css'
 
-function UserDashBoard({ isLoaded }) {
+function UserDashBoard({ isLoaded, setPage }) {
     const sessionUser = useSelector(state => state.session.user);
     const notes = useSelector(state => state.notes)
     
@@ -44,8 +44,8 @@ function UserDashBoard({ isLoaded }) {
             <div id="notes-container">
                 <div id="notes-header">
                     <p>NOTES</p>
-                    <Link to={`/${sessionUser.username}/notes/new`}>
-                        <i className="fas fa-file-alt" />
+                    <Link to={`/notes`}>
+                        <i onClick={() => setPage("notes")}className="fas fa-file-alt" />
                     </Link>
                 </div>
                 <div id="note-container">

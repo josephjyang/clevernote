@@ -1,46 +1,78 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
-import { NavLink, Switch, Route } from 'react-router-dom';
-import NoteForm from '../NoteForm';
+import React, { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { Redirect, Link, useHistory, useParams } from 'react-router-dom';
+import { loadNotebookNotes } from '../../store/notes';
+import { FormModal } from '../../context/FormModal';
 import Navigation from '../Navigation';
-import UpdateNoteForm from '../UpdateNoteForm';
-import './Notes.css'
+import NotebookForm from '../NotebookForm';
+import * as notebookActions from '../../store/notebooks';
+import './Notebook.css'
 
 function Notebook({ isLoaded }) {
+    const { notebookId } = useParams();
+    const history = useHistory();
+    const [showForm, setShowForm] = useState(false);
     const user = useSelector(state => state.session.user);
     const notes = useSelector(state => state.notes)
+    const notebooks = useSelector(state => state.notebooks)
     const userNotes = Object.values(notes);
     userNotes.sort((a, b) => {
         return Date.parse(b.updatedAt) - Date.parse(a.updatedAt);
     })
+    const notebook = notebooks[notebookId]
 
     const dispatch = useDispatch();
     useEffect(() => {
-        if (user) dispatch(loadNotes(user));
+        if (user && notebook) dispatch(loadNotebookNotes(user, notebook));
         else return;
-    }, [dispatch, user]);
+    }, [dispatch, user, notebook]);
+
+    const remove = async () => {
+        await dispatch(notebookActions.removeNotebook(notebook))
+
+        return (
+            <Redirect to="/notebooks" />
+        )
+    }
 
     if (!user) return (
         <Redirect to="/" />
     )
+
+    if(!notebook) return (
+        <Redirect to={`/notebooks/${notebookId}`} />
+    )
+
     return (
         <>
-            <div id="notes-content">
+            <div id="notebook-content">
                 <Navigation isLoaded={isLoaded} />
-                <div id="notes-sidebar" >
+                <div id="notebook-sidebar" >
+                    <div id="sidebar-header">
+                        <h2>
+                            {notebook.name}
+                        </h2>
+                        <button id="edit-notebook-link" onClick={() => setShowForm(true)}>Edit</button>
+                        {showForm && (
+                            <FormModal onClose={() => setShowForm(false)}>
+                                <NotebookForm id={notebook.id} hideForm={() => setShowForm(false)}/>
+                            </FormModal>
+                        )}
+                        <button id="delete-notebook-link" onClick={remove}>Delete</button>
+                    </div>
                     {userNotes.map(note => {
                         const date = new Date(note.updatedAt);
                         const options = { year: 'numeric', month: 'short', day: 'numeric' };
                         return (
                             <Link key={note.id} to={`/notes/${note.id}`}>
-                                <div className="note-block">
+                                <div className="notebook-block">
                                     <h3>
                                         {note.name}
                                     </h3>
-                                    <p id="note-block-content">
+                                    <p id="notebook-block-content">
                                         {note.content}
                                     </p>
-                                    <p id="note-update-time">
+                                    <p id="notebook-update-time">
                                         {`${date.toLocaleDateString('en-US', options)}`}
                                     </p>
                                 </div>
@@ -48,7 +80,6 @@ function Notebook({ isLoaded }) {
                         )
                     })}
                 </div>
-                <NoteForm />
             </div>
         </>
     );

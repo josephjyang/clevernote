@@ -1,9 +1,9 @@
 import { csrfFetch } from "./csrf";
 
-const LOAD_NOTEBOOKS = "noteBOOKs/LOAD_NOTEBOOKS";
-const NEW_NOTEBOOK = "noteBOOKs/NEW_NOTEBOOK";
-const CLEAR_NOTEBOOKS = "noteBOOKs/CLEAR_NOTEBOOKS"
-const DELETE_NOTEBOOK = "noteBOOKs/DELETE_NOTEBOOK"
+const LOAD_NOTEBOOKS = "notebooks/LOAD_NOTEBOOKS";
+const NEW_NOTEBOOK = "notebooks/NEW_NOTEBOOK";
+const CLEAR_NOTEBOOKS = "notebooks/CLEAR_NOTEBOOKS"
+const DELETE_NOTEBOOK = "notebooks/DELETE_NOTEBOOK"
 
 const getNotebooks = (user, notebooks) => {
     return {
@@ -67,7 +67,7 @@ export const loadNotebooks = user => async dispatch => {
     return res;
 }
 
-export const createNote = data => async dispatch => {
+export const createNotebook = data => async dispatch => {
     console.log("data", data);
     const res = await csrfFetch(`/api/users/${data.userId}/notebooks`, {
         method: 'POST',
