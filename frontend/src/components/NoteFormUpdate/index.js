@@ -15,7 +15,7 @@ function NoteFormUpdate({ isLoaded }) {
     userNotebooks.sort((a, b) => {
         return Date.parse(b.updatedAt) - Date.parse(a.updatedAt);
     })
-    const note = notes[noteId];
+    const note = notes[noteId] || {};
     const history = useHistory();
     const [errors, setErrors] = useState([]);
     const [name, setName] = useState(note.name);
