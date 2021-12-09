@@ -39,7 +39,7 @@ function NotesSidebar() {
                                     {note.content}
                                 </p>
                                 <p id="note-update-time">
-                                {`${date.toLocaleDateString('en-US', options)}}
+                                {`${date.toLocaleDateString('en-US', options)}`}
                                 </p>
                         </div>
                     )
