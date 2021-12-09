@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import * as notesActions from '../../store/notes';
 import { useDispatch, useSelector } from 'react-redux';
 import { Redirect, useHistory } from 'react-router-dom';
-import Navigation from '../Navigation';
 import { usePage } from '../../context/ClevernoteContext';
 import './NoteForm.css'
 

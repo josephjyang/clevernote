@@ -45,6 +45,17 @@ router.post('/', validateSignup, asyncHandler(async(req, res) => {
     return res.json({ user })
 }))
 
+router.put('/:id', validateSignup, asyncHandler(async (req, res) => {
+    const id = req.params.id
+    const { email, password, username, firstName, lastName } = req.body;
+    const user = await User.findByPk(id)
+    const updatedUser = await user.update({ id, email, username, password, firstName, lastName });
+
+    await setTokenCookie(res, updatedUser);
+
+    return res.json({ updatedUser })
+}))
+
 router.get('/:id/notes', requireAuth, asyncHandler(async (req, res) => {
     const userId = req.params.id
     const notes = await Note.findAll({ order: [['updatedAt', 'DESC']], where: { userId }  });

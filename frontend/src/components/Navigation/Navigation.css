@@ -76,7 +76,6 @@ nav {
 
 #left-navbar li:nth-child(n+3) {
     margin: 5px 0;
-
 }
 
 #user-header {
@@ -184,7 +183,7 @@ a:hover {
     width: 100%;
     text-align: left;
     font-size: 12px;
-    padding-left: 10px;
+    /* padding-left: 10px; */
 }
 
 .profile-dropdown li:nth-child(1) {
@@ -226,7 +225,7 @@ a:hover {
 }
 
 .profile-dropdown button {
-    padding: 0;
+    padding: 0 0 0 10px;
     background-color: rgb(45, 45, 45);
     border: none;
     font-family: 'DM Sans', sans-serif;
@@ -234,9 +233,9 @@ a:hover {
     text-align: left;
     font-size: 15px;
     color: white;
+    height: 25px;
 }
 
 #logout:hover {
-    color: blue;
     background-color: grey;
 }

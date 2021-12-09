@@ -5,9 +5,9 @@ import { Redirect, useParams, useHistory } from 'react-router-dom';
 import { usePage } from '../../context/ClevernoteContext';
 import '../NoteForm/NoteForm.css'
 
-function NoteFormUpdate({ isLoaded, setNotebookId, notebookId }) {
+function NoteFormUpdate({ isLoaded }) {
     const dispatch = useDispatch();
-    const { noteId, setNoteId } = usePage();
+    const { noteId, setNoteId, notebookId, setNotebookId } = usePage();
     const sessionUser = useSelector(state => state.session.user);
     const notes = useSelector(state => state.notes)
     const notebooks = useSelector(state => state.notebooks);
@@ -24,7 +24,8 @@ function NoteFormUpdate({ isLoaded, setNotebookId, notebookId }) {
     useEffect(() => {
         setName(note.name);
         setContent(note.content);
-    }, [note])
+        setNotebookId(notebookId);
+    }, [note, setNotebookId, notebookId])
 
     if (!sessionUser) return (
         <Redirect to="/" />
@@ -36,7 +37,8 @@ function NoteFormUpdate({ isLoaded, setNotebookId, notebookId }) {
         const payload = {
             ...note,
             name,
-            content
+            content,
+            notebookId
         }
 
         const updatedNote = await dispatch(notesActions.updateNote(payload))
@@ -45,7 +47,6 @@ function NoteFormUpdate({ isLoaded, setNotebookId, notebookId }) {
                 if (data && data.errors) setErrors(data.errors);
             })
         if (updatedNote) {
-            setNoteId(false);
             history.push("/dashboard")
         }
     }

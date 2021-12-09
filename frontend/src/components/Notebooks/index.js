@@ -36,7 +36,7 @@ function Notebooks({ isLoaded }) {
                 <div id="notebook-grid-header">
                     <span>{userNotebooks.length} notebooks
                         </span>
-                    <button id="new-notebook" onClick={() => setShowForm(true)}>New Notebook</button>
+                    <button id="new-notebook" onClick={() => setShowForm(true)}><i class="fas fa-plus"></i>New Notebook</button>
                     {showForm && (
                         <FormModal onClose={() => setShowForm(false)}>
                             <NewNotebookForm hideForm={() => setShowForm(false)} />
@@ -54,8 +54,8 @@ function Notebooks({ isLoaded }) {
                         const createDate = new Date(notebook.createdAt);
                         const options = { year: 'numeric', month: 'short', day: 'numeric' };
                         return (
-                            <div className="notebook-row" key={notebook.id}>
-                                <div onClick={() => setNotebookId(notebook.id)}className="notebook-cell">
+                            <div onClick={() => setNotebookId(notebook.id)} className="notebook-row" key={notebook.id}>
+                                <div className="notebook-cell">
                                     {notebook.name}
                                 </div>
                                 <div className="notebook-cell time">

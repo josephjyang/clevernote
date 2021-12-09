@@ -4,6 +4,7 @@ import Notes from '../Notes';
 import Notebooks from '../Notebooks';
 import Navigation from '../Navigation';
 import UserDashBoard from '../UserDashboard';
+import AccountInfo from '../AccountInfo';
 import { loadNotes } from '../../store/notes'
 import { loadNotebooks } from '../../store/notebooks'
 import { usePage } from '../../context/ClevernoteContext'
@@ -50,6 +51,11 @@ function Dashboard({ isLoaded }) {
             {isLoaded && (
                 page === "notebooks" && (
                     <Notebooks setPage={setPage} isLoaded={isLoaded} />
+                )
+            )}
+            {isLoaded && (
+                page === "account" && (
+                    <AccountInfo setPage={setPage} isLoaded={isLoaded} />
                 )
             )}
         </div>

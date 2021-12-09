@@ -112,5 +112,18 @@ module.exports = (sequelize, DataTypes) => {
     return await User.scope('currentUser').findByPk(user.id);
   }
 
+  User.revise = async function ({ id, username, email, password, firstName, lastName }) {
+    const hashedPassword = bcrypt.hashSync(password);
+    const user = User.findByPk(id);
+    const updatedUser = await user.update({
+      username,
+      firstName,
+      lastName,
+      email,
+      hashedPassword
+    });
+    return await User.scope('currentUser').findByPk(updatedUser.id);
+  }
+
   return User;
 };

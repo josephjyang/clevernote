@@ -5,8 +5,10 @@ import { NavLink } from "react-router-dom";
 import * as sessionActions from '../../store/session';
 import { clearNotes } from "../../store/notes"
 import { clearNotebooks } from "../../store/notebooks"
+import { usePage } from "../../context/ClevernoteContext"
 
 function ProfileButton({user}) {
+    const { page, setPage } = usePage();
     const dispatch = useDispatch();
     const [showMenu, setShowMenu] = useState(false)
 
@@ -53,16 +55,12 @@ function ProfileButton({user}) {
                         <span id="email">{user.email}</span>
                     </div>
                 </li>
-                <li>
-                    <NavLink to={`/users/${user.id}`}>
-                        Account info...
-                    </NavLink>
-                </li>
-                <li>
-                    <NavLink to={`/users/${user.id}/preferences`}>
-                        Preferences
-                    </NavLink>
-                </li>
+                {/* <li onClick={() => setPage("account")}>
+                    Account info...
+                </li> */}
+                {/* <li>
+                    Preferences
+                </li> */}
                 <li>
                     <button id="logout" onClick={logout}>Sign out {user.firstName} {user.lastName}</button>
                 </li>

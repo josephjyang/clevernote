@@ -1,11 +1,13 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Redirect, Link } from 'react-router-dom'
+import { usePage } from '../../context/ClevernoteContext';
 import { loadNotes } from '../../store/notes'
 import Navigation from '../Navigation';
 import './UserDashboard.css'
 
 function UserDashBoard({ isLoaded, setPage }) {
+    const { setNoteId } = usePage()
     const sessionUser = useSelector(state => state.session.user);
     const notes = useSelector(state => state.notes)
     
@@ -44,37 +46,31 @@ function UserDashBoard({ isLoaded, setPage }) {
             <div id="notes-container">
                 <div id="notes-header">
                     <p>NOTES</p>
-                    <Link to={`/notes`}>
+                    <div>
                         <i onClick={() => setPage("notes")}className="fas fa-file-alt" />
-                    </Link>
+                    </div>
                 </div>
                 <div id="note-container">
                     {userNotes.map(note => {
                         const date = new Date(note.updatedAt);
-                        // let time = '';
-                        // if (date.getHours() > 12) time += date.getHours() - 12;
-                        // else time += date.getHours();
-                        // if (date.getMinutes() < 10) time += ":0" + date.getMinutes()
-                        // else time += ":" + date.getMinutes();
-                        // if (date.getHours() > 12) time += " pm"
-                        // else time += " am"
                         const options = { year: 'numeric', month: 'short', day: 'numeric' };
                         return (
-                            <Link key={note.id} to={`/notes/${note.id}`}>
-                                <div className="note">
-                                    <div className="note-grid">
-                                        <h3>
-                                            {note.name}
-                                        </h3>
-                                        <p id="note-content">
-                                            {note.content}
-                                        </p>
-                                        <p id="update-time">
-                                            {`${date.toLocaleDateString('en-US', options)}`}
-                                        </p>
-                                    </div>
+                            <div onClick={() => {
+                                setPage("notes")
+                                setNoteId(note.id)
+                                }} key={note.id} className="note">
+                                <div className="note-grid">
+                                    <h3>
+                                        {note.name}
+                                    </h3>
+                                    <p id="note-content">
+                                        {note.content}
+                                    </p>
+                                    <p id="update-time">
+                                        {`${date.toLocaleDateString('en-US', options)}`}
+                                    </p>
                                 </div>
-                            </Link>
+                            </div>
                         )
                     })}
                 </div>

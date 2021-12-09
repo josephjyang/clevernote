@@ -14,14 +14,47 @@
     flex-direction: column;
     align-content: center;
     height: 100vh;
-    overflow-y: scroll;
+    /* overflow-y: scroll; */
 }
 
 #sidebar-header {
     color: rgb(167, 167, 167);
+    background-color: rgb(80, 80, 80);
     font-size: 16px;
-    height: 40px;
+    height: 70px;
     margin-bottom: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid gray;
+}
+
+#notebook-buttons {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 0 10px 0 0;
+}
+
+#sidebar-header button {
+    border: none;
+    border-radius: 5px;
+    height: 20px;
+    margin: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#edit-notebook-link {
+    background-color: rgb(0, 0, 255);
+    color: white;
+}
+
+#delete-notebook-link {
+    background-color: rgb(255, 0, 0);
+    color: white;
 }
 
 #sidebar-header h2{
