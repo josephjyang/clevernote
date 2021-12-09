@@ -15,7 +15,7 @@ function NoteFormUpdate({ isLoaded }) {
     userNotebooks.sort((a, b) => {
         return Date.parse(b.updatedAt) - Date.parse(a.updatedAt);
     })
-    const note = notes[noteId] || {};
+    const note = notes[noteId];
     const history = useHistory();
     const [errors, setErrors] = useState([]);
     const [name, setName] = useState(note.name);
@@ -24,7 +24,7 @@ function NoteFormUpdate({ isLoaded }) {
     useEffect(() => {
         setName(note.name);
         setContent(note.content);
-        setNotebookId(notebookId);
+        setNotebookId(note.notebookId);
     }, [note, setNotebookId, notebookId])
 
     if (!sessionUser) return (
@@ -70,10 +70,10 @@ function NoteFormUpdate({ isLoaded }) {
                 <select
                     id="notebook-select"
                     onChange={e => setNotebookId(e.target.value)}
+                    value={notebookId}
                 >
                     <option value="">Select a notebook</option>
                     {userNotebooks.map(notebook => {
-                        if (note.notebookId === notebook.id) return <option key={notebook.id} value={notebook.id} selected>{notebook.name}</option>
                         return <option key={notebook.id} value={notebook.id}>{notebook.name}</option>
                     })}
                 </select>
