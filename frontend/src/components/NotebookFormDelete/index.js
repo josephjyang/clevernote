@@ -24,7 +24,7 @@ function NotebookFormDelete({ id, hideForm }) {
         await dispatch(notebookActions.removeNotebook(notebook))
 
         hideForm();
-        history.push("/notebooks");
+        history.push("/dashboard");
     }
 
     return (
@@ -33,7 +33,7 @@ function NotebookFormDelete({ id, hideForm }) {
                 <ul hidden={errors.length === 0}>
                     {errors.map((error, i) => <li key={i}>{error}</li>)}
                 </ul>
-                <p>Are you sure you want to delete {notebook.name}?</p>
+                <p>Are you sure you want to delete "{notebook.name}"?</p>
                 <button type="submit">Delete Notebook</button>
             </form>
         </div>

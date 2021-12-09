@@ -46,16 +46,23 @@ nav {
     display: flex;
     flex-direction: column;
     height: 200px;
-    margin: 0 0 10px 15px;
-}
-
-#navbar-links a {
-    display: block;
-    color: rgb(179, 179, 179);
     margin-top: 10px;
 }
 
-#navbar-links a > .fas {
+.navbar-link {
+    display: flex;
+    align-items: center;
+    color: rgb(179, 179, 179);
+    height: 35px;
+    padding-left: 10px;
+}
+
+.navbar-link:hover {
+    cursor: pointer;
+    background-color: rgb(123, 123, 123);
+}
+
+.navbar-link > .fas {
     margin-right: 5px;
     display: inline-flex;
     width: 20px;
@@ -69,7 +76,6 @@ nav {
 
 #left-navbar li:nth-child(n+3) {
     margin: 5px 0;
-
 }
 
 #user-header {
@@ -177,7 +183,7 @@ a:hover {
     width: 100%;
     text-align: left;
     font-size: 12px;
-    padding-left: 10px;
+    /* padding-left: 10px; */
 }
 
 .profile-dropdown li:nth-child(1) {
@@ -219,7 +225,7 @@ a:hover {
 }
 
 .profile-dropdown button {
-    padding: 0;
+    padding: 0 0 0 10px;
     background-color: rgb(45, 45, 45);
     border: none;
     font-family: 'DM Sans', sans-serif;
@@ -227,9 +233,9 @@ a:hover {
     text-align: left;
     font-size: 15px;
     color: white;
+    height: 25px;
 }
 
 #logout:hover {
-    color: blue;
     background-color: grey;
 }

@@ -1,25 +1,95 @@
+.note-form form{
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-rows: 5% 10% 75% 10%;
+    grid-template-columns: 1fr;
+}
+
 .note-form {
-    min-width: 35vw;
-    min-height: 35vh;
-    margin: auto;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 50px;
+    padding: 25px 25px 0 25px;
+    position: relative;
+    background-color: gray;
+}
+
+#notebook-select {
+    max-width: 160px;
+    height: 25px;
+    font-family: 'DM Sans', sans-serif;
+    background-color: gray;
+    border: none;
+}
+
+#note-title {
+    border: none;
+    padding: 0;
+    background-color: gray;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 25px;
+    font-weight: bold;
+    height: 30px;
+    margin-top: 15px;
+    color: rgb(40, 40, 40);
+}
+
+#note-title::placeholder,
+#note-context::placeholder {
+    color: rgb(40, 40, 40);
+}
+
+#note-title:focus-visible,
+#note-context:focus-visible,
+#notebook-select:focus-visible {
+    outline: none;
+}
+
+#note-context {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    background-color: gray;
+    color: rgb(40, 40, 40);
+}
+
+#note-context {
+    border: none;
+    /* max-height: 90vh;
+    min-height: 50vh; */
+}
+
+#new-note {
+    max-width: 150px;
+    background-color: blue;
+    color: rgb(227, 227, 227);
+    margin-top: 10px;
+    position: fixed;
+    bottom: 15px;
+    border-radius: 10px;
+    padding: 5px 15px;
+    border: none;
+}
+
+#delete-note {
+    max-width: 150px;
+    background-color: red;
+    color: rgb(227, 227, 227);
+    margin-top: 10px;
+    position: fixed;
+    bottom: 15px;
+    right: 20px;
+    border-radius: 10px;
+    padding: 5px 15px;
+    border: none;
 }
 
 h1 {
     font-weight: bold;
     font-size: 45px;
     font-family: 'Crete Round', serif;
-}
-
-form {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
 }
 
 form input {
@@ -31,22 +101,4 @@ form input {
     padding-left: 10px;
 }
 
-.login-form button {
-    height: 40px;
-    border-radius: 10px;
-    border: 1px solid rgba(0, 0, 0, 0.3);
-    background-color: blue;
-    color: white;
-}
-
-#log-in-link {
-    background-color: white;
-    border: none;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 16px;
-}
-
-#log-in-link:hover {
-    color: blue;
-}
 

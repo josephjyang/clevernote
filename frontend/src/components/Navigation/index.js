@@ -4,9 +4,11 @@ import { NavLink } from 'react-router-dom';
 import ProfileButton from './ProfileButton'
 import DemoLoginButton from '../DemoLoginButton'
 import LoginFormModal from '../LoginFormModal';
+import { usePage } from '../../context/ClevernoteContext';
 import './Navigation.css'
 
-function Navigation({ isLoaded, setPage }) {
+function Navigation({ isLoaded }) {
+    const { page, setPage, noteId, setNoteId, notebookId, setNotebookId } = usePage();
     const sessionUser = useSelector(state => state.session.user); 
     
     let sessionLinks;
@@ -17,27 +19,34 @@ function Navigation({ isLoaded, setPage }) {
                 <div id="user-header">
                     <ProfileButton user={sessionUser} />
                 </div>
-                <NavLink to='/notes/'>
+                <div onClick={() => {
+                    setPage("notes");
+                    setNoteId(false);
+                    }}>
                     <button id="new-note-btn">
                         <i className="fas fa-plus"/>
                         <span>New Note</span>
                     </button>
-                </NavLink>
+                </div>
                 <div id="navbar-links">
-                    <NavLink to='/dashboard'>
-                    {/* <div onClick={() => setPage("dashboard")}> */}
+                    <div className="navbar-link" onClick={() => setPage("dashboard")}>
                         <i className="fas fa-home"/>
                         <span>Home</span>
-                    {/* </div> */}
-                    </NavLink>
-                    <NavLink to='/notes'>
+                    </div>
+                    <div className="navbar-link" onClick={() => {
+                        setPage("notes");
+                        setNoteId(false);
+                    }}>
                         <i className="fas fa-file-alt" />
                         <span>Notes</span>
-                    </NavLink>
-                    <NavLink to={`/notebooks`}>
+                    </div>
+                    <div className="navbar-link" onClick={() => {
+                        setPage("notebooks");
+                        setNotebookId(false);
+                    }}>
                         <i className="fas fa-book" />
                         <span>Notebooks</span>
-                    </NavLink>
+                    </div>
                 </div>
             </div>
         )

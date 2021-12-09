@@ -1,11 +1,7 @@
 #notebooks-content {
     display: grid;
-    height: 100%;
-    width: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    grid-template-columns: 17.5% 82.5%;
+    position: relative;
+    grid-template-columns: 1fr;
 }
 
 #notebooks-page {
@@ -46,6 +42,11 @@
     font-weight: bold;
 }
 
+#new-notebook:hover {
+    color: rgb(0, 0, 170);
+    /* text-shadow: black; */
+}
+
 #notebook-grid {
     width: 100%;
     padding: 0 30px;
@@ -56,7 +57,7 @@
 #header {
     display: grid;
     width: 100%;
-    grid-template-columns: 50% 25% 1fr;
+    grid-template-columns: 40% 20% 20% 20%;
     color: rgb(186, 186, 186);
     font-size: 12px;
 }
@@ -68,7 +69,8 @@
 .notebook-row {
     display: grid;
     width: 100%;
-    grid-template-columns: 50% 25% 1fr;
+    grid-template-columns: 40% 20% 20% 20%;
+    border-radius: 3px;
 }
 
 .notebook-cell {
@@ -81,6 +83,10 @@
     padding-left: 5px;
 }
 
-.notebook-row:nth-child(odd) {
-    background-color:#505050;
+.notebook-row:nth-child(even) {
+    background-color:rgb(142, 142, 142);
+}
+
+.notebook-row:hover {
+    background-color:rgb(50, 50, 50);
 }

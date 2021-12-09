@@ -4,17 +4,16 @@ import { Redirect, Link, useHistory, useParams } from 'react-router-dom';
 import { loadNotebookNotes } from '../../store/notes';
 import { FormModal } from '../../context/FormModal';
 import { DeleteModal } from '../../context/DeleteModal';
-import Navigation from '../Navigation';
-import NotebookForm from '../NotebookForm';
+import NotebookFormUpdate from '../NotebookFormUpdate';
 import NotebookFormDelete from '../NotebookFormDelete';
-import * as notebookActions from '../../store/notebooks';
+import NoteFormUpdate from '../NoteFormUpdate';
 import { loadNotes } from '../../store/notes'
 import { loadNotebooks } from '../../store/notebooks'
+import { usePage } from '../../context/ClevernoteContext';
 import './Notebook.css'
 
-function Notebook({ isLoaded, id, setShowNotebook }) {
-    const notebookId = id;
-    // const { notebookId } = useParams();
+function Notebook({ isLoaded }) {
+    const { noteId, setNoteId, notebookId, setNotebookId } = usePage();
     const history = useHistory();
     const [showForm, setShowForm] = useState(false);
     const [showDelete, setShowDelete] = useState(false);
@@ -29,22 +28,20 @@ function Notebook({ isLoaded, id, setShowNotebook }) {
 
     const dispatch = useDispatch();
     useEffect(() => {
-        if (user) dispatch(loadNotes(user));
-        else return;
-    }, [dispatch, user]);
-
-    useEffect(() => {
-        if (user) dispatch(loadNotebooks(user));
+        if (user) {
+            dispatch(loadNotes(user));
+            dispatch(loadNotebooks(user));
+        }
         else return;
     }, [dispatch, user]);
 
     useEffect(() => {
         if (user && notebook) dispatch(loadNotebookNotes(user, notebook));
         else {
-            setShowNotebook(false);
-            return history.push("/notebooks")
+            setNotebookId(false);
+            return history.push("/dashboard")
         };
-    }, [dispatch, user, notebook, history, setShowNotebook]);
+    }, [dispatch, user, notebook, history, setNotebookId]);
 
     if (!user) return (
         <Redirect to="/" />
@@ -55,45 +52,45 @@ function Notebook({ isLoaded, id, setShowNotebook }) {
     return (
         <>
             <div id="notebook-content">
-                <Navigation isLoaded={isLoaded} />
                 <div id="notebook-sidebar" >
                     <div id="sidebar-header">
                         <h2>
                             {notebook.name}
                         </h2>
-                        <button id="edit-notebook-link" onClick={() => setShowForm(true)}>Edit</button>
-                        {showForm && (
-                            <FormModal onClose={() => setShowForm(false)}>
-                                <NotebookForm id={notebook.id} hideForm={() => setShowForm(false)}/>
-                            </FormModal>
-                        )}
-                        <button id="delete-notebook-link" onClick={() => setShowDelete(true)}>Delete</button>
-                        {showDelete && (
-                            <DeleteModal onClose={() => setShowDelete(false)}>
-                                <NotebookFormDelete id={notebook.id} hideForm={() => setShowDelete(false)} />
-                            </DeleteModal>
-                        )}
+                        <div id="notebook-buttons">
+                            <button id="edit-notebook-link" onClick={() => setShowForm(true)}>Edit</button>
+                            {showForm && (
+                                <FormModal onClose={() => setShowForm(false)}>
+                                    <NotebookFormUpdate id={notebook.id} hideForm={() => setShowForm(false)}/>
+                                </FormModal>
+                            )}
+                            <button id="delete-notebook-link" onClick={() => setShowDelete(true)}>Delete</button>
+                            {showDelete && (
+                                <DeleteModal onClose={() => setShowDelete(false)}>
+                                    <NotebookFormDelete id={notebook.id} hideForm={() => setShowDelete(false)} />
+                                </DeleteModal>
+                            )}
+                        </div>
                     </div>
                     {userNotes.map(note => {
                         const date = new Date(note.updatedAt);
                         const options = { year: 'numeric', month: 'short', day: 'numeric' };
                         return (
-                            <Link key={note.id} to={`/notes/${note.id}`}>
-                                <div className="notebook-block">
-                                    <h3>
-                                        {note.name}
-                                    </h3>
-                                    <p id="notebook-block-content">
-                                        {note.content}
-                                    </p>
-                                    <p id="notebook-update-time">
-                                        {`${date.toLocaleDateString('en-US', options)}`}
-                                    </p>
-                                </div>
-                            </Link>
+                            <div onClick={() => setNoteId(note.id)} className="notebook-block">
+                                <h3>
+                                    {note.name}
+                                </h3>
+                                <p id="notebook-block-content">
+                                    {note.content}
+                                </p>
+                                <p id="notebook-update-time">
+                                    {`${date.toLocaleDateString('en-US', options)}`}
+                                </p>
+                            </div>
                         )
                     })}
                 </div>
+                {noteId && <NoteFormUpdate />}
             </div>
         </>
     );
