@@ -1,11 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import * as notesActions from '../../store/notes';
 import { useDispatch, useSelector } from 'react-redux';
 import { Redirect, useHistory } from 'react-router-dom';
 import Navigation from '../Navigation';
+import { usePage } from '../../context/ClevernoteContext';
 import './NoteForm.css'
 
-function NoteForm({ isLoaded }) {
+function NoteForm({ isLoaded, setNotebookId, notebookId }) {
+    const { noteId, setNoteId } = usePage();
+    const notes = useSelector(state => state.notes)
+    const note = notes[noteId] || {};
     const dispatch = useDispatch();
     const sessionUser = useSelector(state => state.session.user);
     const notebooks = useSelector(state => state.notebooks);
@@ -16,23 +20,29 @@ function NoteForm({ isLoaded }) {
     const [errors, setErrors] = useState([]);
     const [name, setName] = useState('');
     const [content, setContent] = useState('');
-    const [notebookId, setNotebookId] = useState();
+    
     const history = useHistory();
+
+  
 
     if (!sessionUser) return (
         <Redirect to="/" />
     );
 
 
+
     const onSubmit = async e => {
         e.preventDefault();
         setErrors([]);
-        await dispatch(notesActions.createNote({ name, content, userId: sessionUser.id, notebookId }))
+        const newNote = await dispatch(notesActions.createNote({ name, content, userId: sessionUser.id, notebookId }))
             .catch(async res => {
                 const data = await res.json();
                 if (data && data.errors) setErrors(data.errors);
             })
-         history.push("/dashboard")
+        if (newNote) {
+            setNoteId(newNote.id);
+            history.push("/dashboard")
+        }
     }
 
 
@@ -55,6 +65,7 @@ function NoteForm({ isLoaded }) {
                         })}
                     </select>
                     <input
+                        id="note-title"
                         type="text"
                         value={name}
                         onChange={e => setName(e.target.value)}
@@ -62,12 +73,12 @@ function NoteForm({ isLoaded }) {
                         placeholder="Title"
                     />
                     <textarea
+                        id="note-context"
                         value={content}
                         onChange={(e) => setContent(e.target.value)}
-                        rows={10}
-                        cols={5}
+                        placeholder="Start writing"
                     />
-                    <button type="submit">Create Note</button>
+                    <button id="new-note" type="submit">Save Note</button>
                 </form>
             </div>
         </>

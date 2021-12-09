@@ -2,10 +2,11 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import { loadNotes } from '../../store/notes'
 import { Redirect } from "react-router";
-import { Link } from "react-router-dom";
-// import * as sessionActions from '../../store/session';
+import { usePage } from "../../context/ClevernoteContext";
+import './NotesSidebar.css'
 
-function NotesSidebar({ setNote }) {
+function NotesSidebar() {
+    const { noteId, setNoteId } = usePage();
     const user = useSelector(state => state.session.user);
     const notes = useSelector(state => state.notes)
     const userNotes = Object.values(notes);
@@ -30,7 +31,7 @@ function NotesSidebar({ setNote }) {
                     const date = new Date(note.updatedAt);
                     const options = { year: 'numeric', month: 'short', day: 'numeric' };
                     return (
-                        <div onClick={() => setNote(note.id)} key={note.id} className="note-block">
+                        <div onClick={() => setNoteId(note.id)} key={note.id} className="note-block">
                                 <h3>
                                     {note.name}
                                 </h3>
