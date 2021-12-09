@@ -2,10 +2,12 @@ import React, { useState } from 'react';
 import * as sessionActions from '../../store/session';
 import { useDispatch, useSelector } from 'react-redux';
 import { Redirect } from 'react-router-dom';
+import { usePage } from '../../context/ClevernoteContext';
 import './LoginForm.css'
 
 function LoginForm() {
     const dispatch = useDispatch();
+    const { setPage } = usePage();
     const sessionUser = useSelector(state => state.session.user);
     const [credential, setCredential] = useState('');
     const [password, setPassword] = useState('');
@@ -18,6 +20,7 @@ function LoginForm() {
     const onSubmit = e => {
         e.preventDefault();
         setErrors([]);
+        setPage("dashboard");
         return dispatch(sessionActions.login({ credential, password }))
             .catch(async res => {
                 const data = await res.json();

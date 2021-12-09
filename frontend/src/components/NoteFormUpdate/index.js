@@ -20,11 +20,11 @@ function NoteFormUpdate({ isLoaded }) {
     const [errors, setErrors] = useState([]);
     const [name, setName] = useState(note.name);
     const [content, setContent] = useState(note.content);
+    const [notebook, setNotebook] = useState(note.notebookId);
 
     useEffect(() => {
         setName(note.name);
         setContent(note.content);
-        setNotebookId(note.notebookId);
     }, [note, setNotebookId, notebookId])
 
     if (!sessionUser) return (
@@ -38,7 +38,7 @@ function NoteFormUpdate({ isLoaded }) {
             ...note,
             name,
             content,
-            notebookId
+            notebookId: notebook
         }
 
         const updatedNote = await dispatch(notesActions.updateNote(payload))
@@ -69,8 +69,10 @@ function NoteFormUpdate({ isLoaded }) {
                 }
                 <select
                     id="notebook-select"
-                    onChange={e => setNotebookId(e.target.value)}
-                    value={notebookId}
+                    value={note.notebookId}
+                    onChange={e => {
+                        note.notebookId = setNotebook(e.target.value)
+                    }}
                 >
                     <option value="">Select a notebook</option>
                     {userNotebooks.map(notebook => {
