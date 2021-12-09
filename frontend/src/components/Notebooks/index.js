@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { loadNotebooks } from '../../store/notebooks';
 import { Link, Redirect } from 'react-router-dom';
-import Navigation from '../Navigation';
+import { usePage } from '../../context/ClevernoteContext';
 import NewNotebookForm from '../NotebookFormNew';
 import Notebook from '../Notebook';
 import { FormModal } from '../../context/FormModal';
@@ -10,7 +10,7 @@ import './Notebooks.css'
 
 function Notebooks({ isLoaded }) {
     const user = useSelector(state => state.session.user);
-    const [showNotebook, setShowNotebook] = useState(false);
+    const { notebookId, setNotebookId } = usePage();
     const notebooks = useSelector(state => state.notebooks);
     const [showForm, setShowForm] = useState(false);
     const userNotebooks = Object.values(notebooks);
@@ -30,9 +30,8 @@ function Notebooks({ isLoaded }) {
     
     return (
         <div id="notebooks-content">
-            {/* <Navigation isLoaded={isLoaded}/> */}
-            {showNotebook && <Notebook isLoaded={isLoaded} id={showNotebook} setShowNotebook={setShowNotebook}/>}
-            {!showNotebook && <div id="notebooks-page">
+            {notebookId && <Notebook isLoaded={isLoaded} id={notebookId} setNotebookId={setNotebookId}/>}
+            {!notebookId && <div id="notebooks-page">
                 <h2>Notebooks</h2>
                 <div id="notebook-grid-header">
                     <span>{userNotebooks.length} notebooks
@@ -56,7 +55,7 @@ function Notebooks({ isLoaded }) {
                         const options = { year: 'numeric', month: 'short', day: 'numeric' };
                         return (
                             <div className="notebook-row" key={notebook.id}>
-                                <div onClick={() => setShowNotebook(notebook.id)}className="notebook-cell">
+                                <div onClick={() => setNotebookId(notebook.id)}className="notebook-cell">
                                     {notebook.name}
                                 </div>
                                 <div className="notebook-cell time">

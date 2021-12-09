@@ -8,7 +8,7 @@ import { usePage } from '../../context/ClevernoteContext';
 import './Navigation.css'
 
 function Navigation({ isLoaded }) {
-    const { page, setPage, noteId, setNoteId } = usePage();
+    const { page, setPage, noteId, setNoteId, notebookId, setNotebookId } = usePage();
     const sessionUser = useSelector(state => state.session.user); 
     
     let sessionLinks;
@@ -33,11 +33,17 @@ function Navigation({ isLoaded }) {
                         <i className="fas fa-home"/>
                         <span>Home</span>
                     </div>
-                    <div className="navbar-link" onClick={() => setPage("notes")}>
+                    <div className="navbar-link" onClick={() => {
+                        setPage("notes");
+                        setNoteId(false);
+                    }}>
                         <i className="fas fa-file-alt" />
                         <span>Notes</span>
                     </div>
-                    <div className="navbar-link" onClick={() => setPage("notebooks")}>
+                    <div className="navbar-link" onClick={() => {
+                        setPage("notebooks");
+                        setNotebookId(false);
+                    }}>
                         <i className="fas fa-book" />
                         <span>Notebooks</span>
                     </div>

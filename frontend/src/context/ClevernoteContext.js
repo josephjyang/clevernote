@@ -9,10 +9,11 @@ export const usePage = () => {
 
 export default function ClevernoteProvider({ children }) {
     const [page, setPage] = useState('dashboard');
-    const [noteId, setNoteId] = useState(false)
+    const [noteId, setNoteId] = useState(false);
+    const [notebookId, setNotebookId] = useState(false);
 
     return (
-        <ClevernoteContext.Provider value={{ page, setPage, noteId, setNoteId }}>
+        <ClevernoteContext.Provider value={{ page, setPage, noteId, setNoteId, notebookId, setNotebookId }}>
             { children }
         </ClevernoteContext.Provider>
     );
