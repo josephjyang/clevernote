@@ -98,7 +98,7 @@ function NoteFormUpdate({ isLoaded }) {
                             return <option key={notebook.id} value={notebook.id}>{notebook.name}</option>
                         })}
                     </select>
-                    <i onClick={() => openActions(true)} class="fas fa-ellipsis-h"></i>
+                    <i onClick={() => openActions(true)} className="fas fa-ellipsis-h"></i>
                     {showActions && 
                     <ul className="action-dropdown">
                         <button id="delete-note" onClick={deleteNote}>Delete Note</button>

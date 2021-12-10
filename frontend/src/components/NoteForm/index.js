@@ -12,6 +12,8 @@ function NoteForm({ isLoaded, setNotebookId, notebookId }) {
     const dispatch = useDispatch();
     const sessionUser = useSelector(state => state.session.user);
     const notebooks = useSelector(state => state.notebooks);
+    const tags = useSelector(state => state.tags);
+    const userTags = Object.values(tags);
     const userNotebooks = Object.values(notebooks);
     userNotebooks.sort((a, b) => {
         return Date.parse(b.updatedAt) - Date.parse(a.updatedAt);
@@ -19,7 +21,28 @@ function NoteForm({ isLoaded, setNotebookId, notebookId }) {
     const [errors, setErrors] = useState([]);
     const [name, setName] = useState('');
     const [content, setContent] = useState('');
+    const [showTags, setShowTags] = useState(false);
+    const [noteTags, setNoteTags] = useState({});
     
+    // const openTags = () => {
+    //     if (showTags) return;
+    //     return setShowTags(true);
+    // }
+
+    // useEffect(() => {
+    //     if (!showTags) return;
+
+    //     const closeActions = () => {
+    //         setShowTags(false);
+    //     }
+
+    //     const button = document.getElementById("show-tags")
+
+    //     button.addEventListener("click", closeActions)
+
+    //     return () => button.removeEventListener("click", closeActions)
+    // }, [showTags])
+
     const history = useHistory();  
 
     if (!sessionUser) return (
@@ -76,6 +99,23 @@ function NoteForm({ isLoaded, setNotebookId, notebookId }) {
                         placeholder="Start writing"
                     />
                     <div className="footer">
+                        <div onClick={() => setShowTags(!showTags)} id="show-tags">Tags</div>
+                        {showTags && 
+                            // <div id="tags-menu">
+                                userTags.map(tag => {
+                                return (
+                                    < >
+                                        <input onChange={(e) => {
+                                            const key = e.target.value
+                                            noteTags[key] = true;
+                                            setNoteTags(noteTags);
+                                        }} value={tag.name} key={tag.id} type="checkbox" id={tag.id} name={tag.name} />
+                                        <label htmlFor={tag.name}>{tag.name}</label>
+                                    </>
+                                )})
+                                // </div>
+                            }
+                       { noteTags && (<div>{noteTags.funny}</div>) }
                         <button id="new-note" type="submit">Save Note</button>
                     </div>
                 </form>

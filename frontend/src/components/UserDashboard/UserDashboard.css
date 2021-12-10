@@ -39,7 +39,7 @@ h4 {
     align-items: center;
 }
 
-img {
+#dashboard-container > img {
     height: 40vh;
     width: 100%;
     position: absolute;
