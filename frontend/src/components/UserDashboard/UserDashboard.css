@@ -40,7 +40,7 @@ h4 {
     background-color: rgb(225, 225, 225);
 }
 
-img {
+#dashboard-container img {
     height: 40vh;
     width: 100%;
     position: absolute;

@@ -20,13 +20,14 @@ function NoteFormUpdate({ isLoaded }) {
     const [errors, setErrors] = useState([]);
     const [name, setName] = useState(note.name);
     const [content, setContent] = useState(note.content);
-    const [notebook, setNotebook] = useState(note.notebookId);
+    let [notebook, setNotebook] = useState(note.notebookId || 0);
     const [showActions, setShowActions] = useState(false);
 
     useEffect(() => {
-        setName(note.name);
-        setContent(note.content);
-    }, [note, setNotebookId, notebookId])
+        setName(note.name || '');
+        setContent(note.content || '');
+        setNotebook(note.notebookId || 0);
+    }, [note])
 
     const openActions = () => {
         if (showActions) return;
@@ -51,6 +52,8 @@ function NoteFormUpdate({ isLoaded }) {
 
     const onSubmit = async e => {
         e.preventDefault();
+
+        if (notebook === "0") notebook = null;
         
         const payload = {
             ...note,
@@ -88,12 +91,10 @@ function NoteFormUpdate({ isLoaded }) {
                 <div id="note-form-header">
                     <select
                         id="notebook-select"
-                        value={note.notebookId}
-                        onChange={e => {
-                            note.notebookId = setNotebook(e.target.value)
-                        }}
+                        value={notebook}
+                        onChange={e => {setNotebook(e.target.value)}}
                     >
-                        <option value="">Select a notebook</option>
+                        <option value="0">Select a notebook</option>
                         {userNotebooks.map(notebook => {
                             return <option key={notebook.id} value={notebook.id}>{notebook.name}</option>
                         })}
@@ -110,11 +111,11 @@ function NoteFormUpdate({ isLoaded }) {
                     value={name}
                     onChange={e => setName(e.target.value)}
                     required
-                    placeholder="Enter Name for Note"
+                    placeholder="Title"
                 />
                 <textarea
                     id="note-form-content"
-                    value={content}
+                    value={content || ''}
                     onChange={(e) => setContent(e.target.value)}
                     rows={10}
                     cols={5}
