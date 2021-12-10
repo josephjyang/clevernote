@@ -4,7 +4,7 @@ const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 
 const { setTokenCookie, requireAuth } = require('../../utils/auth');
-const { User, Note, Notebook } = require('../../db/models');
+const { User, Note, Notebook, Tag, NoteTag } = require('../../db/models');
 
 const router = express.Router();
 
@@ -72,7 +72,7 @@ router.post('/:id/notes', requireAuth, asyncHandler(async (req, res) => {
 
 router.get('/:id/notebooks', requireAuth, asyncHandler(async (req, res) => {
     const userId = req.params.id
-    const notebooks = await Notebook.findAll({ order: [['updatedAt', 'DESC']], where: { userId } });
+    const notebooks = await Notebook.findAll({ order: [['updatedAt', 'DESC']], where: { userId }, include: { model: Note } });
 
     return res.json(notebooks)
 }))
@@ -111,6 +111,17 @@ router.delete('/:id/notebooks/:notebookId', requireAuth, asyncHandler(async (req
     const deletedNotebook = await notebook.destroy();
 
     return res.json(deletedNotebook)
-}))
+}));
+
+router.get('/:id/tags', requireAuth, asyncHandler(async (req, res) => {
+    console.log("test");
+    const userId = req.params.id;
+    const tags = await Tag.findAll({ 
+        where: { userId },
+        include: { model: Note }
+    });
+
+    return res.json(tags)
+}));
 
 module.exports = router;

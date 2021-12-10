@@ -3,23 +3,29 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Redirect, Link } from 'react-router-dom'
 import { usePage } from '../../context/ClevernoteContext';
 import { loadNotes } from '../../store/notes'
+import { loadTags } from '../../store/tags';
 import Navigation from '../Navigation';
 import './UserDashboard.css'
 
 function UserDashBoard({ isLoaded, setPage }) {
     const { setNoteId } = usePage()
     const sessionUser = useSelector(state => state.session.user);
-    const notes = useSelector(state => state.notes)
-    
+    const notes = useSelector(state => state.notes);
+    const tags = useSelector(state => state.tags);
+    const notebooks = useSelector(state => state.notebooks);
+    const userTags = Object.values(tags);
     const userNotes = Object.values(notes);
+    const userNotebooks = Object.values(notebooks);
     userNotes.sort((a, b) => {
         return Date.parse(b.updatedAt) - Date.parse(a.updatedAt);
     })
     
     const dispatch = useDispatch();
     useEffect(() => {
-        if (sessionUser) dispatch(loadNotes(sessionUser));
-        else return;
+        if (sessionUser) {
+            dispatch(loadNotes(sessionUser));
+            dispatch(loadTags(sessionUser));
+        } else return;
     }, [dispatch, sessionUser]);
     
     if (!sessionUser) return (
@@ -78,6 +84,44 @@ function UserDashBoard({ isLoaded, setPage }) {
                         )
                     })}
                 </div>
+            </div>
+            <div id="tags-container">
+                <p>TAGS</p>
+                {userTags.map(tag => {
+                    const date = new Date(tag.updatedAt);
+                    const options = { year: 'numeric', month: 'short', day: 'numeric' };
+                    return (
+                        <div key={tag.id} className="tag">
+                            <div className="tag-grid">
+                                <h3>
+                                    {tag.name} - {tag.Notes.length} notes
+                                </h3>
+                                <p id="update-time">
+                                    {`${date.toLocaleDateString('en-US', options)}`}
+                                </p>
+                            </div>
+                        </div>
+                    )
+                })}
+            </div>
+            <div id="notebooks-container">
+                <p>Notebooks</p>
+                {userNotebooks.map(notebook => {
+                    const date = new Date(notebook.updatedAt);
+                    const options = { year: 'numeric', month: 'short', day: 'numeric' };
+                    return (
+                        <div key={notebook.id} className="tag">
+                            <div className="tag-grid">
+                                <h3>
+                                    {notebook.name} - {notebook.Notes.length} notes
+                                </h3>
+                                <p id="update-time">
+                                    {`${date.toLocaleDateString('en-US', options)}`}
+                                </p>
+                            </div>
+                        </div>
+                    )
+                })}
             </div>
         </div>
     );

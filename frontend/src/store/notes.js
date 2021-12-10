@@ -73,7 +73,7 @@ export const loadNotes = user => async dispatch => {
     const res = await csrfFetch(`/api/users/${user.id}/notes`);
     const data = await res.json();
     dispatch(getNotes(user, data));
-    return res;
+    return data;
 }
 
 export const loadNotebookNotes = (user, notebook) => async dispatch => {
@@ -81,7 +81,7 @@ export const loadNotebookNotes = (user, notebook) => async dispatch => {
     const res = await csrfFetch(`/api/users/${user.id}/notebooks/${notebook.id}/notes`);
     const data = await res.json();
     dispatch(getNotebookNotes(user, data));
-    return res;
+    return data;
 }
 
 export const createNote = data => async dispatch => {
