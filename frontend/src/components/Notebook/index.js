@@ -106,7 +106,7 @@ function Notebook({ isLoaded }) {
                         const date = new Date(note.updatedAt);
                         const options = { year: 'numeric', month: 'short', day: 'numeric' };
                         return (
-                            <div onClick={() => setNoteId(note.id)} className="notebook-block">
+                            <div onClick={() => setNoteId(note.id)} className={note.id === noteId ? "selected notebook-block" : "notebook-block"}>
                                 <h3>
                                     {note.name}
                                 </h3>

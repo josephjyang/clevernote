@@ -39,7 +39,7 @@ function NotesSidebar() {
                     const date = new Date(note.updatedAt);
                     const options = { year: 'numeric', month: 'short', day: 'numeric' };
                     return (
-                        <div onClick={() => setNoteId(note.id)} key={note.id} className="note-block">
+                        <div onClick={() => setNoteId(note.id)} key={note.id} className={note.id === noteId ? "selected note-block" : "note-block"}>
                                 <h3>
                                     {note.name}
                                 </h3>

@@ -1,11 +1,25 @@
-.note-form form{
-    box-sizing: border-box;
-    width: 100%;
-    height: 100%;
-    display: grid;
-    grid-template-rows: 5% 10% 75% 10%;
-    grid-template-columns: 1fr;
+@media (min-height: 500px) {
+    .note-form form{
+        box-sizing: border-box;
+        width: 100%;
+        height: 100%;
+        display: grid;
+        grid-template-rows: 5% 10% 75% 10%;
+        grid-template-columns: 1fr;
+    }
 }
+
+@media (max-height: 499px) {
+    .note-form form{
+        box-sizing: border-box;
+        width: 100%;
+        height: 100%;
+        display: grid;
+        grid-template-rows: 7% 15% 1fr 15%;
+        grid-template-columns: 1fr;
+    }
+}
+
 
 .note-form {
     width: 100%;

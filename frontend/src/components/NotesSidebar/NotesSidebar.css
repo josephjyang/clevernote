@@ -48,6 +48,16 @@
 .note-block:hover {
     background-color: rgb(157, 157, 157);
     color: black;
+    cursor:pointer;
+}
+
+.selected {
+    background-color: rgb(120, 120, 120);
+}
+
+.selected > #note-block-content,
+.selected > #note-update-time {
+    color: rgb(230, 230, 230);
 }
 
 .note-block:hover > #note-block-content,

@@ -56,6 +56,7 @@
 
 #new-notebook:hover {
     color: rgb(0, 115, 255);
+    cursor: pointer;
 }
 
 #notebook-grid {
@@ -120,6 +121,7 @@
 #edit-notebook-link:hover,
 #delete-notebook-link:hover {
     background-color: rgb(160, 160, 160);
+    cursor:pointer;
 }
 
 .notebook-cell {
@@ -142,10 +144,19 @@
     padding-right: 10px;
 }
 
+.notebook-cell:nth-child(4n):hover {
+    cursor: pointer;
+}
+
+
+.notebook-cell:nth-child(4n-3):hover {
+    cursor:pointer;
+}
+
 .notebook-row:nth-child(odd) {
     background-color:rgb(201, 201, 201);
 }
 
 .notebook-row:hover {
-    background-color:rgb(164, 164, 164);
+    background-color:rgb(164, 164, 164); 
 }
