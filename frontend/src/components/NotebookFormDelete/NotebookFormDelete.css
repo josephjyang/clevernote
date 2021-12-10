@@ -1,4 +1,4 @@
-.notebook-form {
+.notebook-delete-form {
     width: 25vw;
     height: 10vh;
     margin: 5px;
@@ -7,6 +7,10 @@
     justify-content: center;
     align-items: center;
     padding: 50px;
+}
+
+.notebook-delete-form ul {
+    margin: 0;
 }
 
 form {
@@ -26,7 +30,7 @@ form input {
     width: 100%;
 }
 
-.notebook-form button {
+.notebook-delete-form button {
     height: 40px;
     border-radius: 10px;
     border: 1px solid rgba(0, 0, 0, 0.3);

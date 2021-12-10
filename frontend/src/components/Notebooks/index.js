@@ -6,13 +6,18 @@ import { usePage } from '../../context/ClevernoteContext';
 import NewNotebookForm from '../NotebookFormNew';
 import Notebook from '../Notebook';
 import { FormModal } from '../../context/FormModal';
+import { DeleteModal } from '../../context/DeleteModal';
+import NotebookFormUpdate from '../NotebookFormUpdate';
+import NotebookFormDelete from '../NotebookFormDelete';
 import './Notebooks.css'
 
 function Notebooks({ isLoaded }) {
     const user = useSelector(state => state.session.user);
     const { notebookId, setNotebookId } = usePage();
     const notebooks = useSelector(state => state.notebooks);
+    const [showButtons, setShowButtons] = useState(false);
     const [showForm, setShowForm] = useState(false);
+    const [showDelete, setShowDelete] = useState(false);
     const userNotebooks = Object.values(notebooks);
     userNotebooks.sort((a, b) => {
         return Date.parse(b.updatedAt) - Date.parse(a.updatedAt);
@@ -23,6 +28,25 @@ function Notebooks({ isLoaded }) {
         if (user) dispatch(loadNotebooks(user));
         else return;
     }, [dispatch, user]);
+
+
+    const openActions = (id) => {
+        if (showButtons) return;
+        return setShowButtons(id);
+    }
+
+    useEffect(() => {
+        if (!showButtons) return;
+
+        const closeActions = () => {
+            setShowButtons(false);
+        }
+
+        document.addEventListener("click", closeActions)
+
+        return () => document.removeEventListener("click", closeActions)
+    }, [showButtons])
+
     
     if (!user) return (
         <Redirect to="/" />
@@ -48,22 +72,42 @@ function Notebooks({ isLoaded }) {
                         <div className="header">TITLE</div>
                         <div className="header">CREATED</div>
                         <div className="header">UPDATED</div>
+                        <div className="header">ACTIONS</div>
                     </div>
                     {userNotebooks.map(notebook => {
                         const updateDate = new Date(notebook.updatedAt);
                         const createDate = new Date(notebook.createdAt);
                         const options = { year: 'numeric', month: 'short', day: 'numeric' };
                         return (
-                            <div onClick={() => setNotebookId(notebook.id)} className="notebook-row" key={notebook.id}>
-                                <div className="notebook-cell">
+                            <div className="notebook-row" key={notebook.id}>
+                                <div onClick={() => setNotebookId(notebook.id)} className="notebook-cell">
                                     {notebook.name}
-                                </div>
-                                <div className="notebook-cell time">
-                                    {`${updateDate.toLocaleDateString('en-US', options)}`}
                                 </div>
                                 <div className="notebook-cell time">
                                     {`${createDate.toLocaleDateString('en-US', options)}`}
                                 </div>
+                                <div className="notebook-cell time">
+                                    {`${updateDate.toLocaleDateString('en-US', options)}`}
+                                </div>
+                                <div className="notebook-cell">
+                                    <i onClick={() => openActions(notebook.id)} class="fas fa-ellipsis-h"></i>
+                                    {showButtons === notebook.id && 
+                                        <div className="notebook-actions-dropdown">
+                                            <button id="edit-notebook-link" onClick={() => setShowForm(notebook.id)}>Rename Notebook</button>
+                                            <button id="delete-notebook-link" onClick={() => setShowDelete(notebook.id)}>Delete Notebook</button>
+                                        </div>
+                                    }
+                                </div>
+                                {showForm === notebook.id && (
+                                    <FormModal onClose={() => setShowForm(false)}>
+                                        <NotebookFormUpdate id={notebook.id} hideForm={() => setShowForm(false)} />
+                                    </FormModal>
+                                )}
+                                {showDelete === notebook.id && (
+                                    <DeleteModal onClose={() => setShowDelete(false)}>
+                                        <NotebookFormDelete id={notebook.id} hideForm={() => setShowDelete(false)} />
+                                    </DeleteModal>
+                                )}
                             </div>
                         )
                     })}

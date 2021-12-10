@@ -10,7 +10,7 @@
     align-items: center;
     width: 100%;
     margin: 0 auto;
-    background-color: rgb(106, 106, 106);
+    background-color: rgb(235, 235, 235);
 }
 
 #notebooks-page h2 {
@@ -18,7 +18,7 @@
     width: 100%;
     text-align: left;
     font-size: 20px;
-    color: rgb(216, 216, 216);
+    color: rgb(60, 60, 60);
     padding-left: 30px;
 }
 
@@ -28,23 +28,34 @@
     box-sizing: border-box;
     padding: 10px 30px;
     justify-content: space-between;
+    align-items: center;
 }
 
 #notebook-grid-header span {
-    color: rgb(216, 216, 216);
+    color: rgb(50, 50, 50);
 }
 
 #new-notebook {
-    background-color: transparent;
-    border: none;
+    border-radius: 20px;
+    height: 30px;
+    margin: 0px;
+    font-size: 14px;
+    text-align: left;
+    background-color: rgb(235, 235, 235);
     color: rgb(0, 0, 255);
-    font-size: 16px;
-    font-weight: bold;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+}
+
+#new-notebook .fa-plus {
+    font-size: 12px;
 }
 
 #new-notebook:hover {
-    color: rgb(0, 0, 170);
-    /* text-shadow: black; */
+    color: rgb(0, 115, 255);
 }
 
 #notebook-grid {
@@ -57,20 +68,58 @@
 #header {
     display: grid;
     width: 100%;
-    grid-template-columns: 40% 20% 20% 20%;
-    color: rgb(186, 186, 186);
+    grid-template-columns: 50% 20% 20% 10%;
+    color: rgb(155, 155, 155);
     font-size: 12px;
 }
 
 .header {
     padding: 5px;
+    background-color:rgb(220, 220, 220);
 }
 
 .notebook-row {
     display: grid;
     width: 100%;
-    grid-template-columns: 40% 20% 20% 20%;
+    grid-template-columns: 50% 20% 20% 10%;
     border-radius: 3px;
+}
+
+.notebook-row .fa-ellipsis-h {
+    color: gray;
+    position: absolute;
+}
+
+.notebook-actions-dropdown {
+    position: relative;
+    right: 0px;
+    top: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    background-color: white;
+    min-width: 160px;
+    border-radius: 10px;
+    padding: 7.5px;
+    z-index: 2;
+}
+
+#edit-notebook-link,
+#delete-notebook-link {
+    display: inline-flex;
+    border: none;
+    color: rgb(60, 60, 60);
+    background-color: white;
+    width: 100%;
+    border-radius: 5px;
+    min-height: 25px;
+    margin: 5px 0px;
+    align-items: center;
+}
+
+#edit-notebook-link:hover,
+#delete-notebook-link:hover {
+    background-color: rgb(160, 160, 160);
 }
 
 .notebook-cell {
@@ -78,15 +127,25 @@
     justify-content: flex-start;
     align-items: center;
     height: 35px;
-    color: rgb(216, 216, 216);
+    color: rgb(60, 60, 60);
     font-size: 14px;
     padding-left: 5px;
 }
 
-.notebook-row:nth-child(even) {
-    background-color:rgb(142, 142, 142);
+.header:nth-child(4n) {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.notebook-cell:nth-child(4n) {
+    justify-content: flex-end;
+    padding-right: 10px;
+}
+
+.notebook-row:nth-child(odd) {
+    background-color:rgb(201, 201, 201);
 }
 
 .notebook-row:hover {
-    background-color:rgb(50, 50, 50);
+    background-color:rgb(164, 164, 164);
 }

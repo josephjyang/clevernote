@@ -20,15 +20,11 @@ function NoteForm({ isLoaded, setNotebookId, notebookId }) {
     const [name, setName] = useState('');
     const [content, setContent] = useState('');
     
-    const history = useHistory();
-
-  
+    const history = useHistory();  
 
     if (!sessionUser) return (
         <Redirect to="/" />
     );
-
-
 
     const onSubmit = async e => {
         e.preventDefault();
@@ -54,15 +50,17 @@ function NoteForm({ isLoaded, setNotebookId, notebookId }) {
                             {errors.map((error, i) => <li key={i}>{error}</li>)}
                         </ul>
                     }
-                    <select
-                    id="notebook-select"
-                    onChange={e => setNotebookId(e.target.value)}
-                    >
-                        <option value="">Select a notebook</option>
-                        {userNotebooks.map(notebook => {
-                            return <option key={notebook.id} value={notebook.id}>{notebook.name}</option>
-                        })}
-                    </select>
+                    <div id="note-form-header">
+                        <select
+                        id="notebook-select"
+                        onChange={e => setNotebookId(e.target.value)}
+                        >
+                            <option value="">Select a notebook</option>
+                            {userNotebooks.map(notebook => {
+                                return <option key={notebook.id} value={notebook.id}>{notebook.name}</option>
+                            })}
+                        </select>
+                    </div>
                     <input
                         id="note-title"
                         type="text"
@@ -72,12 +70,14 @@ function NoteForm({ isLoaded, setNotebookId, notebookId }) {
                         placeholder="Title"
                     />
                     <textarea
-                        id="note-context"
+                        id="note-form-content"
                         value={content}
                         onChange={(e) => setContent(e.target.value)}
                         placeholder="Start writing"
                     />
-                    <button id="new-note" type="submit">Save Note</button>
+                    <div className="footer">
+                        <button id="new-note" type="submit">Save Note</button>
+                    </div>
                 </form>
             </div>
         </>

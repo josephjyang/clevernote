@@ -21,11 +21,29 @@ function NoteFormUpdate({ isLoaded }) {
     const [name, setName] = useState(note.name);
     const [content, setContent] = useState(note.content);
     const [notebook, setNotebook] = useState(note.notebookId);
+    const [showActions, setShowActions] = useState(false);
 
     useEffect(() => {
         setName(note.name);
         setContent(note.content);
     }, [note, setNotebookId, notebookId])
+
+    const openActions = () => {
+        if (showActions) return;
+        return setShowActions(true)
+    }
+
+    useEffect(() => {
+        if (!showActions) return;
+
+        const closeActions = () => {
+            setShowActions(false);
+        }
+
+        document.addEventListener("click", closeActions)
+
+        return () => document.removeEventListener("click", closeActions)
+    }, [showActions])
 
     if (!sessionUser) return (
         <Redirect to="/" />
@@ -67,18 +85,25 @@ function NoteFormUpdate({ isLoaded }) {
                     {errors.map((error, i) => <li key={i}>{error}</li>)}
                 </ul>
                 }
-                <select
-                    id="notebook-select"
-                    value={note.notebookId}
-                    onChange={e => {
-                        note.notebookId = setNotebook(e.target.value)
-                    }}
-                >
-                    <option value="">Select a notebook</option>
-                    {userNotebooks.map(notebook => {
-                        return <option key={notebook.id} value={notebook.id}>{notebook.name}</option>
-                    })}
-                </select>
+                <div id="note-form-header">
+                    <select
+                        id="notebook-select"
+                        value={note.notebookId}
+                        onChange={e => {
+                            note.notebookId = setNotebook(e.target.value)
+                        }}
+                    >
+                        <option value="">Select a notebook</option>
+                        {userNotebooks.map(notebook => {
+                            return <option key={notebook.id} value={notebook.id}>{notebook.name}</option>
+                        })}
+                    </select>
+                    <i onClick={() => openActions(true)} class="fas fa-ellipsis-h"></i>
+                    {showActions && 
+                    <ul className="action-dropdown">
+                        <button id="delete-note" onClick={deleteNote}>Delete Note</button>
+                    </ul>}
+                </div>
                 <input
                     id="note-title"
                     type="text"
@@ -88,15 +113,14 @@ function NoteFormUpdate({ isLoaded }) {
                     placeholder="Enter Name for Note"
                 />
                 <textarea
-                    id="note-context"
+                    id="note-form-content"
                     value={content}
                     onChange={(e) => setContent(e.target.value)}
                     rows={10}
                     cols={5}
                 />
-                <div className="action-buttons">
+                <div className="footer">
                     <button id="new-note" type="submit">Save Note</button>
-                    <button id="delete-note" onClick={deleteNote}>Delete Note</button>
                 </div>
             </form>
         </div>

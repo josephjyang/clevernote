@@ -27,6 +27,14 @@ function NotesSidebar() {
     return (
         <>
             <div id="notes-sidebar" >
+                <div id="notes-sidebar-header">
+                    <h2>
+                        <i className="fas fa-file-alt" /> Notes
+                    </h2>
+                    <p>
+                        {userNotes.length} notes
+                    </p>
+                </div>
                 {userNotes.map(note => {
                     const date = new Date(note.updatedAt);
                     const options = { year: 'numeric', month: 'short', day: 'numeric' };

@@ -1,12 +1,16 @@
 .notebook-form {
     width: 25vw;
-    height: 10vh;
+    min-height: 125px;
     margin: 5px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 50px;
+    padding: 25px;
+}
+
+.notebook-form ul {
+    margin: 0;
 }
 
 form {

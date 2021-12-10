@@ -17,6 +17,7 @@ function Notebook({ isLoaded }) {
     const history = useHistory();
     const [showForm, setShowForm] = useState(false);
     const [showDelete, setShowDelete] = useState(false);
+    const [showButtons, setShowButtons] = useState(false);
     const user = useSelector(state => state.session.user);
     const notes = useSelector(state => state.notes)
     const notebooks = useSelector(state => state.notebooks)
@@ -43,6 +44,24 @@ function Notebook({ isLoaded }) {
         };
     }, [dispatch, user, notebook, history, setNotebookId]);
 
+    const openActions = (id) => {
+        if (showButtons) return;
+        return setShowButtons(id);
+    }
+
+    useEffect(() => {
+        if (!showButtons) return;
+
+        const closeActions = () => {
+            setShowButtons(false);
+        }
+
+        document.addEventListener("click", closeActions)
+
+        return () => document.removeEventListener("click", closeActions)
+    }, [showButtons])
+
+
     if (!user) return (
         <Redirect to="/" />
     )
@@ -54,23 +73,34 @@ function Notebook({ isLoaded }) {
             <div id="notebook-content">
                 <div id="notebook-sidebar" >
                     <div id="sidebar-header">
-                        <h2>
-                            {notebook.name}
-                        </h2>
-                        <div id="notebook-buttons">
-                            <button id="edit-notebook-link" onClick={() => setShowForm(true)}>Edit</button>
-                            {showForm && (
-                                <FormModal onClose={() => setShowForm(false)}>
-                                    <NotebookFormUpdate id={notebook.id} hideForm={() => setShowForm(false)}/>
-                                </FormModal>
-                            )}
-                            <button id="delete-notebook-link" onClick={() => setShowDelete(true)}>Delete</button>
-                            {showDelete && (
-                                <DeleteModal onClose={() => setShowDelete(false)}>
-                                    <NotebookFormDelete id={notebook.id} hideForm={() => setShowDelete(false)} />
-                                </DeleteModal>
-                            )}
+                        <div id="notebook-header">
+                            <h2>
+                                <i className="fas fa-book" />
+                                {notebook.name}
+                            </h2>
+                            <p>
+                                {userNotes.length} notes
+                            </p>
                         </div>
+                        <div id="notebook-buttons">
+                            <i onClick={() => openActions(notebook.id)} class="fas fa-ellipsis-h"></i>
+                            {showButtons === notebook.id &&
+                                <div className="notebook-actions-dropdown">
+                                    <button id="edit-notebook-link" onClick={() => setShowForm(notebook.id)}>Rename Notebook</button>
+                                    <button id="delete-notebook-link" onClick={() => setShowDelete(notebook.id)}>Delete Notebook</button>
+                                </div>
+                            }
+                        </div>
+                        {showForm === notebook.id && (
+                            <FormModal onClose={() => setShowForm(false)}>
+                                <NotebookFormUpdate id={notebook.id} hideForm={() => setShowForm(false)} />
+                            </FormModal>
+                        )}
+                        {showDelete === notebook.id && (
+                            <DeleteModal onClose={() => setShowDelete(false)}>
+                                <NotebookFormDelete id={notebook.id} hideForm={() => setShowDelete(false)} />
+                            </DeleteModal>
+                        )}
                     </div>
                     {userNotes.map(note => {
                         const date = new Date(note.updatedAt);

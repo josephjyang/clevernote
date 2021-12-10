@@ -28,7 +28,7 @@ function NotebookFormDelete({ id, hideForm }) {
     }
 
     return (
-        <div className="notebook-form">
+        <div className="notebook-delete-form">
             <form onSubmit={onSubmit}>
                 <ul hidden={errors.length === 0}>
                     {errors.map((error, i) => <li key={i}>{error}</li>)}

@@ -41,6 +41,7 @@ function NotebookFormUpdate({ id, hideForm }) {
                 <ul hidden={errors.length === 0}>
                     {errors.map((error, i) => <li key={i}>{error}</li>)}
                 </ul>
+                <p>Update Notebook Name:</p>
                 <input
                     type="text"
                     value={name}

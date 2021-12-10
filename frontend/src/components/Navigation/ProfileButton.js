@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch } from 'react-redux';
 import { Redirect } from "react-router";
-import { NavLink } from "react-router-dom";
 import * as sessionActions from '../../store/session';
 import { clearNotes } from "../../store/notes"
 import { clearNotebooks } from "../../store/notebooks"
