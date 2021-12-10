@@ -10,7 +10,7 @@
     align-items: center;
     width: 100%;
     margin: 0 auto;
-    background-color: rgb(235, 235, 235);
+    background-color: rgb(240, 240, 240);
 }
 
 #notebooks-page h2 {
@@ -19,14 +19,14 @@
     text-align: left;
     font-size: 20px;
     color: rgb(60, 60, 60);
-    padding-left: 30px;
+    padding-left: 33px;
 }
 
 #notebook-grid-header {
     display: flex;
     width: 100%;
     box-sizing: border-box;
-    padding: 10px 30px;
+    padding: 10px 33px;
     justify-content: space-between;
     align-items: center;
 }
@@ -70,13 +70,15 @@
     display: grid;
     width: 100%;
     grid-template-columns: 50% 20% 20% 10%;
-    color: rgb(155, 155, 155);
+    color: rgb(130, 130, 130);
     font-size: 12px;
+    background-color:rgb(220, 220, 220);
+    border-radius: 5px;
+    padding: 5px;
 }
 
 .header {
     padding: 5px;
-    background-color:rgb(220, 220, 220);
 }
 
 .notebook-row {
@@ -84,11 +86,17 @@
     width: 100%;
     grid-template-columns: 50% 20% 20% 10%;
     border-radius: 3px;
+    padding: 5px;
 }
 
 .notebook-row .fa-ellipsis-h {
     color: gray;
     position: absolute;
+    width: min-content;
+}
+
+i.fa-ellipsis-h:hover {
+    cursor:pointer;
 }
 
 .notebook-actions-dropdown {
@@ -148,9 +156,8 @@
     cursor: pointer;
 }
 
-
 .notebook-cell:nth-child(4n-3):hover {
-    cursor:pointer;
+    cursor: pointer;
 }
 
 .notebook-row:nth-child(odd) {

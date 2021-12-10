@@ -19,7 +19,7 @@ function Navigation({ isLoaded }) {
                 <div id="user-header">
                     <ProfileButton user={sessionUser} />
                 </div>
-                <div onClick={() => {
+                <div id="new-button" onClick={() => {
                     setPage("notes");
                     setNoteId(false);
                     }}>

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { loadNotebooks } from '../../store/notebooks';
-import { Link, Redirect } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import { usePage } from '../../context/ClevernoteContext';
 import NewNotebookForm from '../NotebookFormNew';
 import Notebook from '../Notebook';
@@ -81,7 +81,7 @@ function Notebooks({ isLoaded }) {
                         return (
                             <div className="notebook-row" key={notebook.id}>
                                 <div onClick={() => setNotebookId(notebook.id)} className="notebook-cell">
-                                    {notebook.name}
+                                    {notebook.name} ({notebook.Notes.length})
                                 </div>
                                 <div className="notebook-cell time">
                                     {`${createDate.toLocaleDateString('en-US', options)}`}
@@ -89,8 +89,8 @@ function Notebooks({ isLoaded }) {
                                 <div className="notebook-cell time">
                                     {`${updateDate.toLocaleDateString('en-US', options)}`}
                                 </div>
-                                <div className="notebook-cell">
-                                    <i onClick={() => openActions(notebook.id)} class="fas fa-ellipsis-h"></i>
+                                <div onClick={() => openActions(notebook.id)} className="notebook-cell">
+                                    <i class="fas fa-ellipsis-h"></i>
                                     {showButtons === notebook.id && 
                                         <div className="notebook-actions-dropdown">
                                             <button id="edit-notebook-link" onClick={() => setShowForm(notebook.id)}>Rename Notebook</button>

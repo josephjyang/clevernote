@@ -60,6 +60,7 @@
     margin-top: 15px;
     color: rgb(40, 40, 40);
     padding-left: 25px;
+    outline: 0px solid transparent;
 }
 
 #note-title::placeholder,
@@ -69,8 +70,24 @@
 
 #note-title:focus-visible,
 #note-form-content:focus-visible,
-#notebook-select:focus-visible {
+#notebook-select:focus-visible,
+#note-title:-webkit-autofill {
     outline: none;
+    background-color: white;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+    -webkit-box-shadow: 0 0 0px 1000px rgb(255, 255, 255) inset;
+    border: none;
+  /* transition: background-color 5000s ease-in-out 0s; */
 }
 
 #note-form-content {
@@ -79,6 +96,7 @@
     color: rgb(40, 40, 40);
     padding: 0 25px;
     border: none;
+    outline: 0px solid transparent;
 }
 
 .footer {

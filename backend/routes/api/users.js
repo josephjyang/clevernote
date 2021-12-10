@@ -72,7 +72,7 @@ router.post('/:id/notes', requireAuth, asyncHandler(async (req, res) => {
 
 router.get('/:id/notebooks', requireAuth, asyncHandler(async (req, res) => {
     const userId = req.params.id
-    const notebooks = await Notebook.findAll({ order: [['updatedAt', 'DESC']], where: { userId } });
+    const notebooks = await Notebook.findAll({ order: [['updatedAt', 'DESC']], where: { userId }, include: Note });
 
     return res.json(notebooks)
 }))

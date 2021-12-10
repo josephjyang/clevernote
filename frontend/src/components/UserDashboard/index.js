@@ -1,15 +1,17 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Redirect, Link } from 'react-router-dom'
+import { Redirect } from 'react-router-dom'
 import { usePage } from '../../context/ClevernoteContext';
 import { loadNotes } from '../../store/notes'
-import Navigation from '../Navigation';
 import './UserDashboard.css'
 
 function UserDashBoard({ isLoaded, setPage }) {
-    const { setNoteId } = usePage()
+    const { setNoteId, setNotebookId, scratchContent, setScratchContent } = usePage()
+    const [showButtons, setShowButtons] = useState(false);
     const sessionUser = useSelector(state => state.session.user);
     const notes = useSelector(state => state.notes)
+    const notebooks = useSelector(state => state.notebooks);
+    const userNotebooks = Object.values(notebooks);
     
     const userNotes = Object.values(notes);
     userNotes.sort((a, b) => {
@@ -22,6 +24,23 @@ function UserDashBoard({ isLoaded, setPage }) {
         else return;
     }, [dispatch, sessionUser]);
     
+    const openActions = () => {
+        if (showButtons) return;
+        return setShowButtons(true);
+    }
+
+    useEffect(() => {
+        if (!showButtons) return;
+
+        const closeActions = () => {
+            setShowButtons(false);
+        }
+
+        document.addEventListener("click", closeActions)
+
+        return () => document.removeEventListener("click", closeActions)
+    }, [showButtons])
+
     if (!sessionUser) return (
         <Redirect to="/" />
     )
@@ -79,6 +98,46 @@ function UserDashBoard({ isLoaded, setPage }) {
                     })}
                 </div>
             </div>
+        <div id="bottom-container">
+            <div id="notebooks-container">
+                <h3>NOTEBOOKS</h3>
+                {userNotebooks.map(notebook => {
+                    const date = new Date(notebook.updatedAt);
+                    const options = { year: 'numeric', month: 'short', day: 'numeric' };
+                    return (
+                        <div onClick={() => {
+                            setPage("notebooks")
+                            setNotebookId(notebook.id)
+                        }} key={notebook.id} className="notebook">
+                            <p className="notebook-notecount">
+                                {notebook.name}
+                            </p>
+                            <p className="update-time">
+                                {`${date.toLocaleDateString('en-US', options)}`}
+                            </p>
+                        </div>
+                    )
+                })}
+            </div>
+            <div id="scratchpad-container">
+                <div id="scratchpad-header">
+                    <h3>SCRATCH PAD</h3>
+                    <i onClick={() => openActions()} class="fas fa-ellipsis-h"></i>
+                    {showButtons &&
+                        <div className="scratchpad-actions-dropdown">
+                            <button onClick={() => setPage("notes")}>Convert to note</button>
+                            <button onClick={() => setScratchContent('')}>Clear scratch pad</button>
+                        </div>
+                    }
+                </div>
+                <textarea
+                value={scratchContent}
+                onChange={(e) => setScratchContent(e.target.value)}
+                placeholder="Start writing"
+                ></textarea>
+            </div>
+
+        </div>
         </div>
     );
 }

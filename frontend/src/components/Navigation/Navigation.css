@@ -22,11 +22,16 @@ nav {
     box-sizing: border-box;
 }
 
+#new-button {
+    display: flex;
+    justify-content: center;
+}
+
 #new-note-btn {
     border-radius: 20px;
-    width: 90%;
+    width: 85%;
     height: 40px;
-    margin: 10px;
+    margin: 10px 20px;
     font-size: 16px;
     text-align: left;
     padding-left: 15px;
@@ -63,7 +68,7 @@ nav {
     align-items: center;
     color: rgb(179, 179, 179);
     height: 35px;
-    padding-left: 10px;
+    padding-left: 20px;
 }
 
 .navbar-link:hover {

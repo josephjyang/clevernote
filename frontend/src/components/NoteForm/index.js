@@ -6,7 +6,7 @@ import { usePage } from '../../context/ClevernoteContext';
 import './NoteForm.css'
 
 function NoteForm({ isLoaded, setNotebookId, notebookId }) {
-    const { noteId, setNoteId } = usePage();
+    const { noteId, setNoteId, scratchContent, setScratchContent } = usePage();
     const notes = useSelector(state => state.notes)
     const note = notes[noteId] || {};
     const dispatch = useDispatch();
@@ -18,7 +18,7 @@ function NoteForm({ isLoaded, setNotebookId, notebookId }) {
     })
     const [errors, setErrors] = useState([]);
     const [name, setName] = useState('');
-    const [content, setContent] = useState('');
+    const [content, setContent] = useState(scratchContent);
     
     const history = useHistory();  
 
@@ -36,6 +36,7 @@ function NoteForm({ isLoaded, setNotebookId, notebookId }) {
             })
         if (newNote) {
             setNoteId(newNote.id);
+            setScratchContent();
             history.push("/dashboard")
         }
     }
