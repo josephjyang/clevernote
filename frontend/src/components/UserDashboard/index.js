@@ -124,7 +124,7 @@ function UserDashBoard({ isLoaded, setPage }) {
                     <h3>SCRATCH PAD</h3>
                     <i onClick={() => openActions()} class="fas fa-ellipsis-h"></i>
                     {showButtons &&
-                        <div className="scratchpad-actions-dropdown">
+                        <div id="scratchpad-actions-dropdown">
                             <button onClick={() => setPage("notes")}>Convert to note</button>
                             <button onClick={() => setScratchContent('')}>Clear scratch pad</button>
                         </div>
@@ -133,7 +133,7 @@ function UserDashBoard({ isLoaded, setPage }) {
                 <textarea
                 value={scratchContent}
                 onChange={(e) => setScratchContent(e.target.value)}
-                placeholder="Start writing"
+                placeholder="Start writing..."
                 ></textarea>
             </div>
 
