@@ -83,11 +83,9 @@ function NoteFormUpdate({ isLoaded }) {
     return (
         <div className="note-form">
             <form id="updateform" onSubmit={onSubmit}>
-                {
-                errors.length >= 1 && <ul hidden={errors.length === 0}>
+                <ul className="error-list-note" hidden={errors.length === 0}>
                     {errors.map((error, i) => <li key={i}>{error}</li>)}
                 </ul>
-                }
                 <div id="note-form-header">
                     <select
                         id="notebook-select"
@@ -110,7 +108,7 @@ function NoteFormUpdate({ isLoaded }) {
                     type="text"
                     value={name}
                     onChange={e => setName(e.target.value)}
-                    required
+                    // required
                     placeholder="Title"
                 />
                 <textarea

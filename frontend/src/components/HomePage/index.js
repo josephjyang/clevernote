@@ -21,12 +21,12 @@ function HomePage({ isLoaded }) {
             <div id="container">
                 <div id="homepage">
                     <h1>
-                        Save your ideas, share your gifts
+                        Save your ideas, shock the world
                     </h1>
                     <h3>
                         Write down all of your brilliant ideas so that you don't miss out on sharing them with the world.
                     <br />
-                        Organize your business plans, jokes, solutions, and more all in one place.
+                        Organize your business plans, jokes, solutions, and more, all in one place.
                     </h3>
                     <NavLink to="/signup">
                         <button id="sign-up-btn">

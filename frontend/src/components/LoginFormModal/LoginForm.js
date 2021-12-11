@@ -31,23 +31,23 @@ function LoginForm() {
     return (
         <div className="login-form">
             <img src="/images/logo.png" alt="clevernote-logo" id="sign-up-logo" />
-            <h1>Clevernote</h1>
+            <h1 id="title">Clevernote</h1>
             <form onSubmit={onSubmit}>
-                <ul hidden={errors.length === 0}>
+                <ul className="error-list" hidden={errors.length === 0}>
                     {errors.map((error, i) => <li key={i}>{error}</li>)}
                 </ul>
                 <input
                     type="text"
                     value={credential}
                     onChange={(e) => setCredential(e.target.value)}
-                    required
+                    // required
                     placeholder="Email address or username"
                 />
                 <input
                     type="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    required
+                    // required
                     placeholder="Password"
                 />
                 <button type="submit">Log In</button>

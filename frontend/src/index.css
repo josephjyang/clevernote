@@ -7,3 +7,22 @@ body {
 button {
     font-family: 'DM Sans', sans-serif;
 }
+
+.error-list {
+    display: grid;
+    grid-template-columns: 25% 75%;
+    width: 100%;
+    padding-left: 0;
+    font-size: 14px;
+    color: red;
+}
+
+.error-list li {
+    display:block;
+    flex-direction: row;
+    justify-content: flex-start;
+    margin: 0;
+    overflow-x: visible;
+    max-height: 20px;
+    white-space: nowrap;
+}

@@ -81,7 +81,7 @@ function Notebooks({ isLoaded }) {
                         return (
                             <div className="notebook-row" key={notebook.id}>
                                 <div onClick={() => setNotebookId(notebook.id)} className="notebook-cell">
-                                    {notebook.name} ({notebook.Notes.length})
+                                    {notebook.name} ({notebook.Notes ? notebook.Notes.length : 0})
                                 </div>
                                 <div className="notebook-cell time">
                                     {`${createDate.toLocaleDateString('en-US', options)}`}

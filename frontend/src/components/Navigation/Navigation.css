@@ -117,11 +117,18 @@ nav {
     margin-left: 20px;
 }
 
+
+
 #title {
     font-size: 30px;
     font-weight: bold;
     margin-left: 10px;
     font-family: 'Crete Round', serif;
+    color: black;
+}
+
+#title:hover {
+    color: blue;
 }
 
 ul {

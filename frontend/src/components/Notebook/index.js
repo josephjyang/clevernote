@@ -7,6 +7,7 @@ import { DeleteModal } from '../../context/DeleteModal';
 import NotebookFormUpdate from '../NotebookFormUpdate';
 import NotebookFormDelete from '../NotebookFormDelete';
 import NoteFormUpdate from '../NoteFormUpdate';
+import NoteForm from '../NoteForm';
 import { loadNotes } from '../../store/notes'
 import { loadNotebooks } from '../../store/notebooks'
 import { usePage } from '../../context/ClevernoteContext';
@@ -121,6 +122,7 @@ function Notebook({ isLoaded }) {
                     })}
                 </div>
                 {noteId && <NoteFormUpdate />}
+                {!noteId && <NoteForm />}
             </div>
         </>
     );

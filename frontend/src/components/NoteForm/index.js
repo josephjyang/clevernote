@@ -46,14 +46,13 @@ function NoteForm({ isLoaded, setNotebookId, notebookId }) {
         <>
             <div className="note-form">
                 <form onSubmit={onSubmit}>
-                    {
-                        errors.length >= 1 && <ul hidden={errors.length === 0}>
+                    <ul className="error-list-note" hidden={errors.length === 0}>
                             {errors.map((error, i) => <li key={i}>{error}</li>)}
-                        </ul>
-                    }
+                    </ul>
                     <div id="note-form-header">
                         <select
                         id="notebook-select"
+                        value={notebookId}
                         onChange={e => setNotebookId(e.target.value)}
                         >
                             <option value="">Select a notebook</option>
@@ -67,7 +66,7 @@ function NoteForm({ isLoaded, setNotebookId, notebookId }) {
                         type="text"
                         value={name}
                         onChange={e => setName(e.target.value)}
-                        required
+                        // required
                         placeholder="Title"
                     />
                     <textarea

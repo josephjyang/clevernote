@@ -38,7 +38,7 @@ function NotebookFormUpdate({ id, hideForm }) {
     return (
         <div className="notebook-form">
             <form onSubmit={onSubmit}>
-                <ul hidden={errors.length === 0}>
+                <ul className="error-list-notebook" hidden={errors.length === 0}>
                     {errors.map((error, i) => <li key={i}>{error}</li>)}
                 </ul>
                 <p>Update Notebook Name:</p>
@@ -46,7 +46,7 @@ function NotebookFormUpdate({ id, hideForm }) {
                     type="text"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    required
+                    // required
                     placeholder="Enter name"
                 />
                 <button type="submit">Update Notebook</button>

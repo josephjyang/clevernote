@@ -23,11 +23,7 @@ function NotebookFormNew({ hideForm }) {
             userId: sessionUser.id
         }
 
-        const newNotebook = await dispatch(notebookActions.createNotebook(payload))
-            .catch(async res => {
-                const data = await res.json();
-                if (data && data.errors) setErrors(data.errors);
-            })
+        const newNotebook = await dispatch(notebookActions.createNotebook(payload));
 
         if (newNotebook) hideForm();
     }
@@ -35,7 +31,7 @@ function NotebookFormNew({ hideForm }) {
     return (
         <div className="notebook-form">
             <form onSubmit={onSubmit}>
-                <ul hidden={errors.length === 0}>
+                <ul className="error-list-notebook" hidden={errors.length === 0}>
                     {errors.map((error, i) => <li key={i}>{error}</li>)}
                 </ul>
                 <p>Enter Notebook Name:</p>
@@ -43,7 +39,7 @@ function NotebookFormNew({ hideForm }) {
                     type="text"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    required
+                    // required
                     placeholder="Enter name"
                 />
                 <button type="submit">Create Notebook</button>
