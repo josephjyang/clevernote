@@ -43,8 +43,8 @@ In the root directory, run `npm install` to install dependencies for both the fr
   - Run `heroku run npm run sequelize db:seed:all`
   
 ## Wiki Links
-[Features](https://github.com/josephjyang/clevernote/wiki/Features)
-[React Components List](https://github.com/josephjyang/clevernote/wiki/React-Components-list)
-[Database Schema](https://github.com/josephjyang/clevernote/wiki/Database-Schema)
-[Frontend Routes](https://github.com/josephjyang/clevernote/wiki/Frontend-Routes)
-[API Routes]
+- [Features](https://github.com/josephjyang/clevernote/wiki/Features)
+- [React Components List](https://github.com/josephjyang/clevernote/wiki/React-Components-list)
+- [Database Schema](https://github.com/josephjyang/clevernote/wiki/Database-Schema)
+- [Frontend Routes](https://github.com/josephjyang/clevernote/wiki/Frontend-Routes)
+- [API Routes]
