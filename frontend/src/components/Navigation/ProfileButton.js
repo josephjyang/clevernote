@@ -54,9 +54,9 @@ function ProfileButton({user}) {
                         <span id="email">{user.email}</span>
                     </div>
                 </li>
-                {/* <li onClick={() => setPage("account")}>
+                <li onClick={() => setPage("account")}>
                     Account info...
-                </li> */}
+                </li>
                 {/* <li>
                     Preferences
                 </li> */}

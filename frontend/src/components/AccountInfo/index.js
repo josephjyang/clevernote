@@ -2,19 +2,25 @@ import React, { useState } from 'react';
 import * as sessionActions from '../../store/session';
 import { useDispatch, useSelector } from 'react-redux';
 import { Redirect, useHistory } from 'react-router-dom';
+import { FormModal } from '../../context/FormModal';
+import NotebookFormNew from '../NotebookFormNew';
+import './AccountInfo.css'
+import EnterPassword from '../EnterPassword';
 
 function AccountInfo({ isLoaded }) {
     const dispatch = useDispatch();
     const user = useSelector(state => state.session.user);
 
     const [errors, setErrors] = useState([]);
-    const [firstName, setFirstName] = useState(user.firstName);
-    const [lastName, setLastName] = useState(user.lastName);
-    const [email, setEmail] = useState(user.email);
-    const [username, setUsername] = useState(user.username);
+    const [firstName, setFirstName] = useState(user ? user.firstName : null);
+    const [lastName, setLastName] = useState(user ? user.lastName : null);
+    const [email, setEmail] = useState(user ? user.email : null);
+    const [username, setUsername] = useState(user ? user.username : null);
     const [password, setPassword] = useState();
     const [confirmPassword, setConfirmPassword] = useState();
     const history = useHistory();
+    const [showForm, setShowForm] = useState(false);
+    const [use, setUse] = useState(false);
 
     if (!user) return (
         <Redirect to="/" />
@@ -35,13 +41,13 @@ function AccountInfo({ isLoaded }) {
     }
 
     return (
-        <div className="signup-form">
-            <img src="/images/logo.png" alt="clevernote-logo" id="sign-up-logo" />
-            <h1>Clevernote</h1>
+        <div className="account-info">
+            <h2>My Account</h2>
             <form onSubmit={onSubmit}>
                 {errors.length > 0 && <ul>
                     {errors.map((error, i) => <li key={i}>{error}</li>)}
                 </ul>}
+                <label>Email: </label>
                 <input
                     type="text"
                     value={email}
@@ -49,6 +55,7 @@ function AccountInfo({ isLoaded }) {
                     required
                     placeholder="Email address"
                 />
+                <label>Username: </label>
                 <input
                     type="text"
                     value={username}
@@ -56,6 +63,7 @@ function AccountInfo({ isLoaded }) {
                     required
                     placeholder="Username"
                 />
+                <label>First Name: </label>
                 <input
                     type="text"
                     value={firstName}
@@ -63,6 +71,7 @@ function AccountInfo({ isLoaded }) {
                     required
                     placeholder="First Name"
                 />
+                <label>Last Name: </label>
                 <input
                     type="text"
                     value={lastName}
@@ -70,22 +79,20 @@ function AccountInfo({ isLoaded }) {
                     required
                     placeholder="Last Name"
                 />
-                <input
-                    type="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                    placeholder="Password"
-                />
-                <input
-                    type="password"
-                    value={confirmPassword}
-                    onChange={(e) => setConfirmPassword(e.target.value)}
-                    required
-                    placeholder="Confirm Password"
-                />
-                <button type="submit">Update Account</button>
             </form>
+            <button onClick={() => {
+                setUse("update");
+                setShowForm(true);
+            }}>Update Account</button>
+            <button id="delete-account" onClick={() => {
+                setUse("delete");
+                setShowForm(true);
+            }}>Delete Account</button>
+            {showForm && (
+                <FormModal onClose={() => setShowForm(false)}>
+                    <EnterPassword use={use} email={email} username={username} firstName={firstName} lastName={lastName} hideForm={() => setShowForm(false)} />
+                </FormModal>
+            )}
         </div>
     )
 }

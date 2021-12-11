@@ -90,7 +90,7 @@ function Notebooks({ isLoaded }) {
                                     {`${updateDate.toLocaleDateString('en-US', options)}`}
                                 </div>
                                 <div onClick={() => openActions(notebook.id)} className="notebook-cell">
-                                    <i class="fas fa-ellipsis-h"></i>
+                                    <i className="fas fa-ellipsis-h"></i>
                                     {showButtons === notebook.id && 
                                         <div className="notebook-actions-dropdown">
                                             <button id="edit-notebook-link" onClick={() => setShowForm(notebook.id)}>Rename Notebook</button>

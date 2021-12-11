@@ -18,6 +18,7 @@ function HomePage({ isLoaded }) {
     if (!sessionUser) return (
         <>
             <div id="container">
+                <Navigation isLoaded={isLoaded} />
                 <div id="homepage">
                     <h1>
                         Save your ideas, shock the world
@@ -27,7 +28,7 @@ function HomePage({ isLoaded }) {
                     <br />
                         Organize your business plans, jokes, solutions, and more, all in one place.
                     </h3>
-                    <NavLink to="/signup" isLoaded={isLoaded}>
+                    <NavLink to="/signup">
                         <button id="sign-up-btn">
                             Sign up for free
                         </button>

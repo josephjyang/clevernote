@@ -64,15 +64,34 @@ router.post('/', validateSignup, asyncHandler(async(req, res) => {
     return res.json({ user })
 }))
 
-router.put('/:id', validateSignup, asyncHandler(async (req, res) => {
+router.put('/:id', validateSignup, asyncHandler(async (req, res, next) => {
     const id = req.params.id
     const { email, password, username, firstName, lastName } = req.body;
-    const user = await User.findByPk(id)
-    const updatedUser = await user.update({ id, email, username, password, firstName, lastName });
+    const user = await User.findByPk(id);
+    const oldUser = await User.login({ credential: user.username, password: password })
+
+    if (!oldUser) {
+        const err = new Error('Password failed');
+        err.status = 401;
+        err.title = 'Password failed';
+        err.errors = ['The provided password was incorrect.'];
+        return next(err);
+    }
+
+    const updatedUser = await oldUser.update({ email, username, firstName, lastName });
 
     await setTokenCookie(res, updatedUser);
 
     return res.json({ updatedUser });
+}))
+
+router.delete('/:id', asyncHandler(async (req, res) => {
+    const id = req.params.id
+    const user = await User.findByPk(id);
+    await user.destroy();
+
+    res.clearCookie('token');
+    return res.json({ message: 'success' })
 }))
 
 router.get('/:id/notes', requireAuth, asyncHandler(async (req, res) => {

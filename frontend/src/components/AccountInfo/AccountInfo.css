@@ -1,0 +1,27 @@
+#delete-account {
+    background-color: red;
+    margin-top: 10px;
+    height: 40px;
+}
+
+.account-info {
+    width: 35vw;
+    height: 100vh;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    padding: 5vh 0;
+    box-sizing: border-box;
+}
+
+.account-info h2 {
+    margin: 20px 0;
+}
+
+.account-info button {
+    height: 40px;
+    border-radius: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    background-color: blue;
+    color: white;
+} 

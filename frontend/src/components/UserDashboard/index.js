@@ -59,7 +59,7 @@ function UserDashBoard({ isLoaded, setPage }) {
 
     return (
         <div id="dashboard-container">
-            <img src="https://www.nawpic.com/media/2020/mountain-nawpic-5.jpg" />
+            <img alt="background" src="https://www.nawpic.com/media/2020/mountain-nawpic-5.jpg" />
             <div id="dash-header">
                 <p>Good {timePeriod}, {sessionUser.firstName}!</p>
                 <h4>

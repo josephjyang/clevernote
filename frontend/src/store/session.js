@@ -56,7 +56,7 @@ export const signup = user => async dispatch => {
 }
 
 export const updateUser = user => async dispatch => {
-    // console.log(user);
+    console.log(user);
     const { id, username, firstName, lastName, email, password } = user;
     const res = await csrfFetch(`/api/users/${id}`, {
         method: 'PUT',
@@ -71,8 +71,17 @@ export const updateUser = user => async dispatch => {
     });
     const data = await res.json();
     console.log(data);
-    dispatch(setUser(data.user));
+    dispatch(setUser(data.updatedUser));
     return res;
+}
+
+export const deleteUser = user => async dispatch => {
+    const res = await csrfFetch(`/api/users/${user.id}`, {
+        method: 'DELETE',
+    });
+    const data = await res.json();
+    dispatch(setUser(data.updatedUser));
+    return data;
 }
 
 export const logout = () => async dispatch => {
