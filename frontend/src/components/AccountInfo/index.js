@@ -1,9 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import * as notesActions from '../../store/notes';
+import React, { useState } from 'react';
 import * as sessionActions from '../../store/session';
 import { useDispatch, useSelector } from 'react-redux';
 import { Redirect, useHistory } from 'react-router-dom';
-import { usePage } from '../../context/ClevernoteContext';
 
 function AccountInfo({ isLoaded }) {
     const dispatch = useDispatch();

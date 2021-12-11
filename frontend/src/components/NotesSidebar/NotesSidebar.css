@@ -57,7 +57,7 @@
 
 .selected > #note-block-content,
 .selected > #note-update-time {
-    color: rgb(230, 230, 230);
+    color: black;
 }
 
 .note-block:hover > #note-block-content,

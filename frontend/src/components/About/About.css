@@ -1,0 +1,37 @@
+.social-logo {
+    height: 40px;
+    display: inline;
+}
+
+.profile-pic {
+    border-radius: 50%;
+    width: 200px;
+}
+
+#about-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 500px;
+    height: 80vh;
+}
+
+#clevernote-info {
+    text-align: center;
+}
+
+.social-links {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+}
+
+#about-me {
+    margin-top: 50px;
+}
+
+.social-links img {
+    margin: 10px;
+}

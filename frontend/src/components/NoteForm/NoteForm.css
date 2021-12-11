@@ -23,7 +23,7 @@
 .error-list-note {
     display: flex;
     flex-direction: row;
-    width: 100%;
+    width: 80%;
     padding-left: 0;
     font-size: 14px;
     color: red;

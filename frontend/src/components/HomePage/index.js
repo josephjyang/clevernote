@@ -41,6 +41,11 @@ function HomePage({ isLoaded }) {
                             </Modal>
                         )}
                     </p>
+                    <div id="homepage-footer">
+                        <NavLink exact to="/about">
+                            <span id="about">ABOUT CLEVERNOTE</span>
+                        </NavLink>
+                    </div>
                 </div>
             </div>
         </>
