@@ -20,7 +20,6 @@ function NoteFormUpdate({ isLoaded }) {
     const [errors, setErrors] = useState([]);
     const [name, setName] = useState(note.name);
     const [content, setContent] = useState(note.content);
-    // let [notebook, setNotebook] = useState(note.notebookId || null);
     const [showActions, setShowActions] = useState(false);
     
     useEffect(() => {
@@ -52,14 +51,23 @@ function NoteFormUpdate({ isLoaded }) {
 
     const onSubmit = async e => {
         e.preventDefault();
-
-        if (notebookId === "select") notebookId = null;
         
-        const payload = {
-            ...note,
-            name,
-            content,
-            notebookId
+        let payload;
+
+        if (notebookId === "select") {
+            payload = {
+                ...note,
+                name,
+                content,
+                notebookId: null
+            }
+        } else {
+            payload = {
+                ...note,
+                name,
+                content,
+                notebookId
+            }
         }
 
         const updatedNote = await dispatch(notesActions.updateNote(payload))
@@ -109,7 +117,7 @@ function NoteFormUpdate({ isLoaded }) {
                     type="text"
                     value={name}
                     onChange={e => setName(e.target.value)}
-                    // required
+                    required
                     placeholder="Title"
                 />
                 <textarea

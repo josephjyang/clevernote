@@ -8,6 +8,8 @@ button {
     font-family: 'DM Sans', sans-serif;
 }
 
+
+
 .error-list {
     display: grid;
     grid-template-columns: 25% 75%;

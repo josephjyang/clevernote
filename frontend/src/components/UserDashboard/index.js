@@ -3,11 +3,14 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Redirect } from 'react-router-dom'
 import { usePage } from '../../context/ClevernoteContext';
 import { loadNotes } from '../../store/notes'
+import { FormModal } from '../../context/FormModal';
+import NotebookFormNew from '../NotebookFormNew';
 import './UserDashboard.css'
 
 function UserDashBoard({ isLoaded, setPage }) {
     const { setNoteId, setNotebookId, scratchContent, setScratchContent } = usePage()
     const [showButtons, setShowButtons] = useState(false);
+    const [showForm, setShowForm] = useState(false);
     const sessionUser = useSelector(state => state.session.user);
     const notes = useSelector(state => state.notes)
     const notebooks = useSelector(state => state.notebooks);
@@ -74,7 +77,7 @@ function UserDashBoard({ isLoaded, setPage }) {
                     </div>
                 </div>
                 <div id="note-container">
-                    {userNotes.map(note => {
+                    {userNotes.length > 0 ? userNotes.map(note => {
                         const date = new Date(note.updatedAt);
                         const options = { year: 'numeric', month: 'short', day: 'numeric' };
                         return (
@@ -95,13 +98,24 @@ function UserDashBoard({ isLoaded, setPage }) {
                                 </div>
                             </div>
                         )
-                    })}
+                    }) : (
+                    <div onClick={() => {
+                        setPage("notes")
+                        setNoteId()
+                    }} className="note">
+                        <div id="first-note">
+                            <h3>
+                                Write your first Clevernote!
+                            </h3>
+                        </div>
+                    </div>
+                        )}
                 </div>
             </div>
         <div id="bottom-container">
             <div id="notebooks-container">
                 <h3>NOTEBOOKS</h3>
-                {userNotebooks.map(notebook => {
+                {userNotebooks.length > 0 ? userNotebooks.map(notebook => {
                     const date = new Date(notebook.updatedAt);
                     const options = { year: 'numeric', month: 'short', day: 'numeric' };
                     return (
@@ -117,7 +131,18 @@ function UserDashBoard({ isLoaded, setPage }) {
                             </p>
                         </div>
                     )
-                })}
+                }) : <div onClick = {() => setShowForm(true)
+                } className="notebook">
+                        <p className="notebook-notecount">
+                            Create your first notebook!
+                        </p>
+                    </div>
+                    }
+                    {showForm && (
+                        <FormModal onClose={() => setShowForm(false)}>
+                            <NotebookFormNew hideForm={() => setShowForm(false)} />
+                        </FormModal>
+                    )}
             </div>
             <div id="scratchpad-container">
                 <div id="scratchpad-header">

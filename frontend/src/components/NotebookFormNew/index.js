@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import * as notebookActions from '../../store/notebooks';
 import { useDispatch, useSelector } from 'react-redux';
-import { Redirect, useHistory } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import './NotebookFormNew.css'
 
 function NotebookFormNew({ hideForm }) {
@@ -39,7 +39,7 @@ function NotebookFormNew({ hideForm }) {
                     type="text"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    // required
+                    required
                     placeholder="Enter name"
                 />
                 <button type="submit">Create Notebook</button>

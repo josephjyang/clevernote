@@ -45,42 +45,42 @@ function SignupFormPage() {
                     type="text"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    // required
+                    required
                     placeholder="Email address"
                 />
                 <input
                     type="text"
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
-                    // required
+                    required
                     placeholder="Username"
                 />
                 <input
                     type="text"
                     value={firstName}
                     onChange={(e) => setfirstName(e.target.value)}
-                    // required
+                    required
                     placeholder="First Name"
                 />
                 <input
                     type="text"
                     value={lastName}
                     onChange={(e) => setlastName(e.target.value)}
-                    // required
+                    required
                     placeholder="Last Name"
                 />
                 <input
                     type="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    // required
+                    required
                     placeholder="Password"
                 />
                 <input
                     type="password"
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
-                    // required
+                    required
                     placeholder="Confirm Password"
                 />
                 <button type="submit">Create Account</button>

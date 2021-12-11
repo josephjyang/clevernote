@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { loadNotebooks } from '../../store/notebooks';
 import { Redirect } from 'react-router-dom';
 import { usePage } from '../../context/ClevernoteContext';
-import NewNotebookForm from '../NotebookFormNew';
+import NotebookFormNew from '../NotebookFormNew';
 import Notebook from '../Notebook';
 import { FormModal } from '../../context/FormModal';
 import { DeleteModal } from '../../context/DeleteModal';
@@ -63,7 +63,7 @@ function Notebooks({ isLoaded }) {
                     <button id="new-notebook" onClick={() => setShowForm(true)}><i class="fas fa-plus"></i>New Notebook</button>
                     {showForm && (
                         <FormModal onClose={() => setShowForm(false)}>
-                            <NewNotebookForm hideForm={() => setShowForm(false)} />
+                            <NotebookFormNew hideForm={() => setShowForm(false)} />
                         </FormModal>
                     )}
                 </div>

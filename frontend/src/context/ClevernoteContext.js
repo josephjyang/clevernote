@@ -10,7 +10,7 @@ export const usePage = () => {
 export default function ClevernoteProvider({ children }) {
     const [page, setPage] = useState('dashboard');
     const [noteId, setNoteId] = useState(false);
-    const [notebookId, setNotebookId] = useState(false);
+    const [notebookId, setNotebookId] = useState('select');
     const [scratchContent, setScratchContent] = useState();
 
     return (

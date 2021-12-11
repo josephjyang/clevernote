@@ -235,7 +235,8 @@ h4 {
 }
 
 .note:hover {
-    box-shadow: 0 8px 20px 0 rgba(0, 0, 0, 0.4)
+    box-shadow: 0 8px 20px 0 rgba(0, 0, 0, 0.4);
+    cursor: pointer;
 }
 
 #note-content {
@@ -270,4 +271,15 @@ h4 {
 #notes-container i {
     padding: 5px;
     border-radius: 5px;
+}
+
+#first-note {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+#first-note h3 {
+    width: 60%;
 }
