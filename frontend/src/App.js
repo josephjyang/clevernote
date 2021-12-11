@@ -1,16 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Route, Switch } from 'react-router-dom'
 import HomePage from './components/HomePage';
 import SignupFormPage from './components/SignupFormPage';
 import Dashboard from './components/Dashboard';
-import Navigation from './components/Navigation';
-import UpdateNoteForm from './components/NoteFormUpdate';
-import Notes from './components/Notes';
-import Notebooks from './components/Notebooks';
-import Notebook from './components/Notebook'
+import About from './components/About';
 import * as sessionActions from './store/session';
-import * as notebookActions from './store/notebooks'
 
 function App() {
   const dispatch = useDispatch();
@@ -21,7 +16,6 @@ function App() {
 
   return (
       <>
-        {/* <Navigation isLoaded={isLoaded} /> */}
         {isLoaded && (
           <Switch>
             <Route path="/" exact>
@@ -33,17 +27,8 @@ function App() {
             <Route path="/signup">
               <SignupFormPage isLoaded={isLoaded}/>
             </Route>
-            {/* <Route path="/notes/:noteId">
-               <UpdateNoteForm isLoaded={isLoaded}/>
-            </Route> */}
-            {/* <Route path='/notes' exact>
-              <Notes isLoaded={isLoaded} />
-            </Route> */}
-            {/* <Route path='/notebooks' exact>
-              <Notebooks isLoaded={isLoaded} />
-            </Route> */}
-            <Route path='/notebooks/:notebookId'>
-              <Notebook isLoaded={isLoaded} />
+            <Route path="/about">
+              <About isLoaded={isLoaded} />
             </Route>
           </Switch>
         )}

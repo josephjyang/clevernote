@@ -8,7 +8,7 @@ import { usePage } from '../../context/ClevernoteContext';
 import './Navigation.css'
 
 function Navigation({ isLoaded }) {
-    const { page, setPage, noteId, setNoteId, notebookId, setNotebookId } = usePage();
+    const { setPage, setNoteId, setNotebookId } = usePage();
     const sessionUser = useSelector(state => state.session.user); 
     
     let sessionLinks;
@@ -22,6 +22,7 @@ function Navigation({ isLoaded }) {
                 <div id="new-button" onClick={() => {
                     setPage("notes");
                     setNoteId(false);
+                    setNotebookId("select")
                     }}>
                     <button id="new-note-btn">
                         <i className="fas fa-plus"/>
@@ -29,20 +30,27 @@ function Navigation({ isLoaded }) {
                     </button>
                 </div>
                 <div id="navbar-links">
-                    <div className="navbar-link" onClick={() => setPage("dashboard")}>
+                    <div className="navbar-link" onClick={() => {
+                        setNoteId(null);
+                        setNotebookId(null);
+                        setPage("dashboard");
+                        }
+                        }>
                         <i className="fas fa-home"/>
                         <span>Home</span>
                     </div>
                     <div className="navbar-link" onClick={() => {
                         setPage("notes");
-                        setNoteId(false);
+                        setNoteId(null);
+                        setNotebookId(null);
                     }}>
                         <i className="fas fa-file-alt" />
                         <span>Notes</span>
                     </div>
                     <div className="navbar-link" onClick={() => {
                         setPage("notebooks");
-                        setNotebookId(false);
+                        setNotebookId(null);
+                        setNoteId(null);
                     }}>
                         <i className="fas fa-book" />
                         <span>Notebooks</span>
@@ -53,19 +61,22 @@ function Navigation({ isLoaded }) {
     } else {
         sessionLinks = (
             <div id="homenav">
-                <NavLink exact to="/">
-                    <div id="left">
-                        <img src="/images/logo.png" alt="clevernote-logo" id="logo" />
-                        <span id="title">Clevernote</span>
-                    </div>
-                </NavLink>
+                <div id="left">
+                    <NavLink exact to="/">
+                        <div id="home-links">
+                            <img src="/images/logo.png" alt="clevernote-logo" id="logo" />
+                            <span id="home-title">Clevernote</span>
+                        </div>
+                    </NavLink>
+
+                </div>
                 <div id="right">
                     <ul>
                         <li>
                             <DemoLoginButton />
                         </li>
                         <li>
-                            <NavLink exact to="/">Home</NavLink>
+                            <NavLink exact to="/" id="home-link">Home</NavLink>
                         </li>
                         <li>
                             <LoginFormModal />

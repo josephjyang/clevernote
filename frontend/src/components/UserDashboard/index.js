@@ -122,7 +122,7 @@ function UserDashBoard({ isLoaded, setPage }) {
             <div id="scratchpad-container">
                 <div id="scratchpad-header">
                     <h3>SCRATCH PAD</h3>
-                    <i onClick={() => openActions()} class="fas fa-ellipsis-h"></i>
+                    <i onClick={() => openActions()} className="fas fa-ellipsis-h"></i>
                     {showButtons &&
                         <div id="scratchpad-actions-dropdown">
                             <button onClick={() => setPage("notes")}>Convert to note</button>

@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import * as notesActions from '../../store/notes';
 import { useDispatch, useSelector } from 'react-redux';
-import { Redirect, useParams, useHistory } from 'react-router-dom';
+import { Redirect, useHistory } from 'react-router-dom';
 import { usePage } from '../../context/ClevernoteContext';
 import '../NoteForm/NoteForm.css'
 
@@ -15,19 +15,19 @@ function NoteFormUpdate({ isLoaded }) {
     userNotebooks.sort((a, b) => {
         return Date.parse(b.updatedAt) - Date.parse(a.updatedAt);
     })
-    const note = notes[noteId] || {};
+    const note = useMemo(() => notes[noteId] || {}, [noteId, notes]);
     const history = useHistory();
     const [errors, setErrors] = useState([]);
     const [name, setName] = useState(note.name);
     const [content, setContent] = useState(note.content);
-    let [notebook, setNotebook] = useState(note.notebookId || 0);
+    // let [notebook, setNotebook] = useState(note.notebookId || null);
     const [showActions, setShowActions] = useState(false);
-
+    
     useEffect(() => {
         setName(note.name || '');
         setContent(note.content || '');
-        setNotebook(note.notebookId || 0);
-    }, [note])
+        setNotebookId(note.notebookId || null);
+    }, [note, setNotebookId])
 
     const openActions = () => {
         if (showActions) return;
@@ -53,13 +53,13 @@ function NoteFormUpdate({ isLoaded }) {
     const onSubmit = async e => {
         e.preventDefault();
 
-        if (notebook === "0") notebook = null;
+        if (notebookId === "select") notebookId = null;
         
         const payload = {
             ...note,
             name,
             content,
-            notebookId: notebook
+            notebookId
         }
 
         const updatedNote = await dispatch(notesActions.updateNote(payload))
@@ -76,7 +76,8 @@ function NoteFormUpdate({ isLoaded }) {
         e.preventDefault()
 
         await dispatch(notesActions.removeNote(noteId));
-        setNoteId(false);
+        setNotebookId("select");
+        setNoteId(null);
         return history.push("/dashboard");
     }
 
@@ -89,15 +90,15 @@ function NoteFormUpdate({ isLoaded }) {
                 <div id="note-form-header">
                     <select
                         id="notebook-select"
-                        value={notebook}
-                        onChange={e => {setNotebook(e.target.value)}}
+                        value={notebookId || "select"}
+                        onChange={e => {setNotebookId(e.target.value)}}
                     >
-                        <option value="0">Select a notebook</option>
+                        <option value={"select"}>Select a notebook</option>
                         {userNotebooks.map(notebook => {
                             return <option key={notebook.id} value={notebook.id}>{notebook.name}</option>
                         })}
                     </select>
-                    <i onClick={() => openActions(true)} class="fas fa-ellipsis-h"></i>
+                    <i onClick={() => openActions(true)} className="fas fa-ellipsis-h"></i>
                     {showActions && 
                     <ul className="action-dropdown">
                         <button id="delete-note" onClick={deleteNote}>Delete Note</button>

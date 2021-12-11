@@ -109,7 +109,7 @@
 
 .selected > #notebook-block-content,
 .selected > #notebook-update-time {
-    color: rgb(230, 230, 230);
+    color: black;
 }
 
 .notebook-block {

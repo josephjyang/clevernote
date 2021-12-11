@@ -5,6 +5,28 @@
     align-items: center;
 }
 
+#left {
+    display: flex;
+    align-items: center;
+    max-width: 50vw;
+}
+
+#home-links {
+    display: flex;
+    align-items: center;
+    margin-right: 25px;
+}
+
+#home-link {
+    color: black;
+}
+
+#home-link:hover {
+    color: blue;
+}
+
+
+
 nav {
     background-color: blue;
 }
@@ -107,11 +129,6 @@ nav {
     
 }
 
-#left {
-    display: flex;
-    align-items: center;
-}
-
 #logo {
     width: 50px;
     margin-left: 20px;
@@ -119,16 +136,12 @@ nav {
 
 
 
-#title {
+#home-title {
     font-size: 30px;
     font-weight: bold;
     margin-left: 10px;
     font-family: 'Crete Round', serif;
     color: black;
-}
-
-#title:hover {
-    color: blue;
 }
 
 ul {
