@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 import * as sessionActions from '../../store/session';
 import { useDispatch, useSelector } from 'react-redux';
-import { Redirect, Link } from 'react-router-dom';
+import { Redirect, Link, NavLink } from 'react-router-dom';
+import Navigation from '../Navigation';
+import { usePage } from '../../context/ClevernoteContext';
 import './SignupForm.css'
 
-function SignupFormPage() {
+function SignupFormPage({ isLoaded }) {
+    const { setPage } = usePage();
     const dispatch = useDispatch();
     const sessionUser = useSelector(state => state.session.user);
     const [email, setEmail] = useState('');
@@ -32,60 +35,64 @@ function SignupFormPage() {
     }
 
     return (
-        <div className="signup-form">
-            <img src="/images/logo.png" alt="clevernote-logo" id="sign-up-logo" />
-            <Link to="/">
-                <h1 id="title">Clevernote</h1>
-            </Link>
-            <form onSubmit={onSubmit}>
-                {errors.length > 0 && <ul className="error-list">
-                    {errors.map((error, i) => <li key={i}>{error}</li>)}
-                </ul>}
-                <input
-                    type="text"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
-                    placeholder="Email address"
-                />
-                <input
-                    type="text"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                    required
-                    placeholder="Username"
-                />
-                <input
-                    type="text"
-                    value={firstName}
-                    onChange={(e) => setfirstName(e.target.value)}
-                    required
-                    placeholder="First Name"
-                />
-                <input
-                    type="text"
-                    value={lastName}
-                    onChange={(e) => setlastName(e.target.value)}
-                    required
-                    placeholder="Last Name"
-                />
-                <input
-                    type="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                    placeholder="Password"
-                />
-                <input
-                    type="password"
-                    value={confirmPassword}
-                    onChange={(e) => setConfirmPassword(e.target.value)}
-                    required
-                    placeholder="Confirm Password"
-                />
-                <button type="submit">Create Account</button>
-            </form>
-        </div>
+        <>
+            <div className="signup-form">
+                <img src="/images/logo.png" alt="clevernote-logo" id="sign-up-logo" />
+                <Link to="/">
+                    <h1 id="title">Clevernote</h1>
+                </Link>
+                <form onSubmit={onSubmit}>
+                    {errors.length > 0 && <ul className="error-list">
+                        {errors.map((error, i) => <li key={i}>{error}</li>)}
+                    </ul>}
+                    <input
+                        type="text"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        required
+                        placeholder="Email address"
+                    />
+                    <input
+                        type="text"
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
+                        required
+                        placeholder="Username"
+                    />
+                    <input
+                        type="text"
+                        value={firstName}
+                        onChange={(e) => setfirstName(e.target.value)}
+                        required
+                        placeholder="First Name"
+                    />
+                    <input
+                        type="text"
+                        value={lastName}
+                        onChange={(e) => setlastName(e.target.value)}
+                        required
+                        placeholder="Last Name"
+                    />
+                    <input
+                        type="password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        required
+                        placeholder="Password"
+                    />
+                    <input
+                        type="password"
+                        value={confirmPassword}
+                        onChange={(e) => setConfirmPassword(e.target.value)}
+                        required
+                        placeholder="Confirm Password"
+                    />
+                    <button type="submit">Create Account</button>
+                </form>
+            </div>
+            
+
+        </>
     )
 }
 

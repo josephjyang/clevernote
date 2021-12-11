@@ -37,7 +37,6 @@ function Dashboard({ isLoaded }) {
 
     return (
         <div id="content">
-            <Navigation setPage={setPage} isLoaded={isLoaded} />
             {isLoaded && (
                 page === "dashboard" && (
                     <UserDashBoard setPage={setPage} isLoaded={isLoaded} />
