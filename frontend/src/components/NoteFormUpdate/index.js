@@ -117,6 +117,7 @@ function NoteFormUpdate({ isLoaded }) {
                     onChange={(e) => setContent(e.target.value)}
                     rows={10}
                     cols={5}
+                    placeholder="Start writing..."
                 />
                 <div className="footer">
                     <button id="new-note" type="submit">Save Note</button>

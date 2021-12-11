@@ -73,7 +73,7 @@ function NoteForm({ isLoaded, setNotebookId, notebookId }) {
                         id="note-form-content"
                         value={content}
                         onChange={(e) => setContent(e.target.value)}
-                        placeholder="Start writing"
+                        placeholder="Start writing..."
                     />
                     <div className="footer">
                         <button id="new-note" type="submit">Save Note</button>
