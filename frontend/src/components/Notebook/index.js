@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Redirect, Link, useHistory, useParams } from 'react-router-dom';
+import { Redirect, useHistory } from 'react-router-dom';
 import { loadNotebookNotes } from '../../store/notes';
 import { FormModal } from '../../context/FormModal';
 import { DeleteModal } from '../../context/DeleteModal';

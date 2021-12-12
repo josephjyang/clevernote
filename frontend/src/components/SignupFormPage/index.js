@@ -1,13 +1,10 @@
 import React, { useState } from 'react';
 import * as sessionActions from '../../store/session';
 import { useDispatch, useSelector } from 'react-redux';
-import { Redirect, Link, NavLink } from 'react-router-dom';
-import Navigation from '../Navigation';
-import { usePage } from '../../context/ClevernoteContext';
+import { Redirect } from 'react-router-dom';
 import './SignupForm.css'
 
 function SignupFormPage({ isLoaded }) {
-    const { setPage } = usePage();
     const dispatch = useDispatch();
     const sessionUser = useSelector(state => state.session.user);
     const [email, setEmail] = useState('');

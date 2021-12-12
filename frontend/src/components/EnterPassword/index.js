@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import * as notebookActions from '../../store/notebooks';
 import * as sessionActions from '../../store/session';
 import { useDispatch, useSelector } from 'react-redux';
 import { Redirect } from 'react-router-dom';

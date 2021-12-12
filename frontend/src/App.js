@@ -2,10 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { Route, Switch } from 'react-router-dom'
 import HomePage from './components/HomePage';
-import SignupFormPage from './components/SignupFormPage';
 import Dashboard from './components/Dashboard';
-import About from './components/About';
-import Navigation from './components/Navigation';
 import * as sessionActions from './store/session';
 
 function App() {

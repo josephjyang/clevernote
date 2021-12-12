@@ -7,7 +7,7 @@ import { clearNotebooks } from "../../store/notebooks"
 import { usePage } from "../../context/ClevernoteContext"
 
 function ProfileButton({user}) {
-    const { page, setPage } = usePage();
+    const { setPage } = usePage();
     const dispatch = useDispatch();
     const [showMenu, setShowMenu] = useState(false)
 
