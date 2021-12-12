@@ -1,3 +1,4 @@
+import { useReducer } from "react";
 import { csrfFetch } from "./csrf";
 
 const LOAD_NOTES = "notes/LOAD_NOTES";
@@ -71,6 +72,14 @@ export const removeNote = id => async dispatch => {
 
 export const loadNotes = user => async dispatch => {
     const res = await csrfFetch(`/api/users/${user.id}/notes`);
+    const data = await res.json();
+    dispatch(getNotes(user, data));
+    return res;
+}
+
+export const searchNotes = ({user, searchTerms}) => async dispatch => {
+    console.log(searchTerms);
+    const res = await csrfFetch(`/api/notes/search`);
     const data = await res.json();
     dispatch(getNotes(user, data));
     return res;

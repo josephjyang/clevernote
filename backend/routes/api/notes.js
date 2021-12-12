@@ -36,4 +36,16 @@ router.delete('/:id', requireAuth, asyncHandler(async (req, res) => {
     return res.end();
 }))
 
+router.get('/search', (req, res) => {
+    console.log("test")
+    let { term } = req.query;
+    console.log(term);
+    term = term.toLowerCase();
+
+    const notes = Note.findAll({ where: { content: { [Op.like]: `%${term}%` } } })
+        .catch(err => res.render('error', { error: err }));
+    
+    return res.json(notes);
+});
+
 module.exports = router;
