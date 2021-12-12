@@ -55,7 +55,7 @@ function ProfileButton({user}) {
                     </div>
                 </li>
                 <li onClick={() => setPage("account")}>
-                    Account info...
+                    <button id="account-info">Account info...</button>
                 </li>
                 {/* <li>
                     Preferences

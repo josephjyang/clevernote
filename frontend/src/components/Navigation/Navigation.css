@@ -285,6 +285,6 @@ a:hover {
     height: 25px;
 }
 
-#logout:hover {
+.profile-dropdown button:hover {
     background-color: grey;
 }

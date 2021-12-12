@@ -2,8 +2,11 @@ import React, { useState } from 'react';
 import * as sessionActions from '../../store/session';
 import { useDispatch, useSelector } from 'react-redux';
 import { Redirect } from 'react-router-dom';
+import { usePage } from '../../context/ClevernoteContext';
+import './EnterPassword.css'
 
 function EnterPassword({ hideForm, use, email, username, firstName, lastName }) {
+    const { setPage } = usePage();
     const dispatch = useDispatch();
     const sessionUser = useSelector(state => state.session.user);
     const [password, setPassword] = useState('');
@@ -26,14 +29,17 @@ function EnterPassword({ hideForm, use, email, username, firstName, lastName }) 
             if (updatedUser) hideForm()
         } else if (use === "delete") {
             e.preventDefault();
-            if (window.confirm(`Are you sure you want to delete your account, "${sessionUser.firstName}"?`)) {
-                return dispatch(sessionActions.deleteUser({id: sessionUser.id, username, password}))
+            if (window.confirm(`Are you sure you want to delete your account, ${sessionUser.firstName}?`)) {
+                const result = dispatch(sessionActions.deleteUser({id: sessionUser.id, username, password}))
                     .catch(async res => {
                         const data = await res.json();
                         if (data && data.errors) setErrors(data.errors);
                     })
+                if (result.ok) {
+                    setPage('dashboard');
+                    hideForm();
+                }
             }
-            // hideForm();
         }
     }
 
