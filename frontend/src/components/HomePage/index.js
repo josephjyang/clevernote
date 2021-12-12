@@ -4,11 +4,13 @@ import { NavLink, Redirect } from 'react-router-dom';
 import { Modal } from "../../context/Modal"
 import LoginForm from '../LoginFormModal/LoginForm';
 import Navigation from '../Navigation';
+import SignupFormPage from '../SignupFormPage';
+import About from '../About';
 import './HomePage.css'
 
 function HomePage({ isLoaded }) {
     const sessionUser = useSelector(state => state.session.user);
-
+    const [showSignup, setShowSignup] = useState(false);
     const [showModal, setShowModal] = useState(false);
 
     if (sessionUser) return (
@@ -18,7 +20,8 @@ function HomePage({ isLoaded }) {
     if (!sessionUser) return (
         <>
             <div id="container">
-                <Navigation isLoaded={isLoaded} />
+                <Navigation setShowSignup={setShowSignup} isLoaded={isLoaded} />
+                {!showSignup &&
                 <div id="homepage">
                     <h1>
                         Save your ideas, shock the world
@@ -28,11 +31,11 @@ function HomePage({ isLoaded }) {
                     <br />
                         Organize your business plans, jokes, solutions, and more, all in one place.
                     </h3>
-                    <NavLink to="/signup">
+                    <div onClick={() => setShowSignup("signup")}>
                         <button id="sign-up-btn">
                             Sign up for free
                         </button>
-                    </NavLink>
+                    </div>
                     <p id="log-in-text">
                         <button id="log-in-link" onClick={() => setShowModal(true)}>Already have an account? Log in</button>
                         {showModal && (
@@ -41,12 +44,11 @@ function HomePage({ isLoaded }) {
                             </Modal>
                         )}
                     </p>
-                    <div id="homepage-footer">
-                        <NavLink exact to="/about">
-                            <span id="about">ABOUT CLEVERNOTE</span>
-                        </NavLink>
-                    </div>
                 </div>
+                }
+
+                {showSignup === "signup" && <SignupFormPage />}
+                {showSignup === "about" && <About setShowSignup={setShowSignup}/>}
             </div>
         </>
     );

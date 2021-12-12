@@ -85,9 +85,19 @@ router.put('/:id', validateSignup, asyncHandler(async (req, res, next) => {
     return res.json({ updatedUser });
 }))
 
-router.delete('/:id', asyncHandler(async (req, res) => {
+router.delete('/:id', asyncHandler(async (req, res, next) => {
     const id = req.params.id
     const user = await User.findByPk(id);
+    const { password, username } = req.body;
+    const oldUser = await User.login({ credential: user.username, password: password })
+
+    if (!oldUser) {
+        const err = new Error('Password failed');
+        err.status = 401;
+        err.title = 'Password failed';
+        err.errors = ['The provided password was incorrect.'];
+        return next(err);
+    }
     await user.destroy();
 
     res.clearCookie('token');

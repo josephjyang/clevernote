@@ -37,10 +37,8 @@ function SignupFormPage({ isLoaded }) {
     return (
         <>
             <div className="signup-form">
-                <img src="/images/logo.png" alt="clevernote-logo" id="sign-up-logo" />
-                <Link to="/">
-                    <h1 id="title">Clevernote</h1>
-                </Link>
+                <h1 id="title">Clevernote</h1>
+                <h3 id="sign-up-text">Sign up for an account</h3>
                 <form onSubmit={onSubmit}>
                     {errors.length > 0 && <ul className="error-list">
                         {errors.map((error, i) => <li key={i}>{error}</li>)}
@@ -90,8 +88,6 @@ function SignupFormPage({ isLoaded }) {
                     <button type="submit">Create Account</button>
                 </form>
             </div>
-            
-
         </>
     )
 }

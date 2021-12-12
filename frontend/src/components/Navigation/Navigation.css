@@ -5,6 +5,7 @@
     align-items: center;
     position: fixed;
     top: 10px;
+    left: 0px;
     width: 100vw;
 }
 
@@ -175,11 +176,14 @@ a:hover {
     color: blue;
     padding: 5px 20px;
     border-radius: 5px;
+    background-color: white;
+    font-size: 16px;
 }
 
 #signup:hover {
     border: rgb(0, 110, 255) solid 2px;
     color: rgb(0, 110, 255);
+    cursor: pointer;
 }
 
 #profile-icon {

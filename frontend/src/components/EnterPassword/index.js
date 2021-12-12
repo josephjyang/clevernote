@@ -28,7 +28,7 @@ function EnterPassword({ hideForm, use, email, username, firstName, lastName }) 
         } else if (use === "delete") {
             e.preventDefault();
             if (window.confirm(`Are you sure you want to delete your account, "${sessionUser.firstName}"?`)) {
-                return dispatch(sessionActions.deleteUser(sessionUser))
+                return dispatch(sessionActions.deleteUser({id: sessionUser.id, username, password}))
                     .catch(async res => {
                         const data = await res.json();
                         if (data && data.errors) setErrors(data.errors);

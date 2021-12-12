@@ -25,12 +25,6 @@ function App() {
             <Route path='/dashboard' exact>
               <Dashboard isLoaded={isLoaded}/>
             </Route>
-            <Route path="/signup">
-              <SignupFormPage isLoaded={isLoaded}/>
-            </Route>
-            <Route path="/about">
-              <About isLoaded={isLoaded} />
-            </Route>
           </Switch>
         )}
       </>

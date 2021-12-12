@@ -7,7 +7,7 @@ import LoginFormModal from '../LoginFormModal';
 import { usePage } from '../../context/ClevernoteContext';
 import './Navigation.css'
 
-function Navigation({ isLoaded }) {
+function Navigation({ isLoaded, setShowSignup }) {
     const { setPage, setNoteId, setNotebookId } = usePage();
     const sessionUser = useSelector(state => state.session.user); 
     
@@ -65,7 +65,7 @@ function Navigation({ isLoaded }) {
             <>
                 <div id="homenav">
                     <div id="left">
-                        <NavLink exact to="/">
+                        <NavLink exact to="/" onClick={() => setShowSignup(false)}>
                             <div id="home-links">
                                 <img src="/images/logo.png" alt="clevernote-logo" id="logo" />
                                 <span id="home-title">Clevernote</span>
@@ -79,21 +79,19 @@ function Navigation({ isLoaded }) {
                                 <DemoLoginButton />
                             </li>
                             <li>
-                                <NavLink exact to="/" id="home-link">Home</NavLink>
+                                <NavLink exact to="/" id="home-link" onClick={() => setShowSignup(false)}>Home</NavLink>
                             </li>
                             <li>
                                 <LoginFormModal />
                             </li>
                             <li>
-                                <NavLink to="/signup" id="signup">Sign Up</NavLink>
+                                <button onClick={() => setShowSignup("signup")} id="signup">Sign Up</button>
                             </li>
                         </ul>
                     </div>
                 </div>
                 <div id="homepage-footer">
-                    <NavLink exact to="/about">
-                        <span id="about">ABOUT CLEVERNOTE</span>
-                    </NavLink>
+                    <span id="about" onClick={() => setShowSignup("about")}>ABOUT CLEVERNOTE</span>
                 </div>
             </>
         )
