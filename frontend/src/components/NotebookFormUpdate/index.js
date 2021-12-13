@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import * as notebookActions from '../../store/notebooks';
 import { useDispatch, useSelector } from 'react-redux';
-import { Redirect, useHistory } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import './NotebookFormUpdate.css'
 
 function NotebookFormUpdate({ id, hideForm }) {
@@ -38,7 +38,7 @@ function NotebookFormUpdate({ id, hideForm }) {
     return (
         <div className="notebook-form">
             <form onSubmit={onSubmit}>
-                <ul hidden={errors.length === 0}>
+                <ul className="error-list-notebook" hidden={errors.length === 0}>
                     {errors.map((error, i) => <li key={i}>{error}</li>)}
                 </ul>
                 <p>Update Notebook Name:</p>

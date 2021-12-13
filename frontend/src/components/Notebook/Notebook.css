@@ -18,6 +18,10 @@
 
 #notebook-header {
     padding: 0px 0px 0px 25px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
 }
 
 #sidebar-header {
@@ -69,10 +73,10 @@
 #sidebar-header h2 {
     text-align: left;
     font-size: 18px;
-    height: 100%;
+    max-height: content;
     display: inline-flex;
     align-items: center;
-    margin: 0;
+    margin: 0 0 13px 0;
 }
 
 #sidebar-header h2 .fas {
@@ -105,7 +109,7 @@
 
 .selected > #notebook-block-content,
 .selected > #notebook-update-time {
-    color: rgb(230, 230, 230);
+    color: black;
 }
 
 .notebook-block {

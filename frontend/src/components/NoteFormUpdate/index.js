@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import * as notesActions from '../../store/notes';
 import { useDispatch, useSelector } from 'react-redux';
-import { Redirect, useParams, useHistory } from 'react-router-dom';
+import { Redirect, useHistory } from 'react-router-dom';
 import { usePage } from '../../context/ClevernoteContext';
 import { loadNotes } from '../../store/notes';
 import { loadTags } from '../../store/tags';
@@ -19,26 +19,19 @@ function NoteFormUpdate({ isLoaded }) {
     userNotebooks.sort((a, b) => {
         return Date.parse(b.updatedAt) - Date.parse(a.updatedAt);
     })
-    const note = notes[noteId] || {};
+    const note = useMemo(() => notes[noteId] || {}, [noteId, notes]);
     const notesTags = {}
     const history = useHistory();
     const [errors, setErrors] = useState([]);
     const [name, setName] = useState(note.name);
     const [content, setContent] = useState(note.content);
-    const [notebook, setNotebook] = useState(note.notebookId);
     const [showActions, setShowActions] = useState(false);
     const [showTags, setShowTags] = useState(false);
     const [noteTags, setNoteTags] = useState(notesTags);
-    
     const arr = note.Tags?.map(tag => parseInt(tag.id, 10))
     const availTags = userTags.filter(tag => !arr?.includes(tag.id))
     const usedTags = userTags.filter(tag => arr?.includes(tag.id))
-
-    useEffect(() => {
-        dispatch(loadNotes(sessionUser));
-        dispatch(loadTags(sessionUser));
-    }, [dispatch, sessionUser])
-
+    
     useEffect(() => {
         const newNotesTags = {}
         if (note.Tags) {
@@ -47,9 +40,16 @@ function NoteFormUpdate({ isLoaded }) {
             });
         }
         setNoteTags(newNotesTags);
-        setName(note.name);
-        setContent(note.content);
-    }, [note, setNotebookId, notebookId])
+        setName(note.name || '');
+        setContent(note.content || '');
+        setNotebookId(note.notebookId || null);
+    }, [note, setNotebookId])
+
+    useEffect(() => {
+        dispatch(loadNotes(sessionUser));
+        dispatch(loadTags(sessionUser));
+    }, [dispatch, sessionUser])
+
 
     const openActions = () => {
         if (showActions) return;
@@ -77,11 +77,22 @@ function NoteFormUpdate({ isLoaded }) {
         setShowTags(false);
         setErrors([]);
         
-        const payload = {
-            ...note,
-            name,
-            content,
-            notebookId: notebook
+        let payload;
+
+        if (notebookId === "select") {
+            payload = {
+                ...note,
+                name,
+                content,
+                notebookId: null
+            }
+        } else {
+            payload = {
+                ...note,
+                name,
+                content,
+                notebookId
+            }
         }
 
         const updatedNote = await dispatch(notesActions.updateNote(payload))
@@ -139,27 +150,24 @@ function NoteFormUpdate({ isLoaded }) {
         e.preventDefault()
 
         await dispatch(notesActions.removeNote(noteId));
-        setNoteId(false);
+        setNotebookId("select");
+        setNoteId(null);
         return history.push("/dashboard");
     }
 
     return (
         <div className="note-form">
             <form id="updateform" onSubmit={onSubmit}>
-                {
-                errors.length >= 1 && <ul hidden={errors.length === 0}>
+                <ul className="error-list-note" hidden={errors.length === 0}>
                     {errors.map((error, i) => <li key={i}>{error}</li>)}
                 </ul>
-                }
                 <div id="note-form-header">
                     <select
                         id="notebook-select"
-                        value={note.notebookId}
-                        onChange={e => {
-                            note.notebookId = setNotebook(e.target.value)
-                        }}
+                        value={notebookId || "select"}
+                        onChange={e => {setNotebookId(e.target.value)}}
                     >
-                        <option value="">Select a notebook</option>
+                        <option value={"select"}>Select a notebook</option>
                         {userNotebooks.map(notebook => {
                             return <option key={notebook.id} value={notebook.id}>{notebook.name}</option>
                         })}
@@ -176,14 +184,15 @@ function NoteFormUpdate({ isLoaded }) {
                     value={name}
                     onChange={e => setName(e.target.value)}
                     required
-                    placeholder="Enter Name for Note"
+                    placeholder="Title"
                 />
                 <textarea
                     id="note-form-content"
-                    value={content}
+                    value={content || ''}
                     onChange={(e) => setContent(e.target.value)}
                     rows={10}
                     cols={5}
+                    placeholder="Start writing..."
                     onClick={() => setShowTags(false)}
                 />
                 <div className="footer">

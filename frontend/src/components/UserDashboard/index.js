@@ -1,20 +1,23 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Redirect, Link } from 'react-router-dom'
+import { Redirect } from 'react-router-dom'
 import { usePage } from '../../context/ClevernoteContext';
 import { loadNotes } from '../../store/notes'
+import { FormModal } from '../../context/FormModal';
+import NotebookFormNew from '../NotebookFormNew';
 import { loadTags } from '../../store/tags';
 import { loadNotebooks } from '../../store/notebooks';
 import { loadNoteTags } from '../../store/notetags';
-import Navigation from '../Navigation';
 import './UserDashboard.css'
 
 function UserDashBoard({ isLoaded, setPage }) {
-    const { setNoteId } = usePage()
+    const { setNoteId, setNotebookId, scratchContent, setScratchContent } = usePage()
+    const [showButtons, setShowButtons] = useState(false);
+    const [showForm, setShowForm] = useState(false);
     const sessionUser = useSelector(state => state.session.user);
-    const notes = useSelector(state => state.notes);
-    const tags = useSelector(state => state.tags);
+    const notes = useSelector(state => state.notes)
     const notebooks = useSelector(state => state.notebooks);
+    const tags = useSelector(state => state.tags);
     const userTags = Object.values(tags);
     const userNotes = Object.values(notes);
     const userNotebooks = Object.values(notebooks);
@@ -31,6 +34,23 @@ function UserDashBoard({ isLoaded, setPage }) {
         } else return;
     }, [dispatch, sessionUser]);
     
+    const openActions = () => {
+        if (showButtons) return;
+        return setShowButtons(true);
+    }
+
+    useEffect(() => {
+        if (!showButtons) return;
+
+        const closeActions = () => {
+            setShowButtons(false);
+        }
+
+        document.addEventListener("click", closeActions)
+
+        return () => document.removeEventListener("click", closeActions)
+    }, [showButtons])
+
     if (!sessionUser) return (
         <Redirect to="/" />
     )
@@ -46,7 +66,7 @@ function UserDashBoard({ isLoaded, setPage }) {
 
     return (
         <div id="dashboard-container">
-            <img src="https://www.nawpic.com/media/2020/mountain-nawpic-5.jpg" />
+            <img alt="background" src="https://www.nawpic.com/media/2020/mountain-nawpic-5.jpg" />
             <div id="dash-header">
                 <p>Good {timePeriod}, {sessionUser.firstName}!</p>
                 <h4>
@@ -64,7 +84,7 @@ function UserDashBoard({ isLoaded, setPage }) {
                     </div>
                 </div>
                 <div id="note-container">
-                    {userNotes.map(note => {
+                    {userNotes.length > 0 ? userNotes.map(note => {
                         const date = new Date(note.updatedAt);
                         const options = { year: 'numeric', month: 'short', day: 'numeric' };
                         return (
@@ -85,47 +105,71 @@ function UserDashBoard({ isLoaded, setPage }) {
                                 </div>
                             </div>
                         )
-                    })}
+                    }) : (
+                    <div onClick={() => {
+                        setPage("notes")
+                        setNoteId()
+                    }} className="note">
+                        <div id="first-note">
+                            <h3>
+                                Write your first Clevernote!
+                            </h3>
+                        </div>
+                    </div>
+                        )}
                 </div>
             </div>
-            <div id="tags-container">
-                <p>TAGS</p>
-                {userTags.map(tag => {
-                    const date = new Date(tag.updatedAt);
-                    const options = { year: 'numeric', month: 'short', day: 'numeric' };
-                    return (
-                        <div key={tag.id} className="tag">
-                            <div className="tag-grid">
-                                <h3>
-                                    {tag.name} - {tag.Notes.length} notes
-                                </h3>
-                                <p id="update-time">
-                                    {`${date.toLocaleDateString('en-US', options)}`}
-                                </p>
-                            </div>
-                        </div>
-                    )
-                })}
-            </div>
+        <div id="bottom-container">
             <div id="notebooks-container">
-                <p>Notebooks</p>
-                {userNotebooks.map(notebook => {
+                <h3>NOTEBOOKS</h3>
+                {userNotebooks.length > 0 ? userNotebooks.map(notebook => {
                     const date = new Date(notebook.updatedAt);
                     const options = { year: 'numeric', month: 'short', day: 'numeric' };
                     return (
-                        <div key={notebook.id} className="tag">
-                            <div className="tag-grid">
-                                <h3>
-                                    {notebook.name} - {notebook.Notes.length} notes
-                                </h3>
-                                <p id="update-time">
-                                    {`${date.toLocaleDateString('en-US', options)}`}
-                                </p>
-                            </div>
+                        <div onClick={() => {
+                            setPage("notebooks")
+                            setNotebookId(notebook.id)
+                        }} key={notebook.id} className="notebook">
+                            <p className="notebook-notecount">
+                                {notebook.name}
+                            </p>
+                            <p className="update-time">
+                                {`${date.toLocaleDateString('en-US', options)}`}
+                            </p>
                         </div>
                     )
-                })}
+                }) : <div onClick = {() => setShowForm(true)
+                } className="notebook">
+                        <p className="notebook-notecount">
+                            Create your first notebook!
+                        </p>
+                    </div>
+                    }
+                    {showForm && (
+                        <FormModal onClose={() => setShowForm(false)}>
+                            <NotebookFormNew hideForm={() => setShowForm(false)} />
+                        </FormModal>
+                    )}
             </div>
+            <div id="scratchpad-container">
+                <div id="scratchpad-header">
+                    <h3>SCRATCH PAD</h3>
+                    <i onClick={() => openActions()} className="fas fa-ellipsis-h"></i>
+                    {showButtons &&
+                        <div id="scratchpad-actions-dropdown">
+                            <button onClick={() => setPage("notes")}>Convert to note</button>
+                            <button onClick={() => setScratchContent('')}>Clear scratch pad</button>
+                        </div>
+                    }
+                </div>
+                <textarea
+                value={scratchContent}
+                onChange={(e) => setScratchContent(e.target.value)}
+                placeholder="Start writing..."
+                ></textarea>
+            </div>
+
+        </div>
         </div>
     );
 }

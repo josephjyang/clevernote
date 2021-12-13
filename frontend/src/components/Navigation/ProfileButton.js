@@ -7,7 +7,7 @@ import { clearNotebooks } from "../../store/notebooks"
 import { usePage } from "../../context/ClevernoteContext"
 
 function ProfileButton({user}) {
-    const { page, setPage } = usePage();
+    const { setPage } = usePage();
     const dispatch = useDispatch();
     const [showMenu, setShowMenu] = useState(false)
 
@@ -54,9 +54,9 @@ function ProfileButton({user}) {
                         <span id="email">{user.email}</span>
                     </div>
                 </li>
-                {/* <li onClick={() => setPage("account")}>
-                    Account info...
-                </li> */}
+                <li onClick={() => setPage("account")}>
+                    <button id="account-info">Account info...</button>
+                </li>
                 {/* <li>
                     Preferences
                 </li> */}

@@ -3,7 +3,33 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    position: fixed;
+    top: 10px;
+    left: 0px;
+    width: 100vw;
 }
+
+#left {
+    display: flex;
+    align-items: center;
+    max-width: 50vw;
+}
+
+#home-links {
+    display: flex;
+    align-items: center;
+    margin-right: 25px;
+}
+
+#home-link {
+    color: black;
+}
+
+#home-link:hover {
+    color: blue;
+}
+
+
 
 nav {
     background-color: blue;
@@ -22,11 +48,16 @@ nav {
     box-sizing: border-box;
 }
 
+#new-button {
+    display: flex;
+    justify-content: center;
+}
+
 #new-note-btn {
     border-radius: 20px;
-    width: 90%;
+    width: 85%;
     height: 40px;
-    margin: 10px;
+    margin: 10px 20px;
     font-size: 16px;
     text-align: left;
     padding-left: 15px;
@@ -63,7 +94,7 @@ nav {
     align-items: center;
     color: rgb(179, 179, 179);
     height: 35px;
-    padding-left: 10px;
+    padding-left: 20px;
 }
 
 .navbar-link:hover {
@@ -102,21 +133,19 @@ nav {
     
 }
 
-#left {
-    display: flex;
-    align-items: center;
-}
-
 #logo {
     width: 50px;
     margin-left: 20px;
 }
 
-#title {
+
+
+#home-title {
     font-size: 30px;
     font-weight: bold;
     margin-left: 10px;
     font-family: 'Crete Round', serif;
+    color: black;
 }
 
 ul {
@@ -147,11 +176,14 @@ a:hover {
     color: blue;
     padding: 5px 20px;
     border-radius: 5px;
+    background-color: white;
+    font-size: 16px;
 }
 
 #signup:hover {
     border: rgb(0, 110, 255) solid 2px;
     color: rgb(0, 110, 255);
+    cursor: pointer;
 }
 
 #profile-icon {
@@ -217,7 +249,7 @@ a:hover {
 }
 
 .profile-dropdown li:nth-child(-n+2) {
-    color: rgba(120, 120, 120, 0.8);
+    color: rgba(79, 79, 79, 0.8);
     font-weight: bold;
 }
 
@@ -253,6 +285,6 @@ a:hover {
     height: 25px;
 }
 
-#logout:hover {
+.profile-dropdown button:hover {
     background-color: grey;
 }

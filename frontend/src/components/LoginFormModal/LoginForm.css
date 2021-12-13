@@ -9,7 +9,7 @@
     padding: 50px;
 }
 
-h1 {
+#title {
     font-weight: bold;
     font-size: 45px;
     font-family: 'Crete Round', serif;
@@ -48,4 +48,5 @@ form input {
 
 #log-in-link:hover {
     color: blue;
+    cursor: pointer;
 }

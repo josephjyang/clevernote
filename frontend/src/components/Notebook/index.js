@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Redirect, Link, useHistory, useParams } from 'react-router-dom';
+import { Redirect, useHistory } from 'react-router-dom';
 import { loadNotebookNotes } from '../../store/notes';
 import { FormModal } from '../../context/FormModal';
 import { DeleteModal } from '../../context/DeleteModal';
 import NotebookFormUpdate from '../NotebookFormUpdate';
 import NotebookFormDelete from '../NotebookFormDelete';
 import NoteFormUpdate from '../NoteFormUpdate';
+import NoteForm from '../NoteForm';
 import { loadNotes } from '../../store/notes'
 import { loadNotebooks } from '../../store/notebooks'
 import { usePage } from '../../context/ClevernoteContext';
@@ -106,7 +107,7 @@ function Notebook({ isLoaded }) {
                         const date = new Date(note.updatedAt);
                         const options = { year: 'numeric', month: 'short', day: 'numeric' };
                         return (
-                            <div onClick={() => setNoteId(note.id)} className={note.id === noteId ? "selected notebook-block" : "notebook-block"}>
+                            <div key={note.id} onClick={() => setNoteId(note.id)} className={note.id === noteId ? "selected notebook-block" : "notebook-block"}>
                                 <h3>
                                     {note.name}
                                 </h3>
@@ -121,6 +122,7 @@ function Notebook({ isLoaded }) {
                     })}
                 </div>
                 {noteId && <NoteFormUpdate />}
+                {!noteId && <NoteForm />}
             </div>
         </>
     );

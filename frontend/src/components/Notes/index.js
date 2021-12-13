@@ -12,7 +12,7 @@ function Notes({ isLoaded, setPage }) {
     return (
             <div id="notes-content">
                 <NotesSidebar />
-                {!noteId && <NoteForm setNotebookId={setNotebookId} notebookId={notebookId}/>}
+                {!noteId && <NoteForm setNotebookId={setNotebookId} notebookId={notebookId} isLoaded={isLoaded}/>}
                 {noteId && <NoteFormUpdate setNotebookId={setNotebookId} notebookId={notebookId} isLoaded={isLoaded}/>}
             </div>
     );

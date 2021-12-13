@@ -9,6 +9,24 @@
     padding: 50px;
 }
 
+.error-list-notebook {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding-left: 0;
+    font-size: 14px;
+    color: red;
+}
+
+.error-list-notebook li {
+    display:flex;
+    flex-direction: row;
+    margin: 0;
+    overflow-x: visible;
+    max-height: 20px;
+    white-space: nowrap;
+}
+
 form {
     width: 100%;
     display: flex;
