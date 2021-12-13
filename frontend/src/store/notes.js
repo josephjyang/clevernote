@@ -2,8 +2,10 @@ import { csrfFetch } from "./csrf";
 
 const LOAD_NOTES = "notes/LOAD_NOTES";
 const NEW_NOTE = "notes/NEW_NOTE";
+const NEW_NOTETAG = "notes/NEW_NOTETAG";
 const CLEAR_NOTES = "notes/CLEAR_NOTES"
 const DELETE_NOTE = "notes/DELETE_NOTE"
+const DELETE_NOTETAG = "notes/DELETE_NOTETAG"
 const LOAD_NOTEBOOKNOTES = "notes/LOAD_NOTEBOOKNOTES";
 
 const getNotes = (user, notes) => {
@@ -29,10 +31,26 @@ const newNote = note => {
     }
 }
 
+const newNoteTag = (note, tag) => {
+    return {
+        type: NEW_NOTETAG,
+        note,
+        tag
+    }
+}
+
 const deleteNote = id => {
     return {
         type: DELETE_NOTE,
         id
+    }
+}
+
+const deleteNoteTag = (note, tag) => {
+    return {
+        type: DELETE_NOTETAG,
+        note,
+        tag
     }
 }
 
@@ -53,6 +71,7 @@ export const updateNote = data => async dispatch => {
 
     if (res.ok) {
         const updatedNote = await res.json();
+        console.log(updatedNote);
         dispatch(newNote(updatedNote));
         return updatedNote;
     }
@@ -73,7 +92,7 @@ export const loadNotes = user => async dispatch => {
     const res = await csrfFetch(`/api/users/${user.id}/notes`);
     const data = await res.json();
     dispatch(getNotes(user, data));
-    return res;
+    return data;
 }
 
 export const loadNotebookNotes = (user, notebook) => async dispatch => {
@@ -81,11 +100,10 @@ export const loadNotebookNotes = (user, notebook) => async dispatch => {
     const res = await csrfFetch(`/api/users/${user.id}/notebooks/${notebook.id}/notes`);
     const data = await res.json();
     dispatch(getNotebookNotes(user, data));
-    return res;
+    return data;
 }
 
 export const createNote = data => async dispatch => {
-    console.log("data", data);
     const res = await csrfFetch(`/api/users/${data.userId}/notes`, {
         method: 'POST',
         headers: {
@@ -93,9 +111,39 @@ export const createNote = data => async dispatch => {
         },
         body: JSON.stringify(data)
     })
-    const note = await res.json();
-    dispatch(newNote(note));
-    return note;
+
+    if (res.ok) {
+        const note = await res.json();
+        dispatch(newNote(note));
+        return note;
+    }
+}
+
+export const createNoteTag = (note, tag) => async dispatch => {
+    console.log(note);
+    const res = await csrfFetch(`/api/notes/${note.id}/tags`, {
+        method: 'POST',
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({noteId: note.id, tagId: tag.id})
+    })
+    if (res.ok) {
+        const noteTag = await res.json();
+        dispatch(newNoteTag(note, tag));
+        return noteTag;
+    }
+}
+
+export const removeNoteTag = (note, tag) => async dispatch => {
+    const res = await csrfFetch(`/api/notes/${note.id}/tags/${tag.id}`, {
+        method: 'DELETE'
+    })
+    if (res.ok) {
+        console.log(note, tag);
+        dispatch(deleteNoteTag(note, tag));
+        return;
+    }
 }
 
 const initialState = { }
@@ -111,6 +159,15 @@ export const notesReducer = (state = initialState, action) => {
             return { ...state, ...notes }
         case NEW_NOTE:
             newState[action.note.id] = action.note
+            return newState;
+        case NEW_NOTETAG:
+            // if (newState[action.note.id].Tags) newState[action.note.id].Tags.push(action.tag)
+            // else newState[action.note.id].Tags = [action.tag];
+            return newState;
+        case DELETE_NOTETAG:
+            // console.log(newState[action.note.id])
+            // const arr = newState[action.note.id].Tags.filter(tag => tag.id !== action.tag.id);
+            // newState[action.note.id].Tags = arr;
             return newState;
         case DELETE_NOTE:
             delete newState[action.id]

@@ -18,22 +18,12 @@ function Dashboard({ isLoaded }) {
     userNotes.sort((a, b) => {
         return Date.parse(b.updatedAt) - Date.parse(a.updatedAt);
     })
-
-    const dispatch = useDispatch();
-    useEffect(() => {
-        if (user) dispatch(loadNotes(user));
-        else return;
-    }, [dispatch, user]);
-
+    
     const notebooks = useSelector(state => state.notebooks)
     const userNotebooks = Object.values(notebooks);
     userNotebooks.sort((a, b) => {
         return Date.parse(b.updatedAt) - Date.parse(a.updatedAt);
     })
-    useEffect(() => {
-        if (user) dispatch(loadNotebooks(user));
-        else return;
-    }, [dispatch, user]);
 
     return (
         <div id="content">

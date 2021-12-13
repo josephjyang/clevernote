@@ -5,6 +5,9 @@ import { usePage } from '../../context/ClevernoteContext';
 import { loadNotes } from '../../store/notes'
 import { FormModal } from '../../context/FormModal';
 import NotebookFormNew from '../NotebookFormNew';
+import { loadTags } from '../../store/tags';
+import { loadNotebooks } from '../../store/notebooks';
+import { loadNoteTags } from '../../store/notetags';
 import './UserDashboard.css'
 
 function UserDashBoard({ isLoaded, setPage }) {
@@ -14,17 +17,21 @@ function UserDashBoard({ isLoaded, setPage }) {
     const sessionUser = useSelector(state => state.session.user);
     const notes = useSelector(state => state.notes)
     const notebooks = useSelector(state => state.notebooks);
-    const userNotebooks = Object.values(notebooks);
-    
+    const tags = useSelector(state => state.tags);
+    const userTags = Object.values(tags);
     const userNotes = Object.values(notes);
+    const userNotebooks = Object.values(notebooks);
     userNotes.sort((a, b) => {
         return Date.parse(b.updatedAt) - Date.parse(a.updatedAt);
     })
     
     const dispatch = useDispatch();
     useEffect(() => {
-        if (sessionUser) dispatch(loadNotes(sessionUser));
-        else return;
+        if (sessionUser) {
+            dispatch(loadNotes(sessionUser));
+            dispatch(loadTags(sessionUser));
+            dispatch(loadNotebooks(sessionUser));
+        } else return;
     }, [dispatch, sessionUser]);
     
     const openActions = () => {
