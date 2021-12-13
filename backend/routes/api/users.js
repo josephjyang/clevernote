@@ -51,7 +51,7 @@ const validateNotebook = [
     check('name')
         .exists({ checkFalsy: true })
         .isLength({ min: 1 })
-        .withMessage('Please provide a title for the note.'),
+        .withMessage('Please provide a title for the notebook.'),
     handleValidationErrors
 ];
 
