@@ -85,7 +85,6 @@ export const loadNotebookNotes = (user, notebook) => async dispatch => {
 }
 
 export const createNote = data => async dispatch => {
-    console.log("data", data);
     const res = await csrfFetch(`/api/users/${data.userId}/notes`, {
         method: 'POST',
         headers: {

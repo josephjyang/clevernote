@@ -63,7 +63,6 @@ export const removeNotebook = data => async dispatch => {
 export const loadNotebooks = user => async dispatch => {
     const res = await csrfFetch(`/api/users/${user.id}/notebooks`);
     const data = await res.json();
-    console.log(data);
     dispatch(getNotebooks(user, data));
     return data;
 }

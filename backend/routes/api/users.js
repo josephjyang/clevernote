@@ -4,7 +4,7 @@ const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 
 const { setTokenCookie, requireAuth } = require('../../utils/auth');
-const { User, Note, Notebook } = require('../../db/models');
+const { User, Note, Notebook, Tag } = require('../../db/models');
 
 const router = express.Router();
 
@@ -98,6 +98,21 @@ router.delete('/:id', asyncHandler(async (req, res, next) => {
         err.errors = ['The provided password was incorrect.'];
         return next(err);
     }
+    await Tag.destroy({
+        where: {
+            userId: user.id
+        }
+    })
+    await Note.destroy({
+        where: {
+            userId: user.id
+        }
+    })
+    await Notebook.destroy({
+        where: {
+            userId: user.id
+        }
+    })
     await user.destroy();
 
     res.clearCookie('token');
