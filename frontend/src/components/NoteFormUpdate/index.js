@@ -76,6 +76,7 @@ function NoteFormUpdate({ isLoaded }) {
                 if (data && data.errors) setErrors(data.errors);
             })
         if (updatedNote) {
+            setErrors([])
             history.push("/dashboard")
         }
     }
