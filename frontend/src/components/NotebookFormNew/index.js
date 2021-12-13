@@ -23,7 +23,11 @@ function NotebookFormNew({ hideForm }) {
             userId: sessionUser.id
         }
 
-        const newNotebook = await dispatch(notebookActions.createNotebook(payload));
+        const newNotebook = await dispatch(notebookActions.createNotebook(payload))
+            .catch(async res => {
+                const data = await res.json();
+                if (data && data.errors) setErrors(data.errors);
+            })
 
         if (newNotebook) hideForm();
     }
