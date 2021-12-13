@@ -28,16 +28,30 @@ function NoteForm({ isLoaded }) {
         e.preventDefault();
         setErrors([]);
 
-        const newNote = await dispatch(notesActions.createNote({ name, content, userId: sessionUser.id, notebookId }))
-            .catch(async res => {
-                const data = await res.json();
-                if (data && data.errors) setErrors(data.errors);
-            })
-        if (newNote) {
-            setNoteId(newNote.id);
-            setScratchContent();
-            history.push("/dashboard")
+        if (notebookId === "select") {
+            const newNote = await dispatch(notesActions.createNote({ name, content, userId: sessionUser.id, notebookId: null }))
+                .catch(async res => {
+                    const data = await res.json();
+                    if (data && data.errors) setErrors(data.errors);
+                })
+            if (newNote) {
+                setNoteId(newNote.id);
+                setScratchContent();
+                history.push("/dashboard")
+            }
+        } else {
+            const newNote = await dispatch(notesActions.createNote({ name, content, userId: sessionUser.id, notebookId }))
+                .catch(async res => {
+                    const data = await res.json();
+                    if (data && data.errors) setErrors(data.errors);
+                })
+            if (newNote) {
+                setNoteId(newNote.id);
+                setScratchContent();
+                history.push("/dashboard")
+            }
         }
+
     }
 
 
