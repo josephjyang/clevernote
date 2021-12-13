@@ -5,6 +5,7 @@ const NEW_NOTE = "notes/NEW_NOTE";
 const NEW_NOTETAG = "notes/NEW_NOTETAG";
 const CLEAR_NOTES = "notes/CLEAR_NOTES"
 const DELETE_NOTE = "notes/DELETE_NOTE"
+const DELETE_NOTETAG = "notes/DELETE_NOTETAG"
 const LOAD_NOTEBOOKNOTES = "notes/LOAD_NOTEBOOKNOTES";
 
 const getNotes = (user, notes) => {
@@ -45,6 +46,14 @@ const deleteNote = id => {
     }
 }
 
+const deleteNoteTag = (note, tag) => {
+    return {
+        type: DELETE_NOTETAG,
+        note,
+        tag
+    }
+}
+
 export const clearNotes = () => {
     return {
         type: CLEAR_NOTES
@@ -62,6 +71,7 @@ export const updateNote = data => async dispatch => {
 
     if (res.ok) {
         const updatedNote = await res.json();
+        console.log(updatedNote);
         dispatch(newNote(updatedNote));
         return updatedNote;
     }
@@ -110,6 +120,7 @@ export const createNote = data => async dispatch => {
 }
 
 export const createNoteTag = (note, tag) => async dispatch => {
+    console.log(note);
     const res = await csrfFetch(`/api/notes/${note.id}/tags`, {
         method: 'POST',
         headers: {
@@ -121,6 +132,17 @@ export const createNoteTag = (note, tag) => async dispatch => {
         const noteTag = await res.json();
         dispatch(newNoteTag(note, tag));
         return noteTag;
+    }
+}
+
+export const removeNoteTag = (note, tag) => async dispatch => {
+    const res = await csrfFetch(`/api/notes/${note.id}/tags/${tag.id}`, {
+        method: 'DELETE'
+    })
+    if (res.ok) {
+        console.log(note, tag);
+        dispatch(deleteNoteTag(note, tag));
+        return;
     }
 }
 
@@ -139,8 +161,13 @@ export const notesReducer = (state = initialState, action) => {
             newState[action.note.id] = action.note
             return newState;
         case NEW_NOTETAG:
-            if (newState[action.note.id].Tags) newState[action.note.id].Tags.push(action.tag)
-            else newState[action.note.id].Tags = [action.tag];
+            // if (newState[action.note.id].Tags) newState[action.note.id].Tags.push(action.tag)
+            // else newState[action.note.id].Tags = [action.tag];
+            return newState;
+        case DELETE_NOTETAG:
+            // console.log(newState[action.note.id])
+            // const arr = newState[action.note.id].Tags.filter(tag => tag.id !== action.tag.id);
+            // newState[action.note.id].Tags = arr;
             return newState;
         case DELETE_NOTE:
             delete newState[action.id]

@@ -6,7 +6,7 @@ import { usePage } from '../../context/ClevernoteContext';
 import './NoteForm.css'
 
 function NoteForm({ isLoaded, setNotebookId, notebookId }) {
-    const { noteId, setNoteId } = usePage();
+    const { setPage, noteId, setNoteId } = usePage();
     const notes = useSelector(state => state.notes)
     const note = notes[noteId] || {};
     const dispatch = useDispatch();
@@ -51,7 +51,7 @@ function NoteForm({ isLoaded, setNotebookId, notebookId }) {
         }
         if (newNote) {
             setNoteId(newNote.id);
-            history.push("/dashboard")
+            history.push("/dashboard");
         }
     }
 
@@ -98,7 +98,7 @@ function NoteForm({ isLoaded, setNotebookId, notebookId }) {
                             <div id="tags-menu">
                                 {userTags.map((tag, i) => {
                                 return (
-                                    <div key={tag.id} >
+                                    <div className="tag-box" key={tag.id} >
                                         <label htmlFor={tag.name}>{tag.name}</label>
                                         <input onChange={(e) => {
                                             setNoteTags(
@@ -115,12 +115,6 @@ function NoteForm({ isLoaded, setNotebookId, notebookId }) {
                                 )})}
                                 </div>
                             }
-                       { noteTags && (<ul>{Object.keys(noteTags).map((tag, i)=> {
-                            if (noteTags[tag]) return <li key={i}>{tag}</li>
-                            else return null;
-                       }
-                       )}</ul>
-                       ) }
                         <button id="new-note" type="submit">Save Note</button>
                     </div>
                 </form>

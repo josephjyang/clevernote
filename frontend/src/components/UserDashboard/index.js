@@ -28,7 +28,6 @@ function UserDashBoard({ isLoaded, setPage }) {
             dispatch(loadNotes(sessionUser));
             dispatch(loadTags(sessionUser));
             dispatch(loadNotebooks(sessionUser));
-            dispatch(loadNoteTags(sessionUser));
         } else return;
     }, [dispatch, sessionUser]);
     
