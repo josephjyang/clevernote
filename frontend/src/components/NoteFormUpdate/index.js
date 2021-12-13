@@ -106,6 +106,7 @@ function NoteFormUpdate({ isLoaded }) {
             const arr = note.Tags.map(tag => parseInt(tag.id, 10))
             const tagIds = Object.keys(noteTags).map(tag => {
                 if (noteTags[tag]) return parseInt(tag, 10)
+                else return null;
             });
             let removeTags = oldTags.filter(tag => {
                 return !tagIds.includes(tag.id)

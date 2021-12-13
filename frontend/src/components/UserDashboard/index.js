@@ -7,7 +7,6 @@ import { FormModal } from '../../context/FormModal';
 import NotebookFormNew from '../NotebookFormNew';
 import { loadTags } from '../../store/tags';
 import { loadNotebooks } from '../../store/notebooks';
-import { loadNoteTags } from '../../store/notetags';
 import './UserDashboard.css'
 
 function UserDashBoard({ isLoaded, setPage }) {
@@ -17,8 +16,6 @@ function UserDashBoard({ isLoaded, setPage }) {
     const sessionUser = useSelector(state => state.session.user);
     const notes = useSelector(state => state.notes)
     const notebooks = useSelector(state => state.notebooks);
-    const tags = useSelector(state => state.tags);
-    const userTags = Object.values(tags);
     const userNotes = Object.values(notes);
     const userNotebooks = Object.values(notebooks);
     userNotes.sort((a, b) => {

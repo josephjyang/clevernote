@@ -140,7 +140,6 @@ export const removeNoteTag = (note, tag) => async dispatch => {
         method: 'DELETE'
     })
     if (res.ok) {
-        console.log(note, tag);
         dispatch(deleteNoteTag(note, tag));
         return;
     }

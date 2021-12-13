@@ -172,4 +172,14 @@ router.get('/:id/tags', requireAuth, asyncHandler(async (req, res) => {
     return res.json(tags)
 }));
 
+router.post('/:id/tags', requireAuth, asyncHandler(async (req, res) => {
+    const userId = req.params.id;
+    const { name } = req.body;
+    const newTag = await Tag.create({
+        userId, name
+    });
+
+    return res.json(newTag)
+}));
+
 module.exports = router;

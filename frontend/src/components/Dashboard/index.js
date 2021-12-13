@@ -1,17 +1,14 @@
-import React, { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React from 'react';
+import { useSelector } from 'react-redux';
 import Notes from '../Notes';
 import Notebooks from '../Notebooks';
 import Navigation from '../Navigation';
 import UserDashBoard from '../UserDashboard';
 import AccountInfo from '../AccountInfo';
-import { loadNotes } from '../../store/notes'
-import { loadNotebooks } from '../../store/notebooks'
 import { usePage } from '../../context/ClevernoteContext'
 
 function Dashboard({ isLoaded }) {
     const { page, setPage } = usePage();
-    const user = useSelector(state => state.session.user);
     
     const notes = useSelector(state => state.notes)
     const userNotes = Object.values(notes);

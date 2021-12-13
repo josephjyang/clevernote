@@ -1,7 +1,7 @@
 import { csrfFetch } from "./csrf";
 
 const LOAD_TAGS = "tags/LOAD_TAGS";
-const NEW_TAG = "tagss/NEW_TAG";
+const NEW_TAG = "tags/NEW_TAG";
 const CLEAR_TAGS = "tags/CLEAR_TAGS"
 const DELETE_TAG = "tags/DELETE_TAG"
 const LOAD_NOTETAGS = "tags/LOAD_NOTETAGS";
@@ -22,10 +22,10 @@ const getNoteTags = (user, tags) => {
     };
 };
 
-const newTag = note => {
+const newTag = tag => {
     return {
         type: NEW_TAG,
-        note
+        tag
     }
 }
 
@@ -72,7 +72,6 @@ export const removeTag = id => async dispatch => {
 export const loadTags = user => async dispatch => {
     const res = await csrfFetch(`/api/users/${user.id}/tags`);
     const tags = await res.json();
-    console.log(Object.values(tags));
     dispatch(getTags(user, tags));
     return tags;
 }
@@ -86,7 +85,6 @@ export const loadNoteTags = (user, note) => async dispatch => {
 }
 
 export const createTag = data => async dispatch => {
-    console.log("data", data);
     const res = await csrfFetch(`/api/users/${data.userId}/tags`, {
         method: 'POST',
         headers: {
@@ -96,7 +94,7 @@ export const createTag = data => async dispatch => {
     })
     const tag = await res.json();
     dispatch(newTag(tag));
-    return tag;
+    return res;
 }
 
 const initialState = {}

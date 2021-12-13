@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import * as notesActions from '../../store/notes';
+import * as tagsActions from '../../store/tags'
 import { useDispatch, useSelector } from 'react-redux';
 import { Redirect, useHistory } from 'react-router-dom';
 import { usePage } from '../../context/ClevernoteContext';
@@ -21,11 +22,23 @@ function NoteForm({ isLoaded }) {
     const [content, setContent] = useState(scratchContent);
     const [showTags, setShowTags] = useState(false);
     const [noteTags, setNoteTags] = useState({});
+    const [newTag, setNewTag] = useState();
     const history = useHistory();  
 
     if (!sessionUser) return (
         <Redirect to="/" />
     );
+
+    const tagSubmit = async e => {
+        e.preventDefault();
+        setErrors([]);
+        dispatch(tagsActions.createTag({ name: newTag, userId: sessionUser.id }))
+            .catch(async res => {
+                console.log(res);
+                const data = await res.json();
+                if (data && data.errors) setErrors(data.errors);
+            })
+    }
 
     const onSubmit = async e => {
         e.preventDefault();
@@ -41,12 +54,12 @@ function NoteForm({ isLoaded }) {
             return tagIds.includes(tag.id);
         });
             
-        if (tags.length) {
-            tags.forEach(tag => {
-                dispatch(notesActions.createNoteTag(newNote, tag))
-            })
-        }
         if (newNote) {
+            if (tags.length) {
+                tags.forEach(tag => {
+                    dispatch(notesActions.createNoteTag(newNote, tag))
+                })
+            }
             setNoteId(newNote.id);
             setScratchContent();
             history.push("/dashboard")
@@ -116,6 +129,14 @@ function NoteForm({ isLoaded }) {
                     </div>
                 </form>
             </div>
+            <form onSubmit={tagSubmit} id="new-tag-form">
+                <input id="new-tag"
+                    type="text"
+                    value={newTag}
+                    onChange={e => setNewTag(e.target.value)}
+                    required
+                    placeholder="Enter new tag"/>
+            </form>
         </>
     )
 }
