@@ -58,7 +58,7 @@ router.put('/:id', validateSignup, asyncHandler(async (req, res) => {
 
 router.get('/:id/notes', requireAuth, asyncHandler(async (req, res) => {
     const userId = req.params.id
-    const notes = await Note.findAll({ order: [['updatedAt', 'DESC']], where: { userId }  });
+    const notes = await Note.findAll({ where: { userId }, include: { model: Tag }  });
 
     return res.json(notes)
 }))
@@ -72,7 +72,7 @@ router.post('/:id/notes', requireAuth, asyncHandler(async (req, res) => {
 
 router.get('/:id/notebooks', requireAuth, asyncHandler(async (req, res) => {
     const userId = req.params.id
-    const notebooks = await Notebook.findAll({ order: [['updatedAt', 'DESC']], where: { userId }, include: { model: Note } });
+    const notebooks = await Notebook.findAll({ where: { userId }, include: { model: Note } });
 
     return res.json(notebooks)
 }))

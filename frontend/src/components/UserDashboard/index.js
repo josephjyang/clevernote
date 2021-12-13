@@ -4,6 +4,8 @@ import { Redirect, Link } from 'react-router-dom'
 import { usePage } from '../../context/ClevernoteContext';
 import { loadNotes } from '../../store/notes'
 import { loadTags } from '../../store/tags';
+import { loadNotebooks } from '../../store/notebooks';
+import { loadNoteTags } from '../../store/notetags';
 import Navigation from '../Navigation';
 import './UserDashboard.css'
 
@@ -25,6 +27,8 @@ function UserDashBoard({ isLoaded, setPage }) {
         if (sessionUser) {
             dispatch(loadNotes(sessionUser));
             dispatch(loadTags(sessionUser));
+            dispatch(loadNotebooks(sessionUser));
+            dispatch(loadNoteTags(sessionUser));
         } else return;
     }, [dispatch, sessionUser]);
     

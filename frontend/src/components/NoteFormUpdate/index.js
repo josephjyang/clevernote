@@ -16,6 +16,7 @@ function NoteFormUpdate({ isLoaded }) {
         return Date.parse(b.updatedAt) - Date.parse(a.updatedAt);
     })
     const note = notes[noteId] || {};
+    const notesTags = note.Tags;
     const history = useHistory();
     const [errors, setErrors] = useState([]);
     const [name, setName] = useState(note.name);
@@ -120,6 +121,9 @@ function NoteFormUpdate({ isLoaded }) {
                     cols={5}
                 />
                 <div className="footer">
+                    {notesTags && notesTags.map(tag => {
+                        return <li>{tag.name}</li>
+                    })}
                     <button id="new-note" type="submit">Save Note</button>
                 </div>
             </form>

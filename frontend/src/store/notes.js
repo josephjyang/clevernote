@@ -2,6 +2,7 @@ import { csrfFetch } from "./csrf";
 
 const LOAD_NOTES = "notes/LOAD_NOTES";
 const NEW_NOTE = "notes/NEW_NOTE";
+const NEW_NOTETAG = "notes/NEW_NOTETAG";
 const CLEAR_NOTES = "notes/CLEAR_NOTES"
 const DELETE_NOTE = "notes/DELETE_NOTE"
 const LOAD_NOTEBOOKNOTES = "notes/LOAD_NOTEBOOKNOTES";
@@ -26,6 +27,14 @@ const newNote = note => {
     return {
         type: NEW_NOTE,
         note
+    }
+}
+
+const newNoteTag = (note, tag) => {
+    return {
+        type: NEW_NOTETAG,
+        note,
+        tag
     }
 }
 
@@ -85,7 +94,6 @@ export const loadNotebookNotes = (user, notebook) => async dispatch => {
 }
 
 export const createNote = data => async dispatch => {
-    console.log("data", data);
     const res = await csrfFetch(`/api/users/${data.userId}/notes`, {
         method: 'POST',
         headers: {
@@ -93,9 +101,27 @@ export const createNote = data => async dispatch => {
         },
         body: JSON.stringify(data)
     })
-    const note = await res.json();
-    dispatch(newNote(note));
-    return note;
+
+    if (res.ok) {
+        const note = await res.json();
+        dispatch(newNote(note));
+        return note;
+    }
+}
+
+export const createNoteTag = (note, tag) => async dispatch => {
+    const res = await csrfFetch(`/api/notes/${note.id}/tags`, {
+        method: 'POST',
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({noteId: note.id, tagId: tag.id})
+    })
+    if (res.ok) {
+        const noteTag = await res.json();
+        dispatch(newNoteTag(note, tag));
+        return noteTag;
+    }
 }
 
 const initialState = { }
@@ -111,6 +137,10 @@ export const notesReducer = (state = initialState, action) => {
             return { ...state, ...notes }
         case NEW_NOTE:
             newState[action.note.id] = action.note
+            return newState;
+        case NEW_NOTETAG:
+            if (newState[action.note.id].Tags) newState[action.note.id].Tags.push(action.tag)
+            else newState[action.note.id].Tags = [action.tag];
             return newState;
         case DELETE_NOTE:
             delete newState[action.id]

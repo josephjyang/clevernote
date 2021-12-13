@@ -2,7 +2,7 @@ const express = require('express');
 const asyncHandler = require('express-async-handler');
 
 const { requireAuth } = require('../../utils/auth');
-const { Note } = require('../../db/models');
+const { Note, NoteTag } = require('../../db/models');
 
 const router = express.Router();
 
@@ -22,6 +22,14 @@ router.delete('/:id', requireAuth, asyncHandler(async (req, res) => {
     await note.destroy();
     res.status = 204;
     return res.end();
+}))
+
+router.post('/:id/tags', requireAuth, asyncHandler(async (req, res) => {
+    const noteId = req.params.id;
+    const { tagId } = req.body;
+    const noteTag = await NoteTag.create({ tagId, noteId });
+
+    return res.json(noteTag)
 }))
 
 module.exports = router;
