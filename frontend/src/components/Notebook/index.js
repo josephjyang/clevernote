@@ -5,7 +5,7 @@ import { loadNotebookNotes } from '../../store/notes';
 import { Modal } from '../../context/Modal';
 import NotebookFormUpdate from '../NotebookFormUpdate';
 import NotebookFormDelete from '../NotebookFormDelete';
-import NoteFormUpdate from '../NoteFormUpdate';
+import NoteFormUpdate from '../NoteForm';
 import NoteForm from '../NoteForm';
 import { loadNotes } from '../../store/notes'
 import { loadNotebooks } from '../../store/notebooks'
