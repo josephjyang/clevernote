@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import NotesSidebar from '../NotesSidebar';
 import NoteForm from '../NoteForm';
-import NoteFormUpdate from '../NoteForm';
-import { usePage } from '../../context/ClevernoteContext';
 import './Notes.css'
 
 function Notes({ isLoaded }) {

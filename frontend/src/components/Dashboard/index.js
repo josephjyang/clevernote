@@ -41,13 +41,13 @@ function Dashboard({ isLoaded }) {
                 <div id="content">
                     <Navigation isLoaded={isLoaded} />
                     {page === "dashboard" && (
-                        <UserDashBoard setPage={setPage} isLoaded={isLoaded} />)}
+                        <UserDashBoard isLoaded={isLoaded} />)}
                     {page === "notes" && (
-                        <Notes setPage={setPage} isLoaded={isLoaded} />)}
+                        <Notes isLoaded={isLoaded} />)}
                     {page === "notebooks" && (
-                        <Notebooks setPage={setPage} isLoaded={isLoaded} />)}
+                        <Notebooks isLoaded={isLoaded} />)}
                     {page === "account" && (
-                        <AccountInfo setPage={setPage} isLoaded={isLoaded} />)}
+                        <AccountInfo isLoaded={isLoaded} />)}
                 </div>
             )}
         </>

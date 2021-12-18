@@ -7,8 +7,8 @@ import { Modal } from '../../context/Modal';
 import NotebookFormNew from '../NotebookFormNew';
 import './UserDashboard.css'
 
-function UserDashBoard({ isLoaded, setPage }) {
-    const { setNoteId, setNotebookId, scratchContent, setScratchContent } = usePage()
+function UserDashBoard({ isLoaded }) {
+    const { setPage, setNoteId, setNotebookId, scratchContent, setScratchContent } = usePage()
     const [showButtons, setShowButtons] = useState(false);
     const [showForm, setShowForm] = useState(false);
     const sessionUser = useSelector(state => state.session.user);
