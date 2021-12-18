@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Redirect, useHistory } from 'react-router-dom';
 import { loadNotebookNotes } from '../../store/notes';
-import { FormModal } from '../../context/FormModal';
-import { DeleteModal } from '../../context/DeleteModal';
+import { Modal } from '../../context/Modal';
 import NotebookFormUpdate from '../NotebookFormUpdate';
 import NotebookFormDelete from '../NotebookFormDelete';
 import NoteFormUpdate from '../NoteFormUpdate';
@@ -17,7 +16,6 @@ function Notebook({ isLoaded }) {
     const { noteId, setNoteId, notebookId, setNotebookId } = usePage();
     const history = useHistory();
     const [showForm, setShowForm] = useState(false);
-    const [showDelete, setShowDelete] = useState(false);
     const [showButtons, setShowButtons] = useState(false);
     const user = useSelector(state => state.session.user);
     const notes = useSelector(state => state.notes)
@@ -87,20 +85,20 @@ function Notebook({ isLoaded }) {
                             <i onClick={() => openActions(notebook.id)} class="fas fa-ellipsis-h"></i>
                             {showButtons === notebook.id &&
                                 <div className="notebook-actions-dropdown">
-                                    <button id="edit-notebook-link" onClick={() => setShowForm(notebook.id)}>Rename Notebook</button>
-                                    <button id="delete-notebook-link" onClick={() => setShowDelete(notebook.id)}>Delete Notebook</button>
+                                    <button id="edit-notebook-link" onClick={() => setShowForm(notebook.id + "edit")}>Rename Notebook</button>
+                                    <button id="delete-notebook-link" onClick={() => setShowForm(notebook.id + "delete")}>Delete Notebook</button>
                                 </div>
                             }
                         </div>
-                        {showForm === notebook.id && (
-                            <FormModal onClose={() => setShowForm(false)}>
+                        {showForm === (notebook.id + "edit") && (
+                            <Modal onClose={() => setShowForm(false)}>
                                 <NotebookFormUpdate id={notebook.id} hideForm={() => setShowForm(false)} />
-                            </FormModal>
+                            </Modal>
                         )}
-                        {showDelete === notebook.id && (
-                            <DeleteModal onClose={() => setShowDelete(false)}>
-                                <NotebookFormDelete id={notebook.id} hideForm={() => setShowDelete(false)} />
-                            </DeleteModal>
+                        {showForm === (notebook.id + "delete") && (
+                            <Modal onClose={() => setShowForm(false)}>
+                                <NotebookFormDelete id={notebook.id} hideForm={() => setShowForm(false)} />
+                            </Modal>
                         )}
                     </div>
                     {userNotes.map(note => {

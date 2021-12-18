@@ -160,7 +160,6 @@ h4 {
     display: grid;
     width: 100%;
     grid-template-columns: 70% 1fr;
-    border-radius: 5px;
 }
 
 .notebook:nth-child(odd) {
@@ -265,8 +264,8 @@ h4 {
 }
 
 #notes-container i:hover {
-    /* color: blue; */
     background-color: rgb(220, 220, 220);
+    cursor: pointer;
 }
 
 #notes-container i {

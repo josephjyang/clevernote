@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Redirect } from 'react-router-dom'
 import { usePage } from '../../context/ClevernoteContext';
 import { loadNotes } from '../../store/notes'
-import { FormModal } from '../../context/FormModal';
+import { Modal } from '../../context/Modal';
 import NotebookFormNew from '../NotebookFormNew';
 import './UserDashboard.css'
 
@@ -139,9 +139,9 @@ function UserDashBoard({ isLoaded, setPage }) {
                     </div>
                     }
                     {showForm && (
-                        <FormModal onClose={() => setShowForm(false)}>
+                        <Modal onClose={() => setShowForm(false)}>
                             <NotebookFormNew hideForm={() => setShowForm(false)} />
-                        </FormModal>
+                        </Modal>
                     )}
             </div>
             <div id="scratchpad-container">

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Redirect,  } from 'react-router-dom';
-import { FormModal } from '../../context/FormModal';
+import { Modal } from '../../context/Modal';
 import './AccountInfo.css'
 import EnterPassword from '../EnterPassword';
 
@@ -65,9 +65,9 @@ function AccountInfo({ isLoaded }) {
                 setShowForm(true);
             }}>Delete Account</button>
             {showForm && (
-                <FormModal onClose={() => setShowForm(false)}>
+                <Modal onClose={() => setShowForm(false)}>
                     <EnterPassword use={use} email={email} username={username} firstName={firstName} lastName={lastName} hideForm={() => setShowForm(false)} />
-                </FormModal>
+                </Modal>
             )}
         </div>
     )

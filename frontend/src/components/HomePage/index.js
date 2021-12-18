@@ -47,8 +47,8 @@ function HomePage({ isLoaded }) {
                 </div>
                 }
 
-                {showSignup === "signup" && <SignupFormPage />}
-                {showSignup === "about" && <About setShowSignup={setShowSignup}/>}
+                { showSignup === "signup" && <SignupFormPage />}
+                { showSignup === "about" && <About />}
             </div>
         </>
     );

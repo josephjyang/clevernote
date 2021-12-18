@@ -1,7 +1,7 @@
 import React from 'react';
 import './About.css'
 
-function About({ isLoaded, setShowSignup }) {
+function About() {
     return (
         <>
             <div id="about-page">
@@ -32,7 +32,6 @@ function About({ isLoaded, setShowSignup }) {
                         </ul>
                     </div>
                 </div>
-
             </div>
         </>
     );
