@@ -17,7 +17,6 @@ function NoteForm({ isLoaded }) {
     const [errors, setErrors] = useState([]);
     const [name, setName] = useState('');
     const [content, setContent] = useState(scratchContent);
-    
     const history = useHistory();  
 
     if (!sessionUser) return (
