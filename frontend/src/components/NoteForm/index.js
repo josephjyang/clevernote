@@ -57,42 +57,44 @@ function NoteForm({ isLoaded }) {
 
     return (
         <>
-            <div className="note-form">
-                <form onSubmit={onSubmit}>
-                    <ul className="error-list-note" hidden={errors.length === 0}>
-                            {errors.map((error, i) => <li key={i}>{error}</li>)}
-                    </ul>
-                    <div id="note-form-header">
-                        <select
-                        id="notebook-select"
-                        value={notebookId || "select"}
-                        onChange={e => setNotebookId(e.target.value)}
-                        >
-                            <option value={"select"}>Select a notebook</option>
-                            {userNotebooks.map(notebook => {
-                                return <option key={notebook.id} value={notebook.id}>{notebook.name}</option>
-                            })}
-                        </select>
-                    </div>
-                    <input
-                        id="note-title"
-                        type="text"
-                        value={name}
-                        onChange={e => setName(e.target.value)}
-                        required
-                        placeholder="Title"
-                    />
-                    <textarea
-                        id="note-form-content"
-                        value={content}
-                        onChange={(e) => setContent(e.target.value)}
-                        placeholder="Start writing..."
-                    />
-                    <div className="footer">
-                        <button id="new-note" type="submit">Save Note</button>
-                    </div>
-                </form>
-            </div>
+            {isLoaded && (
+                <div className="note-form">
+                    <form onSubmit={onSubmit}>
+                        <ul className="error-list-note" hidden={errors.length === 0}>
+                                {errors.map((error, i) => <li key={i}>{error}</li>)}
+                        </ul>
+                        <div id="note-form-header">
+                            <select
+                            id="notebook-select"
+                            value={notebookId || "select"}
+                            onChange={e => setNotebookId(e.target.value)}
+                            >
+                                <option value={"select"}>Select a notebook</option>
+                                {userNotebooks.map(notebook => {
+                                    return <option key={notebook.id} value={notebook.id}>{notebook.name}</option>
+                                })}
+                            </select>
+                        </div>
+                        <input
+                            id="note-title"
+                            type="text"
+                            value={name}
+                            onChange={e => setName(e.target.value)}
+                            required
+                            placeholder="Title"
+                        />
+                        <textarea
+                            id="note-form-content"
+                            value={content}
+                            onChange={(e) => setContent(e.target.value)}
+                            placeholder="Start writing..."
+                        />
+                        <div className="footer">
+                            <button id="new-note" type="submit">Save Note</button>
+                        </div>
+                    </form>
+                </div>
+            )}
         </>
     )
 }

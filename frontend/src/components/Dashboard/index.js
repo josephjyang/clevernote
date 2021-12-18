@@ -36,29 +36,21 @@ function Dashboard({ isLoaded }) {
     }, [dispatch, user]);
 
     return (
-        <div id="content">
-            <Navigation isLoaded={isLoaded} />
+        <>
             {isLoaded && (
-                page === "dashboard" && (
-                    <UserDashBoard setPage={setPage} isLoaded={isLoaded} />
-                )
+                <div id="content">
+                    <Navigation isLoaded={isLoaded} />
+                    {page === "dashboard" && (
+                        <UserDashBoard setPage={setPage} isLoaded={isLoaded} />)}
+                    {page === "notes" && (
+                        <Notes setPage={setPage} isLoaded={isLoaded} />)}
+                    {page === "notebooks" && (
+                        <Notebooks setPage={setPage} isLoaded={isLoaded} />)}
+                    {page === "account" && (
+                        <AccountInfo setPage={setPage} isLoaded={isLoaded} />)}
+                </div>
             )}
-            {isLoaded && (
-                page === "notes" && (
-                    <Notes setPage={setPage} isLoaded={isLoaded} />
-                )
-            )}
-            {isLoaded && (
-                page === "notebooks" && (
-                    <Notebooks setPage={setPage} isLoaded={isLoaded} />
-                )
-            )}
-            {isLoaded && (
-                page === "account" && (
-                    <AccountInfo setPage={setPage} isLoaded={isLoaded} />
-                )
-            )}
-        </div>
+        </>
     );
 }
 

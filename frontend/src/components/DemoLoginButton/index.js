@@ -20,7 +20,7 @@ function DemoLoginButton() {
 
     return (
         <form onSubmit={onSubmit}>
-                <button id="demo-login" type="submit">Demo Log In</button>
+            <button id="demo-login" type="submit">Demo Log In</button>
         </form>
     )
 }

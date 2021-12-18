@@ -5,7 +5,7 @@ import { Redirect } from 'react-router-dom';
 import { usePage } from '../../context/ClevernoteContext';
 import './EnterPassword.css'
 
-function EnterPassword({ hideForm, use, email, username, firstName, lastName }) {
+function EnterPassword({ isLoaded, hideForm, use, email, username, firstName, lastName }) {
     const { setPage } = usePage();
     const dispatch = useDispatch();
     const sessionUser = useSelector(state => state.session.user);
@@ -44,22 +44,26 @@ function EnterPassword({ hideForm, use, email, username, firstName, lastName }) 
     }
 
     return (
-        <div className="password-form">
-            <form onSubmit={onSubmit}>
-                <ul className="error-list-notebook" hidden={errors.length === 0}>
-                    {errors.map((error, i) => <li key={i}>{error}</li>)}
-                </ul>
-                <p>Enter Password:</p>
-                <input
-                    type="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                    placeholder="Enter name"
-                />
-                <button type="submit">Confirm Password</button>
-            </form>
-        </div>
+        <>
+            {isLoaded && (
+                <div className="password-form">
+                    <form onSubmit={onSubmit}>
+                        <ul className="error-list-notebook" hidden={errors.length === 0}>
+                            {errors.map((error, i) => <li key={i}>{error}</li>)}
+                        </ul>
+                        <p>Enter Password:</p>
+                        <input
+                            type="password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            required
+                            placeholder="Enter name"
+                        />
+                        <button type="submit">Confirm Password</button>
+                    </form>
+                </div>
+            )}
+        </>
     )
 }
 
