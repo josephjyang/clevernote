@@ -46,9 +46,9 @@ function NewNote({ isLoaded }) {
 
         if (newNote) {
             setNoteId(newNote.id);
-            setNotebookId(thisNotebookId)
+            setNotebookId(thisNotebookId);
             setScratchContent();
-            history.push("/dashboard")
+            history.push("/dashboard");
         }
     }
 
@@ -57,7 +57,7 @@ function NewNote({ isLoaded }) {
 
         setNotebookId("select");
         setContent('');
-        setName('')
+        setName('');
     }
 
     return (

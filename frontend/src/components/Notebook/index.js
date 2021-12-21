@@ -55,7 +55,7 @@ function Notebook({ isLoaded }) {
     if (!user) return (
         <Redirect to="/" />
     )
-    
+
     if(!notebook) return null;
 
     return (
@@ -79,6 +79,7 @@ function Notebook({ isLoaded }) {
                                     <div className="notebook-actions-dropdown">
                                         <button id="edit-notebook-link" onClick={() => setShowForm(notebook.id + "edit")}>Rename Notebook</button>
                                         <button id="delete-notebook-link" onClick={() => setShowForm(notebook.id + "delete")}>Delete Notebook</button>
+                                        <button id="new-note-link" onClick={() => setNoteId(false)}>New Note</button>
                                     </div>
                                 }
                             </div>
