@@ -10,7 +10,7 @@ import './HomePage.css'
 
 function HomePage({ isLoaded }) {
     const sessionUser = useSelector(state => state.session.user);
-    const [showSignup, setShowSignup] = useState(false);
+    const [showPage, setShowPage] = useState(false);
     const [showModal, setShowModal] = useState(false);
 
     if (sessionUser) return (
@@ -20,8 +20,8 @@ function HomePage({ isLoaded }) {
     if (!sessionUser) return (
         <>
             <div id="container">
-                <Navigation setShowSignup={setShowSignup} isLoaded={isLoaded} />
-                {!showSignup &&
+                <Navigation setShowPage={setShowPage} isLoaded={isLoaded} />
+                {!showPage &&
                 <div id="homepage">
                     <h1>
                         Save your ideas, shock the world
@@ -31,7 +31,7 @@ function HomePage({ isLoaded }) {
                     <br />
                         Organize your business plans, jokes, solutions, and more, all in one place.
                     </h3>
-                    <div onClick={() => setShowSignup("signup")}>
+                    <div onClick={() => setShowPage("signup")}>
                         <button id="sign-up-btn">
                             Sign up for free
                         </button>
@@ -47,8 +47,8 @@ function HomePage({ isLoaded }) {
                 </div>
                 }
 
-                { showSignup === "signup" && <SignupFormPage />}
-                { showSignup === "about" && <About />}
+                {showPage === "signup" && <SignupFormPage />}
+                {showPage === "about" && <About />}
             </div>
         </>
     );

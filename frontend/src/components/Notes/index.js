@@ -1,17 +1,20 @@
-import React, { useState } from 'react';
+import React from 'react';
 import NotesSidebar from '../NotesSidebar';
-import NoteForm from '../NoteForm';
+import NewNote from '../NewNote';
+import UpdateNote from '../UpdateNote';
+import { usePage } from '../../context/ClevernoteContext';
 import './Notes.css'
 
 function Notes({ isLoaded }) {
-    const [notebookId, setNotebookId] = useState();
+    const { noteId } = usePage();
 
     return (
         <>
             {isLoaded && (
                 <div id="notes-content">
                     <NotesSidebar isLoaded={isLoaded} />
-                    <NoteForm setNotebookId={setNotebookId} notebookId={notebookId} isLoaded={isLoaded}/>
+                    {!noteId && <NewNote isLoaded={isLoaded} />}
+                    {noteId && <UpdateNote isLoaded={isLoaded} />}
                 </div>
             )}
         </>

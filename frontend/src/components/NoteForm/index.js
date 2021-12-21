@@ -1,33 +1,17 @@
-import React, { useState, useEffect, useMemo } from 'react';
-import * as notesActions from '../../store/notes';
-import { useDispatch, useSelector } from 'react-redux';
-import { Redirect, useHistory } from 'react-router-dom';
-import { usePage } from '../../context/ClevernoteContext';
+import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 import './NoteForm.css'
 
-function NoteForm({ isLoaded }) {
-    const dispatch = useDispatch();
-    const { noteId, setNoteId, notebookId, setNotebookId } = usePage();
+function NoteForm({ isLoaded, onSubmit, deleteNote, errors, setErrors, name, setName, content, setContent, notebookId, setNotebookId }) {
     const sessionUser = useSelector(state => state.session.user);
-    const notes = useSelector(state => state.notes)
     const notebooks = useSelector(state => state.notebooks);
     const userNotebooks = Object.values(notebooks);
     userNotebooks.sort((a, b) => {
         return Date.parse(b.updatedAt) - Date.parse(a.updatedAt);
     })
-    const note = useMemo(() => notes[noteId] || {}, [noteId, notes]);
-    const history = useHistory();
-    const [errors, setErrors] = useState([]);
-    const [name, setName] = useState(note.name);
-    const [content, setContent] = useState(note.content);
     const [showActions, setShowActions] = useState(false);
     
-    useEffect(() => {
-        setName(note.name || '');
-        setContent(note.content || '');
-        setNotebookId(note.notebookId || null);
-    }, [note, setNotebookId])
-
     const openActions = () => {
         if (showActions) return;
         return setShowActions(true)
@@ -48,47 +32,6 @@ function NoteForm({ isLoaded }) {
     if (!sessionUser) return (
         <Redirect to="/" />
     );
-
-    const onSubmit = async e => {
-        e.preventDefault();
-        
-        let payload;
-
-        if (notebookId === "select") {
-            payload = {
-                ...note,
-                name,
-                content,
-                notebookId: null
-            }
-        } else {
-            payload = {
-                ...note,
-                name,
-                content,
-                notebookId
-            }
-        }
-
-        const updatedNote = await dispatch(notesActions.updateNote(payload))
-            .catch(async res => {
-                const data = await res.json();
-                if (data && data.errors) setErrors(data.errors);
-            })
-        if (updatedNote) {
-            setErrors([])
-            history.push("/dashboard")
-        }
-    }
-
-    const deleteNote = async e => {
-        e.preventDefault()
-
-        await dispatch(notesActions.removeNote(noteId));
-        setNotebookId("select");
-        setNoteId(null);
-        return history.push("/dashboard");
-    }
 
     return (
         <>

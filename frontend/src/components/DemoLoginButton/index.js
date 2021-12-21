@@ -1,21 +1,15 @@
 import React from "react";
-import { useHistory } from "react-router-dom";
 import { useDispatch } from 'react-redux';
 import * as sessionActions from '../../store/session';
-import { usePage } from "../../context/ClevernoteContext";
 import './DemoLoginButton.css'
 
 function DemoLoginButton() {
     const dispatch = useDispatch();
-    const { setPage } = usePage();
-    const history = useHistory()
 
     const onSubmit = async e => {
         e.preventDefault();
-        history.push("/dashboard");
-        setPage("dashboard");
         const demoUser = { credential: "jimhalpert", password: "password" }
-        return await dispatch(sessionActions.login(demoUser))
+        return dispatch(sessionActions.login(demoUser))
     }
 
     return (

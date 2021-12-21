@@ -5,9 +5,8 @@ import { loadNotebookNotes } from '../../store/notes';
 import { Modal } from '../../context/Modal';
 import NotebookFormUpdate from '../NotebookFormUpdate';
 import NotebookFormDelete from '../NotebookFormDelete';
-import NoteForm from '../NoteForm';
-import { loadNotes } from '../../store/notes'
-import { loadNotebooks } from '../../store/notebooks'
+import NewNote from '../NewNote';
+import UpdateNote from '../UpdateNote';
 import { usePage } from '../../context/ClevernoteContext';
 import './Notebook.css'
 
@@ -26,13 +25,6 @@ function Notebook({ isLoaded }) {
     const notebook = notebooks[notebookId];
 
     const dispatch = useDispatch();
-    useEffect(() => {
-        if (user) {
-            dispatch(loadNotes(user));
-            dispatch(loadNotebooks(user));
-        }
-        else return;
-    }, [dispatch, user]);
 
     useEffect(() => {
         if (user && notebook) dispatch(loadNotebookNotes(user, notebook));
@@ -63,7 +55,7 @@ function Notebook({ isLoaded }) {
     if (!user) return (
         <Redirect to="/" />
     )
-
+    
     if(!notebook) return null;
 
     return (
@@ -82,7 +74,7 @@ function Notebook({ isLoaded }) {
                                 </p>
                             </div>
                             <div id="notebook-buttons">
-                                <i onClick={() => openActions(notebook.id)} class="fas fa-ellipsis-h"></i>
+                                <i onClick={() => openActions(notebook.id)} className="fas fa-ellipsis-h"></i>
                                 {showButtons === notebook.id &&
                                     <div className="notebook-actions-dropdown">
                                         <button id="edit-notebook-link" onClick={() => setShowForm(notebook.id + "edit")}>Rename Notebook</button>
@@ -119,7 +111,8 @@ function Notebook({ isLoaded }) {
                             )
                         })}
                     </div>
-                    {noteId && <NoteForm />}
+                    {!noteId && <NewNote isLoaded={isLoaded} />}
+                    {noteId && <UpdateNote isLoaded={isLoaded} />}
                 </div>
             )}
         </>

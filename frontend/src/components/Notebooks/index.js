@@ -23,9 +23,11 @@ function Notebooks({ isLoaded }) {
     
     const dispatch = useDispatch();
     useEffect(() => {
-        if (user) dispatch(loadNotebooks(user));
+        if (user) {
+            dispatch(loadNotebooks(user));
+        } 
         else return;
-    }, [dispatch, user]);
+    }, [dispatch, user, notebookId]);
 
 
     const openActions = (id) => {
