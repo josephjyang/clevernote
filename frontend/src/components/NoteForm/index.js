@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import './NoteForm.css'
 
-function NoteForm({ isLoaded, onSubmit, deleteNote, errors, setErrors, name, setName, content, setContent, notebookId, setNotebookId }) {
+function NoteForm({ isLoaded, onSubmit, deleteNote, errors, name, setName, content, setContent, notebookId, setNotebookId }) {
     const sessionUser = useSelector(state => state.session.user);
     const notebooks = useSelector(state => state.notebooks);
     const userNotebooks = Object.values(notebooks);

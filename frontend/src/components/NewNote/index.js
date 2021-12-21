@@ -18,6 +18,8 @@ function NewNote({ isLoaded }) {
     const [errors, setErrors] = useState([]);
     const [name, setName] = useState('');
     const [content, setContent] = useState(scratchContent);
+    const [thisNotebookId, setThisNotebookId] = useState(notebookId);
+
     
 
     if (!sessionUser) return (
@@ -28,14 +30,14 @@ function NewNote({ isLoaded }) {
         e.preventDefault();
         setErrors([])
         let newNote
-        if (notebookId === "select") {
+        if (thisNotebookId === "select") {
             newNote = await dispatch(notesActions.createNote({ name, content, userId: sessionUser.id, notebookId: null }))
                 .catch(async res => {
                     const data = await res.json();
                     if (data && data.errors) setErrors(data.errors);
                 })
         } else {
-            newNote = await dispatch(notesActions.createNote({ name, content, userId: sessionUser.id, notebookId }))
+            newNote = await dispatch(notesActions.createNote({ name, content, userId: sessionUser.id, notebookId: thisNotebookId }))
                 .catch(async res => {
                     const data = await res.json();
                     if (data && data.errors) setErrors(data.errors);
@@ -44,6 +46,7 @@ function NewNote({ isLoaded }) {
 
         if (newNote) {
             setNoteId(newNote.id);
+            setNotebookId(thisNotebookId)
             setScratchContent();
             history.push("/dashboard")
         }
@@ -61,7 +64,7 @@ function NewNote({ isLoaded }) {
         <>
             {isLoaded && (
                 <>
-                    <NoteForm isLoaded={isLoaded} onSubmit={onSubmit} deleteNote={deleteNote} errors={errors} setErrors={setErrors} name={name} setName={setName} content={content} setContent={setContent} notebookId={notebookId} setNotebookId={setNotebookId}/>
+                    <NoteForm isLoaded={isLoaded} onSubmit={onSubmit} deleteNote={deleteNote} errors={errors} setErrors={setErrors} name={name} setName={setName} content={content} setContent={setContent} notebookId={thisNotebookId} setNotebookId={setThisNotebookId}/>
                 </>
             )}
         </>
