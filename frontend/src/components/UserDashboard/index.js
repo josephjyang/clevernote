@@ -146,7 +146,7 @@ function UserDashBoard({ isLoaded }) {
                             }
                             {showForm && (
                                 <Modal onClose={() => setShowForm(false)}>
-                                    <NotebookFormNew hideForm={() => setShowForm(false)} />
+                                    <NotebookFormNew isLoaded={isLoaded} hideForm={() => setShowForm(false)} />
                                 </Modal>
                             )}
                     </div>
