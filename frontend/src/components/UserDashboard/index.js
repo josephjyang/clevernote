@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Redirect } from 'react-router-dom'
 import { usePage } from '../../context/ClevernoteContext';
 import { loadNotes } from '../../store/notes'
+import { loadNotebooks } from '../../store/notebooks';
 import { Modal } from '../../context/Modal';
 import NotebookFormNew from '../NotebookFormNew';
 import './UserDashboard.css'
@@ -23,7 +24,10 @@ function UserDashBoard({ isLoaded }) {
     
     const dispatch = useDispatch();
     useEffect(() => {
-        if (sessionUser) dispatch(loadNotes(sessionUser));
+        if (sessionUser) {
+            dispatch(loadNotes(sessionUser));
+            dispatch(loadNotebooks(sessionUser));
+        }
         else return;
     }, [dispatch, sessionUser]);
     
@@ -142,7 +146,7 @@ function UserDashBoard({ isLoaded }) {
                             }
                             {showForm && (
                                 <Modal onClose={() => setShowForm(false)}>
-                                    <NotebookFormNew hideForm={() => setShowForm(false)} />
+                                    <NotebookFormNew isLoaded={isLoaded} hideForm={() => setShowForm(false)} />
                                 </Modal>
                             )}
                     </div>

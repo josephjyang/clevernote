@@ -7,8 +7,8 @@ import LoginFormModal from '../LoginFormModal';
 import { usePage } from '../../context/ClevernoteContext';
 import './Navigation.css'
 
-function Navigation({ isLoaded, setShowSignup }) {
-    const { setPage, setNoteId, setNotebookId } = usePage();
+function Navigation({ isLoaded, setShowPage }) {
+    const { setPage, setNoteId, setNotebookId, setScratchContent } = usePage();
     const sessionUser = useSelector(state => state.session.user); 
     
     let sessionLinks;
@@ -23,7 +23,8 @@ function Navigation({ isLoaded, setShowSignup }) {
                     <div id="new-button" onClick={() => {
                         setPage("notes");
                         setNoteId(false);
-                        setNotebookId("select")
+                        setNotebookId("select");
+                        setScratchContent();
                         }}>
                         <button id="new-note-btn">
                             <i className="fas fa-plus"/>
@@ -32,9 +33,10 @@ function Navigation({ isLoaded, setShowSignup }) {
                     </div>
                     <div id="navbar-links">
                         <div className="navbar-link" onClick={() => {
-                            setNoteId(null);
-                            setNotebookId(null);
+                            setNoteId(false);
+                            setNotebookId("select");
                             setPage("dashboard");
+                            setScratchContent();
                             }
                             }>
                             <i className="fas fa-home"/>
@@ -42,16 +44,18 @@ function Navigation({ isLoaded, setShowSignup }) {
                         </div>
                         <div className="navbar-link" onClick={() => {
                             setPage("notes");
-                            setNoteId(null);
-                            setNotebookId(null);
+                            setNoteId(false);
+                            setNotebookId("select");
+                            setScratchContent();
                         }}>
                             <i className="fas fa-file-alt" />
                             <span>Notes</span>
                         </div>
                         <div className="navbar-link" onClick={() => {
                             setPage("notebooks");
-                            setNotebookId(null);
-                            setNoteId(null);
+                            setNotebookId("select");
+                            setNoteId(false);
+                            setScratchContent();
                         }}>
                             <i className="fas fa-book" />
                             <span>Notebooks</span>
@@ -65,7 +69,7 @@ function Navigation({ isLoaded, setShowSignup }) {
             <>
                 <div id="homenav">
                     <div id="left">
-                        <NavLink exact to="/" onClick={() => setShowSignup(false)}>
+                        <NavLink exact to="/" onClick={() => setShowPage(false)}>
                             <div id="home-links">
                                 <img src="/images/logo.png" alt="clevernote-logo" id="logo" />
                                 <span id="home-title">Clevernote</span>
@@ -79,19 +83,19 @@ function Navigation({ isLoaded, setShowSignup }) {
                                 <DemoLoginButton />
                             </li>
                             <li>
-                                <NavLink exact to="/" id="home-link" onClick={() => setShowSignup(false)}>Home</NavLink>
+                                <NavLink exact to="/" id="home-link" onClick={() => setShowPage(false)}>Home</NavLink>
                             </li>
                             <li>
                                 <LoginFormModal />
                             </li>
                             <li>
-                                <button onClick={() => setShowSignup("signup")} id="signup">Sign Up</button>
+                                <button onClick={() => setShowPage("signup")} id="signup">Sign Up</button>
                             </li>
                         </ul>
                     </div>
                 </div>
                 <div id="homepage-footer">
-                    <span id="about" onClick={() => setShowSignup("about")}>ABOUT CLEVERNOTE</span>
+                    <span id="about" onClick={() => setShowPage("about")}>ABOUT CLEVERNOTE</span>
                 </div>
             </>
         )

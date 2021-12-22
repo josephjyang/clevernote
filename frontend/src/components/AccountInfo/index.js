@@ -7,6 +7,8 @@ import EnterPassword from '../EnterPassword';
 
 function AccountInfo({ isLoaded }) {
     const user = useSelector(state => state.session.user);
+
+    // Form - controlled inputs
     const [firstName, setFirstName] = useState(user ? user.firstName : null);
     const [lastName, setLastName] = useState(user ? user.lastName : null);
     const [email, setEmail] = useState(user ? user.email : null);

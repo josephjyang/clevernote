@@ -114,7 +114,8 @@ i.fa-ellipsis-h:hover {
 }
 
 #edit-notebook-link,
-#delete-notebook-link {
+#delete-notebook-link,
+#new-note-link {
     display: inline-flex;
     border: none;
     color: rgb(60, 60, 60);
@@ -127,7 +128,8 @@ i.fa-ellipsis-h:hover {
 }
 
 #edit-notebook-link:hover,
-#delete-notebook-link:hover {
+#delete-notebook-link:hover,
+#new-note-link:hover {
     background-color: rgb(160, 160, 160);
     cursor:pointer;
 }

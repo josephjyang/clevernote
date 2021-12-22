@@ -21,6 +21,7 @@ function EnterPassword({ isLoaded, hideForm, use, email, username, firstName, la
         setErrors([]);
 
         if (use === "update") {
+            e.preventDefault();
             const updatedUser = await dispatch(sessionActions.updateUser({ id: sessionUser.id, email, username, password, firstName, lastName }))
                 .catch(async res => {
                     const data = await res.json();
