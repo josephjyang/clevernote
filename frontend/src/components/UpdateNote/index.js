@@ -20,11 +20,13 @@ function UpdateNote({ isLoaded }) {
     const [name, setName] = useState(note.name);
     const [content, setContent] = useState(note.content);
     const [thisNotebookId, setThisNotebookId] = useState(note.notebookId);
+    const [currTags, setCurrTags] = useState(note.Tags)
 
     useEffect(() => {
         setName(note.name || '');
         setContent(note.content || '');
         setThisNotebookId(note.notebookId || null);
+        setCurrTags(note.Tags || null)
     }, [note, setThisNotebookId])
 
     const onSubmit = async e => {
@@ -73,7 +75,7 @@ function UpdateNote({ isLoaded }) {
         <>
             {isLoaded && (
                 
-                <NoteForm isLoaded={isLoaded} onSubmit={onSubmit} deleteNote={deleteNote} errors={errors} setErrors={setErrors} name={name} setName={setName} content={content} setContent={setContent} notebookId={thisNotebookId} setNotebookId={setThisNotebookId}/>
+                <NoteForm isLoaded={isLoaded} onSubmit={onSubmit} deleteNote={deleteNote} errors={errors} setErrors={setErrors} name={name} setName={setName} content={content} setContent={setContent} notebookId={thisNotebookId} setNotebookId={setThisNotebookId} currTags={currTags}/>
             )}
         </>
     )

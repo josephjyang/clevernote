@@ -4,7 +4,7 @@ const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 
 const { setTokenCookie, requireAuth } = require('../../utils/auth');
-const { User, Note, Notebook, Tag } = require('../../db/models');
+const { User, Note, Notebook, Tag, NoteTag } = require('../../db/models');
 
 const router = express.Router();
 
@@ -120,8 +120,8 @@ router.delete('/:id', asyncHandler(async (req, res, next) => {
 }))
 
 router.get('/:id/notes', requireAuth, asyncHandler(async (req, res) => {
-    const userId = req.params.id;
-    const notes = await Note.findAll({ order: [['updatedAt', 'DESC']], where: { userId }  });
+    const userId = req.params.id
+    const notes = await Note.findAll({ where: { userId }, include: { model: Tag } });
 
     return res.json(notes);
 }))
@@ -135,7 +135,7 @@ router.post('/:id/notes', requireAuth, validateNote, asyncHandler(async (req, re
 
 router.get('/:id/notebooks', requireAuth, asyncHandler(async (req, res) => {
     const userId = req.params.id
-    const notebooks = await Notebook.findAll({ order: [['updatedAt', 'DESC']], where: { userId }, include: Note });
+    const notebooks = await Notebook.findAll({ where: { userId }, include: { model: Note } });
 
     return res.json(notebooks)
 }))
@@ -151,7 +151,7 @@ router.post('/:id/notebooks', requireAuth, validateNotebook, asyncHandler(async 
 router.get('/:id/notebooks/:notebookId/notes', requireAuth, asyncHandler(async (req, res) => {
     const { id: userId, notebookId } = req.params
     
-    const notes = await Note.findAll({ where: { userId, notebookId } });
+    const notes = await Note.findAll({ where: { userId, notebookId }, include: { model: Tag } });
 
     return res.json(notes)
 }))
@@ -175,5 +175,25 @@ router.delete('/:id/notebooks/:notebookId', requireAuth, asyncHandler(async (req
 
     return res.json(deletedNotebook)
 }))
+
+router.get('/:id/tags', requireAuth, asyncHandler(async (req, res) => {
+    const userId = req.params.id;
+    const tags = await Tag.findAll({
+        where: { userId },
+        include: { model: Note }
+    });
+
+    return res.json(tags)
+}));
+
+router.post('/:id/tags', requireAuth, asyncHandler(async (req, res) => {
+    const userId = req.params.id;
+    const { name } = req.body;
+    const newTag = await Tag.create({
+        userId, name
+    });
+
+    return res.json(newTag)
+}));
 
 module.exports = router;
