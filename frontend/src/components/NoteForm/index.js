@@ -38,6 +38,7 @@ function NoteForm({ isLoaded }) {
                 const data = await res.json();
                 if (data && data.errors) setErrors(data.errors);
             })
+            setNewTag("");
     }
 
     const onSubmit = async e => {

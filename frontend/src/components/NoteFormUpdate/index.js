@@ -95,14 +95,9 @@ function NoteFormUpdate({ isLoaded }) {
             }
         }
 
-        const updatedNote = await dispatch(notesActions.updateNote(payload))
-            .catch(async res => {
-                const data = await res.json();
-                if (data && data.errors) setErrors(data.errors);
-            })
-
+        
         if (note.Tags) {
-            const oldTags = note.Tags;
+            const oldTags = [...note.Tags];
             const arr = note.Tags.map(tag => parseInt(tag.id, 10))
             const tagIds = Object.keys(noteTags).map(tag => {
                 if (noteTags[tag]) return parseInt(tag, 10)
@@ -115,18 +110,20 @@ function NoteFormUpdate({ isLoaded }) {
             const addTags = userTags.filter(tag => {
                 return !arr.includes(tag.id) && tagIds.includes(tag.id);
             });
+
+            console.log(addTags)
+            console.log(removeTags);
             
             if (addTags.length) {
                 addTags.forEach(tag => {
-                    dispatch(notesActions.createNoteTag(updatedNote, tag))
+                    dispatch(notesActions.createNoteTag(note, tag))
                 })
             }
             if (removeTags.length) {
                 removeTags.forEach(tag => {
-                    dispatch(notesActions.removeNoteTag(updatedNote, tag))
+                    dispatch(notesActions.removeNoteTag(note, tag))
                 })
             }
-            dispatch(loadNotes(sessionUser));
         } else {
             const tagIds = Object.keys(noteTags).map(tag => parseInt(tag, 10));
             const tags = userTags.filter(tag => {
@@ -137,12 +134,18 @@ function NoteFormUpdate({ isLoaded }) {
                     dispatch(notesActions.createNoteTag(updatedNote, tag))
                 })
             }
-            dispatch(loadNotes(sessionUser));
         }
+        
+        const updatedNote = await dispatch(notesActions.updateNote(payload))
+            .catch(async res => {
+                const data = await res.json();
+                if (data && data.errors) setErrors(data.errors);
+            })
 
         if (updatedNote) {
-            setPage('notes')
-            history.push("/dashboard")
+            dispatch(loadNotes(sessionUser));
+            setPage('notes');
+            history.push("/dashboard");
         }
         
     }

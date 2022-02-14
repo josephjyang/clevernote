@@ -120,7 +120,6 @@ export const createNote = data => async dispatch => {
 }
 
 export const createNoteTag = (note, tag) => async dispatch => {
-    console.log(note);
     const res = await csrfFetch(`/api/notes/${note.id}/tags`, {
         method: 'POST',
         headers: {
@@ -160,13 +159,8 @@ export const notesReducer = (state = initialState, action) => {
             newState[action.note.id] = action.note
             return newState;
         case NEW_NOTETAG:
-            // if (newState[action.note.id].Tags) newState[action.note.id].Tags.push(action.tag)
-            // else newState[action.note.id].Tags = [action.tag];
             return newState;
         case DELETE_NOTETAG:
-            // console.log(newState[action.note.id])
-            // const arr = newState[action.note.id].Tags.filter(tag => tag.id !== action.tag.id);
-            // newState[action.note.id].Tags = arr;
             return newState;
         case DELETE_NOTE:
             delete newState[action.id]
