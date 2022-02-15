@@ -1,19 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Redirect, useHistory } from 'react-router-dom';
+import { NavLink, Redirect, Route, useHistory, useParams } from 'react-router-dom';
 import { loadNotebookNotes } from '../../store/notes';
 import { FormModal } from '../../context/FormModal';
 import { DeleteModal } from '../../context/DeleteModal';
 import NotebookFormUpdate from '../NotebookFormUpdate';
 import NotebookFormDelete from '../NotebookFormDelete';
 import NoteForm from '../NoteForm';
-import { loadNotes } from '../../store/notes'
-import { loadNotebooks } from '../../store/notebooks'
 import { usePage } from '../../context/ClevernoteContext';
 import './Notebook.css'
 
 function Notebook({ isLoaded }) {
-    const { noteId, setNoteId, notebookId, setNotebookId } = usePage();
+    const { noteId, setNoteId, } = usePage();
+    const {notebookId} = useParams();
     const history = useHistory();
     const [showForm, setShowForm] = useState(false);
     const [showDelete, setShowDelete] = useState(false);
@@ -27,15 +26,13 @@ function Notebook({ isLoaded }) {
     })
     const notebook = notebooks[notebookId];
     const dispatch = useDispatch();
-    console.log(notebook);
 
     useEffect(() => {
         if (user && notebookId > 0) dispatch(loadNotebookNotes(user, notebooks[notebookId]));
         else {
-            setNotebookId(false);
             return history.push("/dashboard")
         };
-    }, [dispatch, user, notebook, notebookId, notebooks, history, setNotebookId]);
+    }, [dispatch, user, notebook, notebookId, notebooks, history]);
 
     const openActions = (id) => {
         if (showButtons) return;
@@ -99,7 +96,7 @@ function Notebook({ isLoaded }) {
                         const date = new Date(note.updatedAt);
                         const options = { year: 'numeric', month: 'short', day: 'numeric' };
                         return (
-                            <div key={note.id} onClick={() => setNoteId(note.id)} className={note.id === noteId ? "selected notebook-block" : "notebook-block"}>
+                            <NavLink key={note.id} to={`/notebooks/${notebook.id}/notes/${note.id}`} className={note.id === noteId ? "selected notebook-block" : "notebook-block"}>
                                 <h3>
                                     {note.name}
                                 </h3>
@@ -109,11 +106,13 @@ function Notebook({ isLoaded }) {
                                 <p id="notebook-update-time">
                                     {`${date.toLocaleDateString('en-US', options)}`}
                                 </p>
-                            </div>
+                            </NavLink>
                         )
                     })}
                 </div>
-                <NoteForm />
+                <Route path='/notebooks/:notebookId/notes/:noteId'>
+                    <NoteForm isLoaded={isLoaded} />
+                </Route>
             </div>
         </>
     );

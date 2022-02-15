@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import * as notesActions from '../../store/notes';
 import { useDispatch, useSelector } from 'react-redux';
-import { Redirect, useHistory } from 'react-router-dom';
+import { Redirect, useHistory, useParams } from 'react-router-dom';
 import { usePage } from '../../context/ClevernoteContext';
 import { loadNotes } from '../../store/notes';
 import { loadTags } from '../../store/tags';
@@ -9,7 +9,9 @@ import './NoteForm.css'
 
 function NoteForm({ isLoaded }) {
     const dispatch = useDispatch();
-    const { setPage, noteId, setNoteId, notebookId, setNotebookId } = usePage();
+    const { noteId } = useParams();
+    console.log(noteId);
+    const { setPage, setNoteId, notebookId, setNotebookId } = usePage();
     const sessionUser = useSelector(state => state.session.user);
     const notes = useSelector(state => state.notes)
     const notebooks = useSelector(state => state.notebooks);
@@ -176,7 +178,7 @@ function NoteForm({ isLoaded }) {
         await dispatch(notesActions.removeNote(noteId));
         setNotebookId("select");
         setNoteId(null);
-        return history.push("/dashboard");
+        return history.push("/notes");
     }
 
     return (

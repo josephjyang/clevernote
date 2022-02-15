@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { loadNotebooks } from '../../store/notebooks';
-import { Redirect } from 'react-router-dom';
+import { NavLink, Redirect } from 'react-router-dom';
 import { usePage } from '../../context/ClevernoteContext';
 import NotebookFormNew from '../NotebookFormNew';
 import Notebook from '../Notebook';
@@ -13,7 +13,6 @@ import './Notebooks.css'
 
 function Notebooks({ isLoaded }) {
     const user = useSelector(state => state.session.user);
-    const { notebookId, setNotebookId } = usePage();
     const notebooks = useSelector(state => state.notebooks);
     const [showButtons, setShowButtons] = useState(false);
     const [showForm, setShowForm] = useState(false);
@@ -27,7 +26,7 @@ function Notebooks({ isLoaded }) {
     useEffect(() => {
         if (user) dispatch(loadNotebooks(user));
         else return;
-    }, [dispatch, user, notebookId]);
+    }, [dispatch, user]);
 
 
     const openActions = (id) => {
@@ -54,8 +53,7 @@ function Notebooks({ isLoaded }) {
     
     return (
         <div id="notebooks-content">
-            {notebookId && <Notebook isLoaded={isLoaded} id={notebookId} setNotebookId={setNotebookId}/>}
-            {!notebookId && <div id="notebooks-page">
+            {<div id="notebooks-page">
                 <h2>Notebooks</h2>
                 <div id="notebook-grid-header">
                     <span>{userNotebooks.length} notebooks
@@ -80,9 +78,9 @@ function Notebooks({ isLoaded }) {
                         const options = { year: 'numeric', month: 'short', day: 'numeric' };
                         return (
                             <div className="notebook-row" key={notebook.id}>
-                                <div onClick={() => setNotebookId(notebook.id)} className="notebook-cell">
+                                <NavLink to={`/notebooks/${notebook.id}`} className="notebook-cell">
                                     {notebook.name} ({notebook.Notes ? notebook.Notes.length : 0})
-                                </div>
+                                </NavLink>
                                 <div className="notebook-cell time">
                                     {`${createDate.toLocaleDateString('en-US', options)}`}
                                 </div>

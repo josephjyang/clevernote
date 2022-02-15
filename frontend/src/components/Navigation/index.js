@@ -10,7 +10,6 @@ import './Navigation.css'
 function Navigation({ isLoaded, setShowSignup }) {
     const { setPage, setNoteId, setNotebookId } = usePage();
     const sessionUser = useSelector(state => state.session.user); 
-    
     let sessionLinks;
 
     if (sessionUser) {
@@ -31,31 +30,18 @@ function Navigation({ isLoaded, setShowSignup }) {
                         </button>
                     </div>
                     <div id="navbar-links">
-                        <div className="navbar-link" onClick={() => {
-                            setNoteId(null);
-                            setNotebookId(null);
-                            setPage("dashboard");
-                            }
-                            }>
+                        <NavLink className="navbar-link" to="/dashboard">
                             <i className="fas fa-home"/>
                             <span>Home</span>
-                        </div>
-                        <div className="navbar-link" onClick={() => {
-                            setPage("notes");
-                            setNoteId(null);
-                            setNotebookId(null);
-                        }}>
+                        </NavLink>
+                        <NavLink className="navbar-link" exact to="/notes">
                             <i className="fas fa-file-alt" />
                             <span>Notes</span>
-                        </div>
-                        <div className="navbar-link" onClick={() => {
-                            setPage("notebooks");
-                            setNotebookId(null);
-                            setNoteId(null);
-                        }}>
+                        </NavLink>
+                        <NavLink className="navbar-link" to="/notebooks">
                             <i className="fas fa-book" />
                             <span>Notebooks</span>
-                        </div>
+                        </NavLink>
                     </div>
                 </div>
             </>
