@@ -27,7 +27,7 @@ function Notebooks({ isLoaded }) {
     useEffect(() => {
         if (user) dispatch(loadNotebooks(user));
         else return;
-    }, [dispatch, user]);
+    }, [dispatch, user, notebookId]);
 
 
     const openActions = (id) => {
@@ -60,7 +60,7 @@ function Notebooks({ isLoaded }) {
                 <div id="notebook-grid-header">
                     <span>{userNotebooks.length} notebooks
                         </span>
-                    <button id="new-notebook" onClick={() => setShowForm(true)}><i class="fas fa-plus"></i>New Notebook</button>
+                    <button id="new-notebook" onClick={() => setShowForm(true)}><i className="fas fa-plus"></i>New Notebook</button>
                     {showForm && (
                         <FormModal onClose={() => setShowForm(false)}>
                             <NotebookFormNew hideForm={() => setShowForm(false)} />

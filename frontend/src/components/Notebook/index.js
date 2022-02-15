@@ -26,23 +26,16 @@ function Notebook({ isLoaded }) {
         return Date.parse(b.updatedAt) - Date.parse(a.updatedAt);
     })
     const notebook = notebooks[notebookId];
-
     const dispatch = useDispatch();
-    useEffect(() => {
-        if (user) {
-            dispatch(loadNotes(user));
-            dispatch(loadNotebooks(user));
-        }
-        else return;
-    }, [dispatch, user]);
+    console.log(notebook);
 
     useEffect(() => {
-        if (user && notebook) dispatch(loadNotebookNotes(user, notebook));
+        if (user && notebookId > 0) dispatch(loadNotebookNotes(user, notebooks[notebookId]));
         else {
             setNotebookId(false);
             return history.push("/dashboard")
         };
-    }, [dispatch, user, notebook, history, setNotebookId]);
+    }, [dispatch, user, notebook, notebookId, notebooks, history, setNotebookId]);
 
     const openActions = (id) => {
         if (showButtons) return;
@@ -83,7 +76,7 @@ function Notebook({ isLoaded }) {
                             </p>
                         </div>
                         <div id="notebook-buttons">
-                            <i onClick={() => openActions(notebook.id)} class="fas fa-ellipsis-h"></i>
+                            <i onClick={() => openActions(notebook.id)} className="fas fa-ellipsis-h"></i>
                             {showButtons === notebook.id &&
                                 <div className="notebook-actions-dropdown">
                                     <button id="edit-notebook-link" onClick={() => setShowForm(notebook.id)}>Rename Notebook</button>

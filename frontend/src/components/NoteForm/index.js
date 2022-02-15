@@ -32,8 +32,6 @@ function NoteForm({ isLoaded }) {
     const availTags = userTags.filter(tag => !arr?.includes(tag.id))
     const usedTags = userTags.filter(tag => arr?.includes(tag.id))
 
-    console.log(noteTags);
-
     useEffect(() => {
         const newNotesTags = {}
         if (note.Tags) {
@@ -41,17 +39,14 @@ function NoteForm({ isLoaded }) {
                 newNotesTags[tag.id] = tag;
             });
         }
+
+        if (note.name) {
+            setName(note.name || '');
+            setContent(note.content || '');
+            setNotebookId(note.notebookId || null);
+        }
         setNoteTags(newNotesTags);
-        setName(note.name || '');
-        setContent(note.content || '');
-        setNotebookId(note.notebookId || null);
     }, [note, setNotebookId])
-
-    useEffect(() => {
-        dispatch(loadNotes(sessionUser));
-        dispatch(loadTags(sessionUser));
-    }, [dispatch, sessionUser])
-
 
     const openActions = () => {
         if (showActions) return;
