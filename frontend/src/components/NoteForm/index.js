@@ -9,9 +9,8 @@ import './NoteForm.css'
 
 function NoteForm({ isLoaded }) {
     const dispatch = useDispatch();
-    const { noteId } = useParams();
-    console.log(noteId);
-    const { setPage, setNoteId, notebookId, setNotebookId } = usePage();
+    const { noteId, notebookId } = useParams();
+    const { scratchContent } = usePage();
     const sessionUser = useSelector(state => state.session.user);
     const notes = useSelector(state => state.notes)
     const notebooks = useSelector(state => state.notebooks);
@@ -26,13 +25,16 @@ function NoteForm({ isLoaded }) {
     const history = useHistory();
     const [errors, setErrors] = useState([]);
     const [name, setName] = useState(note.name || "");
-    const [content, setContent] = useState(note.content || "");
+    const [content, setContent] = useState(note.content || scratchContent || "");
+    const [notebook, setNotebook] = useState(note.notebookId || notebookId || "");
     const [showActions, setShowActions] = useState(false);
     const [showTags, setShowTags] = useState(false);
     const [noteTags, setNoteTags] = useState(notesTags || {});
     const arr = note.Tags?.map(tag => parseInt(tag.id, 10))
-    const availTags = userTags.filter(tag => !arr?.includes(tag.id))
-    const usedTags = userTags.filter(tag => arr?.includes(tag.id))
+    const availTags = userTags.filter(tag => !arr?.includes(tag.id));
+    const usedTags = userTags.filter(tag => arr?.includes(tag.id));
+    console.log(scratchContent)
+    console.log(content);
 
     useEffect(() => {
         const newNotesTags = {}
@@ -42,13 +44,11 @@ function NoteForm({ isLoaded }) {
             });
         }
 
-        if (note.name) {
-            setName(note.name || '');
-            setContent(note.content || '');
-            setNotebookId(note.notebookId || null);
-        }
+        setName(note.name || '');
+        setContent(note.content || scratchContent || '');
+        setNotebook(note.notebookId || null);
         setNoteTags(newNotesTags);
-    }, [note, setNotebookId])
+    }, [note, setNotebook, scratchContent])
 
     const openActions = () => {
         if (showActions) return;
@@ -90,14 +90,14 @@ function NoteForm({ isLoaded }) {
                 ...note,
                 name,
                 content,
-                notebookId
+                notebookId: notebook
             }
         }
         
         let newNote
 
-        if (!noteId) {
-            newNote = await dispatch(notesActions.createNote({ name, content, userId: sessionUser.id, notebookId }))
+        if (noteId === "new") {
+            newNote = await dispatch(notesActions.createNote({ name, content, userId: sessionUser.id, notebookId: notebook }))
                 .catch(async res => {
                     console.log(res);
                     const data = await res.json();
@@ -107,8 +107,7 @@ function NoteForm({ isLoaded }) {
             const tags = userTags.filter(tag => {
                 return tagIds.includes(tag.id);
             });
-            console.log(tags);
-            console.log(newNote);
+
             if (tags.length) {
                 tags.forEach(async tag => {
                     await dispatch(notesActions.createNoteTag(newNote, tag))
@@ -129,9 +128,6 @@ function NoteForm({ isLoaded }) {
                 const addTags = userTags.filter(tag => {
                     return !arr.includes(tag.id) && tagIds.includes(tag.id);
                 });
-    
-                console.log(addTags)
-                console.log(removeTags);
                 
                 if (addTags.length) {
                     addTags.forEach(tag => {
@@ -166,8 +162,7 @@ function NoteForm({ isLoaded }) {
 
         if (newNote) {
             await dispatch(loadNotes(sessionUser));
-            setPage('notes');
-            history.push("/dashboard");
+            history.push(`/notes/${newNote.id}`);
         }
         
     }
@@ -176,8 +171,6 @@ function NoteForm({ isLoaded }) {
         e.preventDefault()
 
         await dispatch(notesActions.removeNote(noteId));
-        setNotebookId("select");
-        setNoteId(null);
         return history.push("/notes");
     }
 
@@ -190,8 +183,8 @@ function NoteForm({ isLoaded }) {
                 <div id="note-form-header">
                     <select
                         id="notebook-select"
-                        value={notebookId || "select"}
-                        onChange={e => {setNotebookId(e.target.value)}}
+                        value={notebook || "select"}
+                        onChange={e => {setNotebook(e.target.value)}}
                     >
                         <option value={"select"}>Select a notebook</option>
                         {userNotebooks.map(notebook => {

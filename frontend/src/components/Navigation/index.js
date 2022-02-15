@@ -8,7 +8,7 @@ import { usePage } from '../../context/ClevernoteContext';
 import './Navigation.css'
 
 function Navigation({ isLoaded, setShowSignup }) {
-    const { setPage, setNoteId, setNotebookId } = usePage();
+    const { setScratchContent } = usePage();
     const sessionUser = useSelector(state => state.session.user); 
     let sessionLinks;
 
@@ -19,22 +19,18 @@ function Navigation({ isLoaded, setShowSignup }) {
                     <div id="user-header">
                         <ProfileButton user={sessionUser} />
                     </div>
-                    <div id="new-button" onClick={() => {
-                        setPage("notes");
-                        setNoteId(false);
-                        setNotebookId("select")
-                        }}>
+                    <NavLink id="new-button" to="/notes/new" onClick={() => setScratchContent("")}>
                         <button id="new-note-btn">
                             <i className="fas fa-plus"/>
                             <span>New Note</span>
                         </button>
-                    </div>
+                    </NavLink>
                     <div id="navbar-links">
                         <NavLink className="navbar-link" to="/dashboard">
                             <i className="fas fa-home"/>
                             <span>Home</span>
                         </NavLink>
-                        <NavLink className="navbar-link" exact to="/notes">
+                        <NavLink className="navbar-link" exact to="/notes/new" onClick={() => setScratchContent("")}>
                             <i className="fas fa-file-alt" />
                             <span>Notes</span>
                         </NavLink>

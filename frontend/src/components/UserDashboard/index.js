@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Redirect } from 'react-router-dom'
+import { NavLink, Redirect } from 'react-router-dom'
 import { usePage } from '../../context/ClevernoteContext';
 import { loadNotes } from '../../store/notes'
 import { FormModal } from '../../context/FormModal';
@@ -85,10 +85,7 @@ function UserDashBoard({ isLoaded, setPage }) {
                         const date = new Date(note.updatedAt);
                         const options = { year: 'numeric', month: 'short', day: 'numeric' };
                         return (
-                            <div onClick={() => {
-                                setPage("notes")
-                                setNoteId(note.id)
-                                }} key={note.id} className="note">
+                            <NavLink to={`/notes/${note.id}`} key={note.id} className="note">
                                 <div className="note-grid">
                                     <h3>
                                         {note.name}
@@ -100,7 +97,7 @@ function UserDashBoard({ isLoaded, setPage }) {
                                         {`${date.toLocaleDateString('en-US', options)}`}
                                     </p>
                                 </div>
-                            </div>
+                            </NavLink>
                         )
                     }) : (
                     <div onClick={() => {
@@ -123,17 +120,14 @@ function UserDashBoard({ isLoaded, setPage }) {
                     const date = new Date(notebook.updatedAt);
                     const options = { year: 'numeric', month: 'short', day: 'numeric' };
                     return (
-                        <div onClick={() => {
-                            setPage("notebooks")
-                            setNotebookId(notebook.id)
-                        }} key={notebook.id} className="notebook">
+                        <NavLink to={`/notebooks/${notebook.id}`} key={notebook.id} className="notebook">
                             <p className="notebook-notecount">
                                 {notebook.name}
                             </p>
                             <p className="update-time">
                                 {`${date.toLocaleDateString('en-US', options)}`}
                             </p>
-                        </div>
+                        </NavLink>
                     )
                 }) : <div onClick = {() => setShowForm(true)
                 } className="notebook">
@@ -154,7 +148,11 @@ function UserDashBoard({ isLoaded, setPage }) {
                     <i onClick={() => openActions()} className="fas fa-ellipsis-h"></i>
                     {showButtons &&
                         <div id="scratchpad-actions-dropdown">
-                            <button onClick={() => setPage("notes")}>Convert to note</button>
+                            <button>
+                                <NavLink to="/notes/new">
+                                    Convert to note
+                                </NavLink>
+                            </button>
                             <button onClick={() => setScratchContent('')}>Clear scratch pad</button>
                         </div>
                     }
