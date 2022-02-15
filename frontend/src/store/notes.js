@@ -120,6 +120,7 @@ export const createNote = data => async dispatch => {
 }
 
 export const createNoteTag = (note, tag) => async dispatch => {
+    console.log(note);
     const res = await csrfFetch(`/api/notes/${note.id}/tags`, {
         method: 'POST',
         headers: {
