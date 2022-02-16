@@ -21,7 +21,7 @@ function NoteForm({ isLoaded }) {
         return Date.parse(b.updatedAt) - Date.parse(a.updatedAt);
     })
     const note = useMemo(() => notes[noteId] || {}, [noteId, notes]);
-    const notesTags = {}
+
     const history = useHistory();
     const [errors, setErrors] = useState([]);
     const [name, setName] = useState(note.name || "");
@@ -29,12 +29,11 @@ function NoteForm({ isLoaded }) {
     const [notebook, setNotebook] = useState(note.notebookId || notebookId || "");
     const [showActions, setShowActions] = useState(false);
     const [showTags, setShowTags] = useState(false);
-    const [noteTags, setNoteTags] = useState(notesTags || {});
+    const [noteTags, setNoteTags] = useState({});
     const arr = note.Tags?.map(tag => parseInt(tag.id, 10))
     const availTags = userTags.filter(tag => !arr?.includes(tag.id));
     const usedTags = userTags.filter(tag => arr?.includes(tag.id));
-    console.log(scratchContent)
-    console.log(content);
+    console.log(noteTags);
 
     useEffect(() => {
         const newNotesTags = {}
@@ -75,26 +74,9 @@ function NoteForm({ isLoaded }) {
         e.preventDefault();
         setShowTags(false);
         setErrors([]);
-        
-        let payload;
 
-        if (notebookId === "select") {
-            payload = {
-                ...note,
-                name,
-                content,
-                notebookId: null
-            }
-        } else {
-            payload = {
-                ...note,
-                name,
-                content,
-                notebookId: notebook
-            }
-        }
-        
-        let newNote
+
+        let newNote;
 
         if (noteId === "new") {
             newNote = await dispatch(notesActions.createNote({ name, content, userId: sessionUser.id, notebookId: notebook }))
@@ -114,6 +96,30 @@ function NoteForm({ isLoaded }) {
                 })
             }
         } else {
+            let payload;
+
+            if (notebook === "select") {
+                payload = {
+                    ...note,
+                    name,
+                    content,
+                    notebookId: null
+                }
+            } else {
+                payload = {
+                    ...note,
+                    name,
+                    content,
+                    notebookId: notebook
+                }
+            }
+
+            newNote = await dispatch(notesActions.updateNote(payload))
+                .catch(async res => {
+                    const data = await res.json();
+                    if (data && data.errors) setErrors(data.errors);
+                })
+            
             if (note.Tags) {
                 const oldTags = [...note.Tags];
                 const arr = note.Tags.map(tag => parseInt(tag.id, 10))
@@ -124,19 +130,19 @@ function NoteForm({ isLoaded }) {
                 let removeTags = oldTags.filter(tag => {
                     return !tagIds.includes(tag.id)
                 })
-        
+
                 const addTags = userTags.filter(tag => {
                     return !arr.includes(tag.id) && tagIds.includes(tag.id);
                 });
-                
+
                 if (addTags.length) {
-                    addTags.forEach(tag => {
-                        dispatch(notesActions.createNoteTag(note, tag))
+                    addTags.forEach(async tag => {
+                        await dispatch(notesActions.createNoteTag(note, tag))
                     })
                 }
                 if (removeTags.length) {
-                    removeTags.forEach(tag => {
-                        dispatch(notesActions.removeNoteTag(note, tag))
+                    removeTags.forEach(async tag => {
+                        await dispatch(notesActions.removeNoteTag(note, tag))
                     })
                 }
             } else {
@@ -145,26 +151,19 @@ function NoteForm({ isLoaded }) {
                     return tagIds.includes(tag.id);
                 });
                 if (tags.length) {
-                    tags.forEach(tag => {
-                        dispatch(notesActions.createNoteTag(note, tag))
+                    tags.forEach(async tag => {
+                        await dispatch(notesActions.createNoteTag(note, tag))
                     })
                 }
             }
-            
-            if (noteId) {
-                newNote = await dispatch(notesActions.updateNote(payload))
-                .catch(async res => {
-                    const data = await res.json();
-                    if (data && data.errors) setErrors(data.errors);
-                })
-            } 
+
         }
 
         if (newNote) {
             await dispatch(loadNotes(sessionUser));
             history.push(`/notes/${newNote.id}`);
         }
-        
+
     }
 
     const deleteNote = async e => {
@@ -172,6 +171,17 @@ function NoteForm({ isLoaded }) {
 
         await dispatch(notesActions.removeNote(noteId));
         return history.push("/notes");
+    }
+
+    const handleNoteTags = tag => {
+        const key = tag.id;
+        if (noteTags[key]) {
+            delete noteTags[key]
+        }
+        else {
+            noteTags[key] = tag;
+        }
+        return { ...noteTags }
     }
 
     return (
@@ -184,7 +194,7 @@ function NoteForm({ isLoaded }) {
                     <select
                         id="notebook-select"
                         value={notebook || "select"}
-                        onChange={e => {setNotebook(e.target.value)}}
+                        onChange={e => { setNotebook(e.target.value) }}
                     >
                         <option value={"select"}>Select a notebook</option>
                         {userNotebooks.map(notebook => {
@@ -192,10 +202,10 @@ function NoteForm({ isLoaded }) {
                         })}
                     </select>
                     <i onClick={() => openActions(true)} className="fas fa-ellipsis-h"></i>
-                    {showActions && 
-                    <ul className="action-dropdown">
-                        <button id="delete-note" onClick={deleteNote}>Delete Note</button>
-                    </ul>}
+                    {showActions &&
+                        <ul className="action-dropdown">
+                            <button id="delete-note" onClick={deleteNote}>Delete Note</button>
+                        </ul>}
                 </div>
                 <input
                     id="note-title"
@@ -222,17 +232,7 @@ function NoteForm({ isLoaded }) {
                                 return (
                                     <div className="tag-box" key={tag.id} >
                                         <label htmlFor={tag.name}>{tag.name}</label>
-                                        <input onChange={(e) => {
-                                            setNoteTags(
-                                                noteTags => {
-                                                    const key = e.target.value;
-                                                    const value = e.target.checked;
-                                                    if (value) noteTags[key] = value;
-                                                    else delete noteTags[key]
-                                                    return { ...noteTags }
-                                                }
-                                            );
-                                        }} value={tag.id} type="checkbox" id={tag.id} name={tag.name} />
+                                        <input onChange={(e) => setNoteTags(handleNoteTags(tag))} value={tag.id} type="checkbox" id={tag.id} name={tag.name} />
                                     </div>
                                 )
                             })}
@@ -240,17 +240,7 @@ function NoteForm({ isLoaded }) {
                                 return (
                                     <div className="tag-box" key={tag.id} >
                                         <label htmlFor={tag.name}>{tag.name}</label>
-                                        <input onChange={(e) => {
-                                            setNoteTags(
-                                                noteTags => {
-                                                    const key = e.target.value;
-                                                    const value = e.target.checked;
-                                                    if (!value) noteTags[key] = value;
-                                                    else delete noteTags[key]
-                                                    return { ...noteTags }
-                                                }
-                                            );
-                                        }} value={tag.id} type="checkbox" id={tag.id} name={tag.name} checked={noteTags[tag.id]}/>
+                                        <input onChange={(e) => setNoteTags(handleNoteTags(tag))} value={tag.id} type="checkbox" id={tag.id} name={tag.name} checked={noteTags[tag.id]} />
                                     </div>
                                 )
                             })}

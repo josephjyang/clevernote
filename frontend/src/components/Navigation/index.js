@@ -47,7 +47,7 @@ function Navigation({ isLoaded, setShowSignup }) {
             <>
                 <div id="homenav">
                     <div id="left">
-                        <NavLink exact to="/" onClick={() => setShowSignup(false)}>
+                        <NavLink exact to="/">
                             <div id="home-links">
                                 <img src="/images/logo.png" alt="clevernote-logo" id="logo" />
                                 <span id="home-title">Clevernote</span>
@@ -61,19 +61,21 @@ function Navigation({ isLoaded, setShowSignup }) {
                                 <DemoLoginButton />
                             </li>
                             <li>
-                                <NavLink exact to="/" id="home-link" onClick={() => setShowSignup(false)}>Home</NavLink>
+                                <NavLink exact to="/" id="home-link" >Home</NavLink>
                             </li>
                             <li>
                                 <LoginFormModal />
                             </li>
                             <li>
-                                <button onClick={() => setShowSignup("signup")} id="signup">Sign Up</button>
+                                <NavLink to="/signup">
+                                    <button id="signup">Sign Up</button>
+                                </NavLink>
                             </li>
                         </ul>
                     </div>
                 </div>
                 <div id="homepage-footer">
-                    <span id="about" onClick={() => setShowSignup("about")}>ABOUT CLEVERNOTE</span>
+                    <NavLink id="about" to="/about">ABOUT CLEVERNOTE</NavLink>
                 </div>
             </>
         )

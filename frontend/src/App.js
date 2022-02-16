@@ -7,6 +7,9 @@ import Notes from './components/Notes';
 import Notebooks from './components/Notebooks';
 import Notebook from './components/Notebook';
 import Navigation from './components/Navigation';
+import AccountInfo from './components/AccountInfo';
+import About from './components/About';
+import SignupFormPage from './components/SignupFormPage';
 import * as sessionActions from './store/session';
 
 function App() {
@@ -41,6 +44,9 @@ function App() {
             <Route path='/notebooks/:notebookId'>
               <Notebook isLoaded={isLoaded} />
             </Route>
+            <Route path='/account'>
+              <AccountInfo isLoaded={isLoaded} />
+            </Route>
           </Switch>
         )}
       </div>
@@ -54,11 +60,11 @@ function App() {
             <Route path="/" exact>
               <HomePage isLoaded={isLoaded} />
             </Route>
-            <Route path='/dashboard' exact>
-              <Dashboard isLoaded={isLoaded} />
+            <Route path='/about' exact>
+              <About isLoaded={isLoaded} />
             </Route>
-            <Route path='/notes'>
-              <Notes isLoaded={isLoaded} />
+            <Route path='/signup'>
+              <SignupFormPage isLoaded={isLoaded} />
             </Route>
           </Switch>
         )}

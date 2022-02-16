@@ -12,29 +12,12 @@ function AccountInfo({ isLoaded }) {
     const [lastName, setLastName] = useState(user ? user.lastName : null);
     const [email, setEmail] = useState(user ? user.email : null);
     const [username, setUsername] = useState(user ? user.username : null);
-    // const [password, setPassword] = useState();
-    // const [confirmPassword, setConfirmPassword] = useState();
-    // const history = useHistory();
     const [showForm, setShowForm] = useState(false);
     const [use, setUse] = useState(false);
 
     if (!user) return (
         <Redirect to="/" />
     );
-
-
-
-    // const onSubmit = e => {
-    //     e.preventDefault();
-    //     if (password === confirmPassword) {
-    //         setErrors([]);
-    //         return dispatch(sessionActions.updateUser({ id: user.id, email, username, password, firstName, lastName }))
-    //             .catch(async res => {
-    //                 const data = await res.json();
-    //                 if (data && data.errors) setErrors(data.errors);
-    //             })
-    //     } else return setErrors(['Confirm Password field must match the Password field'])
-    // }
 
     return (
         <div className="account-info">

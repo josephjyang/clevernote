@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { NavLink } from "react-router-dom";
 import { useDispatch } from 'react-redux';
 import { Redirect } from "react-router";
 import * as sessionActions from '../../store/session';
@@ -54,12 +55,11 @@ function ProfileButton({user}) {
                         <span id="email">{user.email}</span>
                     </div>
                 </li>
-                <li onClick={() => setPage("account")}>
-                    <button id="account-info">Account info...</button>
+                <li>
+                    <NavLink to="/account">
+                        <button id="account-info">Account info...</button>
+                    </NavLink>
                 </li>
-                {/* <li>
-                    Preferences
-                </li> */}
                 <li>
                     <button id="logout" onClick={logout}>Sign out {user.firstName} {user.lastName}</button>
                 </li>

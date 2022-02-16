@@ -1,8 +1,5 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import Notes from '../Notes';
-import Notebooks from '../Notebooks';
-import Navigation from '../Navigation';
 import UserDashBoard from '../UserDashboard';
 import AccountInfo from '../AccountInfo';
 import { usePage } from '../../context/ClevernoteContext'
@@ -24,27 +21,9 @@ function Dashboard({ isLoaded }) {
 
     return (
         <>
-            {/* <Navigation isLoaded={isLoaded} /> */}
             {isLoaded && (
-                page === "dashboard" && (
                     <UserDashBoard setPage={setPage} isLoaded={isLoaded} />
-                )
-            )}
-            {isLoaded && (
-                page === "notes" && (
-                    <Notes setPage={setPage} isLoaded={isLoaded} />
-                )
-            )}
-            {isLoaded && (
-                page === "notebooks" && (
-                    <Notebooks setPage={setPage} isLoaded={isLoaded} />
-                )
-            )}
-            {isLoaded && (
-                page === "account" && (
-                    <AccountInfo setPage={setPage} isLoaded={isLoaded} />
-                )
-            )}
+                )}
         </>
     );
 }
