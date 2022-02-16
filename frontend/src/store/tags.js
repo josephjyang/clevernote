@@ -43,7 +43,7 @@ export const clearTags = () => {
 }
 
 export const updateTag = data => async dispatch => {
-    const res = await csrfFetch(`/api/tags/${data.id}`, {
+    const res = await csrfFetch(`/api/users/${data.userId}/tags/${data.id}`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
@@ -58,8 +58,8 @@ export const updateTag = data => async dispatch => {
     }
 }
 
-export const removeTag = id => async dispatch => {
-    const res = await csrfFetch(`/api/notes/${id}`, {
+export const removeTag = (user, id) => async dispatch => {
+    const res = await csrfFetch(`/api/users/${user.id}/tags/${id}`, {
         method: 'DELETE'
     });
 

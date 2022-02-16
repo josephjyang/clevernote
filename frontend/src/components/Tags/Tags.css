@@ -1,10 +1,12 @@
-#notebooks-content {
+#tags-content {
     display: grid;
     position: relative;
     grid-template-columns: 1fr;
+    max-height: 100vh;
+    overflow-y: scroll;
 }
 
-#notebooks-page {
+#tags-page {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -13,7 +15,7 @@
     background-color: rgb(240, 240, 240);
 }
 
-#notebooks-page h2 {
+#tags-page h2 {
     box-sizing: border-box;
     width: 100%;
     text-align: left;
@@ -22,7 +24,7 @@
     padding-left: 33px;
 }
 
-#notebook-grid-header {
+#tag-grid-header {
     display: flex;
     width: 100%;
     box-sizing: border-box;
@@ -31,11 +33,11 @@
     align-items: center;
 }
 
-#notebook-grid-header span {
+#tag-grid-header span {
     color: rgb(50, 50, 50);
 }
 
-#new-notebook {
+#new-tags {
     border-radius: 20px;
     height: 30px;
     margin: 0px;
@@ -50,16 +52,16 @@
     padding: 0;
 }
 
-#new-notebook .fa-plus {
+#new-tags .fa-plus {
     font-size: 12px;
 }
 
-#new-notebook:hover {
+#new-tags:hover {
     color: rgb(0, 115, 255);
     cursor: pointer;
 }
 
-#notebook-grid {
+#tag-grid {
     width: 100%;
     padding: 0 30px;
     box-sizing: border-box;
@@ -81,7 +83,7 @@
     padding: 5px;
 }
 
-.notebook-row {
+.tag-row {
     display: grid;
     width: 100%;
     grid-template-columns: 50% 20% 20% 10%;
@@ -89,7 +91,7 @@
     padding: 5px;
 }
 
-.notebook-row .fa-ellipsis-h {
+.tag-row .fa-ellipsis-h {
     color: gray;
     position: absolute;
     width: min-content;
@@ -99,7 +101,7 @@ i.fa-ellipsis-h:hover {
     cursor:pointer;
 }
 
-.notebook-actions-dropdown {
+.tag-actions-dropdown {
     position: relative;
     right: 0px;
     top: 30px;
@@ -113,8 +115,8 @@ i.fa-ellipsis-h:hover {
     z-index: 2;
 }
 
-#edit-notebook-link,
-#delete-notebook-link {
+#edit-tag-link,
+#delete-tag-link {
     display: inline-flex;
     border: none;
     color: rgb(60, 60, 60);
@@ -126,13 +128,13 @@ i.fa-ellipsis-h:hover {
     align-items: center;
 }
 
-#edit-notebook-link:hover,
-#delete-notebook-link:hover {
+#edit-tag-link:hover,
+#delete-tag-link:hover {
     background-color: rgb(160, 160, 160);
     cursor:pointer;
 }
 
-.notebook-cell {
+.tag-cell {
     display: flex;
     justify-content: flex-start;
     align-items: center;
@@ -147,23 +149,23 @@ i.fa-ellipsis-h:hover {
     justify-content: flex-end;
 }
 
-.notebook-cell:nth-child(4n) {
+.tag-cell:nth-child(4n) {
     justify-content: flex-end;
     padding-right: 10px;
 }
 
-.notebook-cell:nth-child(4n):hover {
+.tag-cell:nth-child(4n):hover {
     cursor: pointer;
 }
 
-.notebook-cell:nth-child(4n-3):hover {
+.tag-cell:nth-child(4n-3):hover {
     cursor: pointer;
 }
 
-.notebook-row:nth-child(odd) {
+.tag-row:nth-child(odd) {
     background-color:rgb(201, 201, 201);
 }
 
-.notebook-row:hover {
+.tag-row:hover {
     background-color:rgb(164, 164, 164); 
 }

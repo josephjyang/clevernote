@@ -6,6 +6,7 @@ import Dashboard from './components/Dashboard';
 import Notes from './components/Notes';
 import Notebooks from './components/Notebooks';
 import Notebook from './components/Notebook';
+import Tags from './components/Tags';
 import Navigation from './components/Navigation';
 import AccountInfo from './components/AccountInfo';
 import About from './components/About';
@@ -43,6 +44,9 @@ function App() {
             </Route>
             <Route path='/notebooks/:notebookId'>
               <Notebook isLoaded={isLoaded} />
+            </Route>
+            <Route path='/tags' exact>
+              <Tags isLoaded={isLoaded} />
             </Route>
             <Route path='/account'>
               <AccountInfo isLoaded={isLoaded} />

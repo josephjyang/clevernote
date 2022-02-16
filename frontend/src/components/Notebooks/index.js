@@ -2,11 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { loadNotebooks } from '../../store/notebooks';
 import { NavLink, Redirect } from 'react-router-dom';
-import { usePage } from '../../context/ClevernoteContext';
 import NotebookFormNew from '../NotebookFormNew';
-import Notebook from '../Notebook';
-import { FormModal } from '../../context/FormModal';
-import { DeleteModal } from '../../context/DeleteModal';
+import { Modal } from '../../context/Modal';
 import NotebookFormUpdate from '../NotebookFormUpdate';
 import NotebookFormDelete from '../NotebookFormDelete';
 import './Notebooks.css'
@@ -60,9 +57,9 @@ function Notebooks({ isLoaded }) {
                         </span>
                     <button id="new-notebook" onClick={() => setShowForm(true)}><i className="fas fa-plus"></i>New Notebook</button>
                     {showForm && (
-                        <FormModal onClose={() => setShowForm(false)}>
+                        <Modal onClose={() => setShowForm(false)}>
                             <NotebookFormNew hideForm={() => setShowForm(false)} />
-                        </FormModal>
+                        </Modal>
                     )}
                 </div>
                 <div id="notebook-grid">
@@ -97,14 +94,14 @@ function Notebooks({ isLoaded }) {
                                     }
                                 </div>
                                 {showForm === notebook.id && (
-                                    <FormModal onClose={() => setShowForm(false)}>
+                                    <Modal onClose={() => setShowForm(false)}>
                                         <NotebookFormUpdate id={notebook.id} hideForm={() => setShowForm(false)} />
-                                    </FormModal>
+                                    </Modal>
                                 )}
                                 {showDelete === notebook.id && (
-                                    <DeleteModal onClose={() => setShowDelete(false)}>
+                                    <Modal onClose={() => setShowDelete(false)}>
                                         <NotebookFormDelete id={notebook.id} hideForm={() => setShowDelete(false)} />
-                                    </DeleteModal>
+                                    </Modal>
                                 )}
                             </div>
                         )

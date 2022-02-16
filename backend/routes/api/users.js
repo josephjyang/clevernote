@@ -182,4 +182,28 @@ router.post('/:id/tags', requireAuth, asyncHandler(async (req, res) => {
     return res.json(newTag)
 }));
 
+router.delete('/:id/tags/:tagId', requireAuth, asyncHandler(async (req, res) => {
+    const { tagId } = req.params
+    const tag = await Tag.findByPk(tagId);
+    await NoteTag.destroy({
+        where: {
+            tagId
+        }
+    });
+
+    const deletedTag = await tag.destroy();
+
+    return res.json(deletedTag)
+}));
+
+router.put('/:id/tags/:tagId', requireAuth, asyncHandler(async (req, res) => {
+    const { tagId } = req.params;
+    const { name } = req.body;
+    const tag = await Tag.findByPk(tagId);
+
+    const updatedTag = await tag.update({ name });
+
+    return res.json(updatedTag)
+}))
+
 module.exports = router;

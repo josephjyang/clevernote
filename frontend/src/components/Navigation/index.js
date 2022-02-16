@@ -38,6 +38,10 @@ function Navigation({ isLoaded, setShowSignup }) {
                             <i className="fas fa-book" />
                             <span>Notebooks</span>
                         </NavLink>
+                        <NavLink className="navbar-link" to="/tags">
+                            <i className="fas fa-book" />
+                            <span>Tags</span>
+                        </NavLink>
                     </div>
                 </div>
             </>

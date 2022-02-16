@@ -1,30 +1,27 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { loadNotebooks } from '../../store/notebooks';
+import { loadTags } from '../../store/tags';
+import { Modal } from '../../context/Modal';
 import { NavLink, Redirect } from 'react-router-dom';
-import { usePage } from '../../context/ClevernoteContext';
-import NotebookFormNew from '../NotebookFormNew';
-import Notebook from '../Notebook';
-import { FormModal } from '../../context/FormModal';
-import { DeleteModal } from '../../context/DeleteModal';
-import NotebookFormUpdate from '../NotebookFormUpdate';
-import NotebookFormDelete from '../NotebookFormDelete';
-import './Notebooks.css'
+import TagFormNew from '../TagFormNew';
+import TagFormDelete from '../TagFormDelete';
+import TagFormUpdate from '../TagFormUpdate';
+import './Tags.css'
 
-function Notebooks({ isLoaded }) {
+function Tags({ isLoaded }) {
     const user = useSelector(state => state.session.user);
-    const notebooks = useSelector(state => state.notebooks);
+    const tags = useSelector(state => state.tags);
     const [showButtons, setShowButtons] = useState(false);
     const [showForm, setShowForm] = useState(false);
     const [showDelete, setShowDelete] = useState(false);
-    const userNotebooks = Object.values(notebooks);
-    userNotebooks.sort((a, b) => {
+    const userTags = Object.values(tags);
+    userTags.sort((a, b) => {
         return Date.parse(b.updatedAt) - Date.parse(a.updatedAt);
     })
     
     const dispatch = useDispatch();
     useEffect(() => {
-        if (user) dispatch(loadNotebooks(user));
+        if (user) dispatch(loadTags(user));
         else return;
     }, [dispatch, user]);
 
@@ -52,59 +49,59 @@ function Notebooks({ isLoaded }) {
     )
     
     return (
-        <div id="notebooks-content">
-            {<div id="notebooks-page">
-                <h2>Notebooks</h2>
-                <div id="notebook-grid-header">
-                    <span>{userNotebooks.length} notebooks
+        <div id="tags-content">
+            {<div id="tags-page">
+                <h2>Tags</h2>
+                <div id="tag-grid-header">
+                    <span>{userTags.length} tags
                         </span>
-                    <button id="new-notebook" onClick={() => setShowForm(true)}><i className="fas fa-plus"></i>New Notebook</button>
+                    <button id="new-tags" onClick={() => setShowForm(true)}><i className="fas fa-plus"></i>New Tag</button>
                     {showForm && (
-                        <FormModal onClose={() => setShowForm(false)}>
-                            <NotebookFormNew hideForm={() => setShowForm(false)} />
-                        </FormModal>
+                        <Modal onClose={() => setShowForm(false)}>
+                            <TagFormNew hideForm={() => setShowForm(false)} />
+                        </Modal>
                     )}
                 </div>
-                <div id="notebook-grid">
+                <div id="tag-grid">
                     <div id="header">
                         <div className="header">TITLE</div>
                         <div className="header">CREATED</div>
                         <div className="header">UPDATED</div>
                         <div className="header">ACTIONS</div>
                     </div>
-                    {userNotebooks.map(notebook => {
-                        const updateDate = new Date(notebook.updatedAt);
-                        const createDate = new Date(notebook.createdAt);
+                    {userTags.map(tag => {
+                        const updateDate = new Date(tag.updatedAt);
+                        const createDate = new Date(tag.createdAt);
                         const options = { year: 'numeric', month: 'short', day: 'numeric' };
                         return (
-                            <div className="notebook-row" key={notebook.id}>
-                                <NavLink to={`/notebooks/${notebook.id}`} className="notebook-cell">
-                                    {notebook.name} ({notebook.Notes ? notebook.Notes.length : 0})
+                            <div className="tag-row" key={tag.id}>
+                                <NavLink to={`/tags/${tag.id}`} className="tag-cell">
+                                    {tag.name} ({tag.Notes ? tag.Notes.length : 0})
                                 </NavLink>
-                                <div className="notebook-cell time">
+                                <div className="tag-cell time">
                                     {`${createDate.toLocaleDateString('en-US', options)}`}
                                 </div>
-                                <div className="notebook-cell time">
+                                <div className="tag-cell time">
                                     {`${updateDate.toLocaleDateString('en-US', options)}`}
                                 </div>
-                                <div onClick={() => openActions(notebook.id)} className="notebook-cell">
+                                <div onClick={() => openActions(tag.id)} className="tag-cell">
                                     <i className="fas fa-ellipsis-h"></i>
-                                    {showButtons === notebook.id && 
-                                        <div className="notebook-actions-dropdown">
-                                            <button id="edit-notebook-link" onClick={() => setShowForm(notebook.id)}>Rename Notebook</button>
-                                            <button id="delete-notebook-link" onClick={() => setShowDelete(notebook.id)}>Delete Notebook</button>
+                                    {showButtons === tag.id && 
+                                        <div className="tag-actions-dropdown">
+                                            <button id="edit-tag-link" onClick={() => setShowForm(tag.id)}>Rename Tag</button>
+                                            <button id="delete-tag-link" onClick={() => setShowDelete(tag.id)}>Delete Tag</button>
                                         </div>
                                     }
                                 </div>
-                                {showForm === notebook.id && (
-                                    <FormModal onClose={() => setShowForm(false)}>
-                                        <NotebookFormUpdate id={notebook.id} hideForm={() => setShowForm(false)} />
-                                    </FormModal>
+                                {showForm === tag.id && (
+                                    <Modal onClose={() => setShowForm(false)}>
+                                        <TagFormUpdate id={tag.id} hideForm={() => setShowForm(false)} />
+                                    </Modal>
                                 )}
-                                {showDelete === notebook.id && (
-                                    <DeleteModal onClose={() => setShowDelete(false)}>
-                                        <NotebookFormDelete id={notebook.id} hideForm={() => setShowDelete(false)} />
-                                    </DeleteModal>
+                                {showDelete === tag.id && (
+                                    <Modal onClose={() => setShowDelete(false)}>
+                                        <TagFormDelete id={tag.id} hideForm={() => setShowDelete(false)} />
+                                    </Modal>
                                 )}
                             </div>
                         )
@@ -115,4 +112,4 @@ function Notebooks({ isLoaded }) {
     );
 }
 
-export default Notebooks
+export default Tags
