@@ -73,12 +73,9 @@ function UserDashBoard({ isLoaded, setPage }) {
             <div id="notes-container">
                 <div id="notes-header">
                     <p>NOTES</p>
-                    <div>
-                        <i onClick={() => {
-                            setPage("notes");
-                            setNoteId(false);
-                        }} className="fas fa-file-alt" />
-                    </div>
+                    <NavLink to="/notes/new">
+                        <i className="fas fa-file-alt" />
+                    </NavLink>
                 </div>
                 <div id="note-container">
                     {userNotes.length > 0 ? userNotes.map(note => {

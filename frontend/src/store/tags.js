@@ -94,7 +94,7 @@ export const createTag = data => async dispatch => {
     })
     const tag = await res.json();
     dispatch(newTag(tag));
-    return res;
+    return tag;
 }
 
 const initialState = {}

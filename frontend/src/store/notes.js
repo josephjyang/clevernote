@@ -71,7 +71,6 @@ export const updateNote = data => async dispatch => {
 
     if (res.ok) {
         const updatedNote = await res.json();
-        console.log(updatedNote);
         dispatch(newNote(updatedNote));
         return updatedNote;
     }
@@ -120,7 +119,6 @@ export const createNote = data => async dispatch => {
 }
 
 export const createNoteTag = (note, tag) => async dispatch => {
-    console.log(note);
     const res = await csrfFetch(`/api/notes/${note.id}/tags`, {
         method: 'POST',
         headers: {

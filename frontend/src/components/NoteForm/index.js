@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import * as notesActions from '../../store/notes';
+import * as tagsActions from '../../store/tags';
 import { useDispatch, useSelector } from 'react-redux';
 import { Redirect, useHistory, useParams } from 'react-router-dom';
 import { usePage } from '../../context/ClevernoteContext';
@@ -26,14 +27,16 @@ function NoteForm({ isLoaded }) {
     const [errors, setErrors] = useState([]);
     const [name, setName] = useState(note.name || "");
     const [content, setContent] = useState(note.content || scratchContent || "");
-    const [notebook, setNotebook] = useState(note.notebookId || notebookId || "");
+    let [notebook, setNotebook] = useState(note.notebookId || notebookId || "");
     const [showActions, setShowActions] = useState(false);
     const [showTags, setShowTags] = useState(false);
     const [noteTags, setNoteTags] = useState({});
     const arr = note.Tags?.map(tag => parseInt(tag.id, 10))
     const availTags = userTags.filter(tag => !arr?.includes(tag.id));
     const usedTags = userTags.filter(tag => arr?.includes(tag.id));
-    console.log(noteTags);
+    const [newTag, setNewTag] = useState("");
+    console.log(availTags);
+    console.log(usedTags);
 
     useEffect(() => {
         const newNotesTags = {}
@@ -70,6 +73,20 @@ function NoteForm({ isLoaded }) {
         <Redirect to="/" />
     );
 
+    const tagSubmit = async e => {
+        e.preventDefault();
+        setErrors([]);
+        const createdTag = await dispatch(tagsActions.createTag({ name: newTag, userId: sessionUser.id }))
+            .catch(async res => {
+                const data = await res.json();
+                if (data && data.errors) setErrors(data.errors);
+            })
+        setNewTag("");
+        if (createdTag) {
+            dispatch(loadTags(sessionUser));
+        }
+    }
+
     const onSubmit = async e => {
         e.preventDefault();
         setShowTags(false);
@@ -77,6 +94,7 @@ function NoteForm({ isLoaded }) {
 
 
         let newNote;
+        if (notebook === "select") notebook = null;
 
         if (noteId === "new") {
             newNote = await dispatch(notesActions.createNote({ name, content, userId: sessionUser.id, notebookId: notebook }))
@@ -85,33 +103,15 @@ function NoteForm({ isLoaded }) {
                     const data = await res.json();
                     if (data && data.errors) setErrors(data.errors);
                 })
-            const tagIds = Object.keys(noteTags).map(tag => parseInt(tag, 10));
-            const tags = userTags.filter(tag => {
-                return tagIds.includes(tag.id);
-            });
-
-            if (tags.length) {
-                tags.forEach(async tag => {
+            Object.values(noteTags).forEach(async tag => {
                     await dispatch(notesActions.createNoteTag(newNote, tag))
                 })
-            }
         } else {
-            let payload;
-
-            if (notebook === "select") {
-                payload = {
-                    ...note,
-                    name,
-                    content,
-                    notebookId: null
-                }
-            } else {
-                payload = {
-                    ...note,
-                    name,
-                    content,
-                    notebookId: notebook
-                }
+            let payload = {
+                ...note,
+                name,
+                content,
+                notebookId: notebook
             }
 
             newNote = await dispatch(notesActions.updateNote(payload))
@@ -119,30 +119,23 @@ function NoteForm({ isLoaded }) {
                     const data = await res.json();
                     if (data && data.errors) setErrors(data.errors);
                 })
-            
+
             if (note.Tags) {
-                const oldTags = [...note.Tags];
                 const arr = note.Tags.map(tag => parseInt(tag.id, 10))
-                const tagIds = Object.keys(noteTags).map(tag => {
-                    if (noteTags[tag]) return parseInt(tag, 10)
-                    else return null;
-                });
-                let removeTags = oldTags.filter(tag => {
-                    return !tagIds.includes(tag.id)
-                })
+
+                const removeTags = note.Tags.filter(tag => !noteTags[tag.id])
+                if (removeTags.length > 0) {
+                    removeTags.forEach(async tag => {
+                        await dispatch(notesActions.removeNoteTag(note, tag))
+                    })
+                }
 
                 const addTags = userTags.filter(tag => {
-                    return !arr.includes(tag.id) && tagIds.includes(tag.id);
+                    return !arr.includes(tag.id) && noteTags[tag.id];
                 });
-
                 if (addTags.length) {
                     addTags.forEach(async tag => {
                         await dispatch(notesActions.createNoteTag(note, tag))
-                    })
-                }
-                if (removeTags.length) {
-                    removeTags.forEach(async tag => {
-                        await dispatch(notesActions.removeNoteTag(note, tag))
                     })
                 }
             } else {
@@ -159,10 +152,10 @@ function NoteForm({ isLoaded }) {
 
         }
 
-        if (newNote) {
-            await dispatch(loadNotes(sessionUser));
-            history.push(`/notes/${newNote.id}`);
-        }
+        setTimeout(() => {
+            dispatch(loadNotes(sessionUser))
+        }, 1000)
+        history.push(`/notes/${newNote.id}`);
 
     }
 
@@ -185,71 +178,81 @@ function NoteForm({ isLoaded }) {
     }
 
     return (
-        <div className="note-form">
-            <form id="updateform" onSubmit={onSubmit}>
-                <ul className="error-list-note" hidden={errors.length === 0}>
-                    {errors.map((error, i) => <li key={i}>{error}</li>)}
-                </ul>
-                <div id="note-form-header">
-                    <select
-                        id="notebook-select"
-                        value={notebook || "select"}
-                        onChange={e => { setNotebook(e.target.value) }}
-                    >
-                        <option value={"select"}>Select a notebook</option>
-                        {userNotebooks.map(notebook => {
-                            return <option key={notebook.id} value={notebook.id}>{notebook.name}</option>
-                        })}
-                    </select>
-                    <i onClick={() => openActions(true)} className="fas fa-ellipsis-h"></i>
-                    {showActions &&
-                        <ul className="action-dropdown">
-                            <button id="delete-note" onClick={deleteNote}>Delete Note</button>
-                        </ul>}
-                </div>
-                <input
-                    id="note-title"
-                    type="text"
-                    value={name}
-                    onChange={e => setName(e.target.value)}
-                    required
-                    placeholder="Title"
-                />
-                <textarea
-                    id="note-form-content"
-                    value={content || ''}
-                    onChange={(e) => setContent(e.target.value)}
-                    rows={10}
-                    cols={5}
-                    placeholder="Start writing..."
-                    onClick={() => setShowTags(false)}
-                />
-                <div className="footer">
-                    <div onClick={() => setShowTags(!showTags)} id="show-tags">Tags</div>
-                    {showTags &&
-                        <div id="tags-menu">
-                            {availTags.map((tag, i) => {
-                                return (
-                                    <div className="tag-box" key={tag.id} >
-                                        <label htmlFor={tag.name}>{tag.name}</label>
-                                        <input onChange={(e) => setNoteTags(handleNoteTags(tag))} value={tag.id} type="checkbox" id={tag.id} name={tag.name} />
-                                    </div>
-                                )
+        <>
+            <div className="note-form">
+                <form id="updateform" onSubmit={onSubmit}>
+                    <ul className="error-list-note" hidden={errors.length === 0}>
+                        {errors.map((error, i) => <li key={i}>{error}</li>)}
+                    </ul>
+                    <div id="note-form-header">
+                        <select
+                            id="notebook-select"
+                            value={notebook || "select"}
+                            onChange={e => { setNotebook(e.target.value) }}
+                        >
+                            <option value={"select"}>Select a notebook</option>
+                            {userNotebooks.map(notebook => {
+                                return <option key={notebook.id} value={notebook.id}>{notebook.name}</option>
                             })}
-                            {usedTags.map((tag, i) => {
-                                return (
-                                    <div className="tag-box" key={tag.id} >
-                                        <label htmlFor={tag.name}>{tag.name}</label>
-                                        <input onChange={(e) => setNoteTags(handleNoteTags(tag))} value={tag.id} type="checkbox" id={tag.id} name={tag.name} checked={noteTags[tag.id]} />
-                                    </div>
-                                )
-                            })}
-                        </div>
-                    }
-                    <button id="new-note" type="submit">Save Note</button>
-                </div>
+                        </select>
+                        <i onClick={() => openActions(true)} className="fas fa-ellipsis-h"></i>
+                        {showActions &&
+                            <ul className="action-dropdown">
+                                <button id="delete-note" onClick={deleteNote}>Delete Note</button>
+                            </ul>}
+                    </div>
+                    <input
+                        id="note-title"
+                        type="text"
+                        value={name}
+                        onChange={e => setName(e.target.value)}
+                        required
+                        placeholder="Title"
+                    />
+                    <textarea
+                        id="note-form-content"
+                        value={content || ''}
+                        onChange={(e) => setContent(e.target.value)}
+                        rows={10}
+                        cols={5}
+                        placeholder="Start writing..."
+                        onClick={() => setShowTags(false)}
+                    />
+                    <div className="footer">
+                        <div onClick={() => setShowTags(!showTags)} id="show-tags">Tags</div>
+                        {showTags &&
+                            <div id="tags-menu">
+                                {availTags.map((tag, i) => {
+                                    return (
+                                        <div className="tag-box" key={tag.id} >
+                                            <label htmlFor={tag.name}>{tag.name}</label>
+                                            <input onChange={(e) => setNoteTags(handleNoteTags(tag))} value={tag.id} type="checkbox" id={tag.id} name={tag.name} />
+                                        </div>
+                                    )
+                                })}
+                                {usedTags.map((tag, i) => {
+                                    return (
+                                        <div className="tag-box" key={tag.id} >
+                                            <label htmlFor={tag.name}>{tag.name}</label>
+                                            <input onChange={(e) => setNoteTags(handleNoteTags(tag))} value={tag.id} type="checkbox" id={tag.id} name={tag.name} checked={noteTags[tag.id] ? true : false} />
+                                        </div>
+                                    )
+                                })}
+                            </div>
+                        }
+                        <button id="new-note" type="submit">Save Note</button>
+                    </div>
+                </form>
+            </div>
+            <form onSubmit={tagSubmit} id="new-tag-form">
+                    <input id="new-tag"
+                        type="text"
+                        value={newTag}
+                        onChange={e => setNewTag(e.target.value)}
+                        required
+                        placeholder="Enter new tag"/>
             </form>
-        </div>
+        </>
     )
 }
 
