@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Route } from 'react-router-dom';
 import NotesSidebar from '../NotesSidebar';
 import NoteForm from '../NoteForm';
-import { usePage } from '../../context/ClevernoteContext';
 import './Notes.css'
 
 function Notes({ isLoaded }) {

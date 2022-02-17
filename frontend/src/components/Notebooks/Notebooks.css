@@ -108,8 +108,7 @@ i.fa-ellipsis-h:hover {
     align-items: flex-start;
     background-color: white;
     min-width: 160px;
-    border-radius: 10px;
-    padding: 7.5px;
+    border-radius: 5px;
     z-index: 2;
 }
 
@@ -120,7 +119,6 @@ i.fa-ellipsis-h:hover {
     color: rgb(60, 60, 60);
     background-color: white;
     width: 100%;
-    border-radius: 5px;
     min-height: 25px;
     margin: 5px 0px;
     align-items: center;

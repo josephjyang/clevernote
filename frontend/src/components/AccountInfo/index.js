@@ -21,7 +21,7 @@ function AccountInfo({ isLoaded }) {
 
     return (
         <div className="account-info">
-            <h2>My Account</h2>
+            <h2>My Clevernote Account</h2>
             <form>
                 <label>Email: </label>
                 <input

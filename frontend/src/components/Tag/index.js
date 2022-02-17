@@ -1,17 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { NavLink, Redirect, Route, useHistory, useParams } from 'react-router-dom';
+import { NavLink, Route, Redirect, useParams } from 'react-router-dom';
 import { loadTags } from '../../store/tags';
 import { Modal } from '../../context/Modal';
 import TagFormDelete from '../TagFormDelete';
-import TagFormNew from '../TagFormNew';
 import TagFormUpdate from '../TagFormUpdate';
 import NoteForm from '../NoteForm';
 import './Tag.css'
 
 function Tag({ isLoaded }) {
     const { tagId } = useParams();
-    const history = useHistory();
     const [showForm, setShowForm] = useState(false);
     const [showDelete, setShowDelete] = useState(false);
     const [showButtons, setShowButtons] = useState(false);
@@ -46,11 +44,11 @@ function Tag({ isLoaded }) {
     }, [showButtons])
 
 
-    // if (!user) return (
-    //     <Redirect to="/" />
-    // )
+    if (!user) return (
+        <Redirect to="/" />
+    )
 
-    // if(!tag) return null;
+    if(!tag) return null;
 
     return (
         <>
@@ -59,7 +57,7 @@ function Tag({ isLoaded }) {
                     <div id="sidebar-header">
                         <div id="tag-header">
                             <h2>
-                                <i className="fas fa-book" />
+                                <i className="fa-solid fa-tag fas" />
                                 {tag.name}
                             </h2>
                             <p>

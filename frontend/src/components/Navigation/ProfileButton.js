@@ -5,10 +5,8 @@ import { Redirect } from "react-router";
 import * as sessionActions from '../../store/session';
 import { clearNotes } from "../../store/notes"
 import { clearNotebooks } from "../../store/notebooks"
-import { usePage } from "../../context/ClevernoteContext"
 
 function ProfileButton({user}) {
-    const { setPage } = usePage();
     const dispatch = useDispatch();
     const [showMenu, setShowMenu] = useState(false)
 

@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import * as notesActions from '../../store/notes';
-import * as tagsActions from '../../store/tags';
 import { useDispatch, useSelector } from 'react-redux';
 import { Redirect, useHistory, useParams } from 'react-router-dom';
 import { usePage } from '../../context/ClevernoteContext';
@@ -34,8 +33,6 @@ function NoteForm({ isLoaded }) {
     const arr = note.Tags?.map(tag => parseInt(tag.id, 10))
     const availTags = userTags.filter(tag => !arr?.includes(tag.id) && !noteTags[tag.id]);
     const usedTags = userTags.filter(tag => arr?.includes(tag.id) || noteTags[tag.id]);
-    const [newTag, setNewTag] = useState("");
-    console.log(noteTags)
 
     useEffect(() => {
         const newNotesTags = {}
