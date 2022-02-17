@@ -8,8 +8,6 @@ import App from './App';
 import * as sessionActions from './store/session'
 import configureStore from './store';
 import { ModalProvider } from './context/Modal';
-import { FormModalProvider } from './context/FormModal';
-import { DeleteModalProvider } from './context/DeleteModal';
 import ClevernoteProvider from './context/ClevernoteContext';
 
 const store = configureStore();
@@ -26,15 +24,11 @@ function Root() {
   return (
     <Provider store={store}>
       <ModalProvider>
-        <FormModalProvider>
-          <DeleteModalProvider>
             <ClevernoteProvider>
               <BrowserRouter>
                 <App />      
               </BrowserRouter>
             </ClevernoteProvider>
-          </DeleteModalProvider>
-        </FormModalProvider>
       </ModalProvider>
     </Provider>
   )

@@ -6,6 +6,7 @@ import { usePage } from '../../context/ClevernoteContext';
 import { loadNotes } from '../../store/notes';
 import { loadTags } from '../../store/tags';
 import './NoteForm.css'
+import { loadNotebooks } from '../../store/notebooks';
 
 function NoteForm({ isLoaded }) {
     const dispatch = useDispatch();
@@ -82,7 +83,6 @@ function NoteForm({ isLoaded }) {
         if (noteId === "new") {
             newNote = await dispatch(notesActions.createNote({ name, content, userId: sessionUser.id, notebookId: notebook }))
                 .catch(async res => {
-                    console.log(res);
                     const data = await res.json();
                     if (data && data.errors) setErrors(data.errors);
                 })
@@ -138,14 +138,9 @@ function NoteForm({ isLoaded }) {
         }
 
         setTimeout(() => {
-            if(notebookId && newNote.notebookId) {
-                dispatch(notesActions.loadNotebookNotes(sessionUser, notebooks[newNote.notebookId]));
-                dispatch(loadTags(sessionUser));
-            }
-            else {
-                dispatch(loadNotes(sessionUser));
-                dispatch(loadTags(sessionUser));
-            }
+            dispatch(loadNotes(sessionUser));
+            dispatch(loadTags(sessionUser));
+            dispatch(loadNotebooks(sessionUser))
         }, 1000);
 
         if (notebookId && newNote.notebookId) {
@@ -164,14 +159,9 @@ function NoteForm({ isLoaded }) {
 
         await dispatch(notesActions.removeNote(noteId));
         setTimeout(() => {
-            if (notebookId) {
-                dispatch(notesActions.loadNotebookNotes(sessionUser, notebooks[notebookId]));
-                dispatch(loadTags(sessionUser));
-            }
-            else {
-                dispatch(loadNotes(sessionUser));
-                dispatch(loadTags(sessionUser));
-            }
+            dispatch(loadNotes(sessionUser));
+            dispatch(loadTags(sessionUser));
+            dispatch(loadNotebooks(sessionUser))
         }, 1000);
         if (notebookId) {
             history.push(`/notebooks/${notebookId}/notes/new`)

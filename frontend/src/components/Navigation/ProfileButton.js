@@ -1,23 +1,24 @@
 import React, { useState, useEffect } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useHistory } from "react-router-dom";
 import { useDispatch } from 'react-redux';
-import { Redirect } from "react-router";
 import * as sessionActions from '../../store/session';
 import { clearNotes } from "../../store/notes"
 import { clearNotebooks } from "../../store/notebooks"
+import { clearTags } from "../../store/tags";
 
 function ProfileButton({user}) {
     const dispatch = useDispatch();
     const [showMenu, setShowMenu] = useState(false)
 
-    const logout = (e) => {
+    const history = useHistory();
+
+    const logout = async (e) => {
         e.preventDefault();
-        dispatch(sessionActions.logout());
-        dispatch(clearNotes());
-        dispatch(clearNotebooks());
-        return (
-            <Redirect to="/" />
-        )
+        await dispatch(sessionActions.logout());
+        await dispatch(clearNotes());
+        await dispatch(clearNotebooks());
+        await dispatch(clearTags());
+        history.push("/");
     };
 
     const openMenu = () => {

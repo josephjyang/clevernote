@@ -77,7 +77,6 @@ export const loadTags = user => async dispatch => {
 }
 
 export const loadNoteTags = (user, note) => async dispatch => {
-    console.log(note);
     const res = await csrfFetch(`/api/users/${user.id}/notes/${note.id}/notes`);
     const tags = await res.json();
     dispatch(getNoteTags(user, tags));

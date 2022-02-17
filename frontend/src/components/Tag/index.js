@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { NavLink, Route, Redirect, useParams } from 'react-router-dom';
 import { loadTags } from '../../store/tags';
+import { loadNotes } from '../../store/notes';
+import { loadNotebooks } from '../../store/notebooks';
 import { Modal } from '../../context/Modal';
 import TagFormDelete from '../TagFormDelete';
 import TagFormUpdate from '../TagFormUpdate';
@@ -14,17 +16,21 @@ function Tag({ isLoaded }) {
     const [showDelete, setShowDelete] = useState(false);
     const [showButtons, setShowButtons] = useState(false);
     const user = useSelector(state => state.session.user);
-    const notes = useSelector(state => state.tags[tagId].Notes)
+    const notes = useSelector(state => state.tags[tagId]?.Notes)
     const tags = useSelector(state => state.tags)
-    notes.sort((a, b) => {
+    notes?.sort((a, b) => {
         return Date.parse(b.updatedAt) - Date.parse(a.updatedAt);
     })
     const tag = tags[tagId];
     const dispatch = useDispatch();
 
     useEffect(() => {
-        if (user && tag > 0) dispatch(loadTags(user));
-    }, [dispatch, user, tag]);
+        if (user) {
+            dispatch(loadTags(user));
+            dispatch(loadNotes(user));
+            dispatch(loadNotebooks(user));
+        } else return;
+    }, [dispatch, user]);
 
     const openActions = (id) => {
         if (showButtons) return;

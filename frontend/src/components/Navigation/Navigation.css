@@ -258,7 +258,7 @@ a:hover {
 }
 
 .profile-dropdown li:nth-child(-n+2) {
-    color: rgba(79, 79, 79, 0.8);
+    color: rgba(38, 38, 38, 0.9);
     font-weight: bold;
 }
 
@@ -285,6 +285,10 @@ a:hover {
 }
 
 .profile-dropdown button:hover {
-    background-color: grey;
+    background-color: rgb(200, 200, 200);
     cursor: pointer;
+}
+
+#right li {
+    margin: 15px;
 }

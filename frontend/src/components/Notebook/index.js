@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { NavLink, Redirect, Route, useHistory, useParams } from 'react-router-dom';
-import { loadNotebookNotes } from '../../store/notes';
+import { NavLink, Redirect, Route, useParams } from 'react-router-dom';
+import { loadNotes } from '../../store/notes';
+import { loadNotebooks } from '../../store/notebooks';
+import { loadTags } from '../../store/tags';
 import { Modal } from '../../context/Modal';
 import NotebookFormUpdate from '../NotebookFormUpdate';
 import NotebookFormDelete from '../NotebookFormDelete';
@@ -10,27 +12,27 @@ import './Notebook.css'
 
 function Notebook({ isLoaded }) {
     const {notebookId} = useParams();
-    const history = useHistory();
     const [showForm, setShowForm] = useState(false);
     const [showDelete, setShowDelete] = useState(false);
     const [showButtons, setShowButtons] = useState(false);
     const user = useSelector(state => state.session.user);
-    const notes = useSelector(state => state.notes)
     const notebooks = useSelector(state => state.notebooks)
-    const userNotes = Object.values(notes);
-    userNotes.sort((a, b) => {
+    const userNotes = notebooks[notebookId]?.Notes;
+    userNotes?.sort((a, b) => {
         return Date.parse(b.updatedAt) - Date.parse(a.updatedAt);
     })
     const notebook = notebooks[notebookId];
     const dispatch = useDispatch();
 
     useEffect(() => {
-        if (user && notebookId > 0) dispatch(loadNotebookNotes(user, notebooks[notebookId]));
-        else {
-            return history.push("/dashboard")
-        };
-    }, [dispatch, user, notebook, notebookId, notebooks, history]);
+        if (user) {
+            dispatch(loadTags(user));
+            dispatch(loadNotes(user));
+            dispatch(loadNotebooks(user));
+        } else return;
+    }, [dispatch, user]);
 
+   
     const openActions = (id) => {
         if (showButtons) return;
         return setShowButtons(id);

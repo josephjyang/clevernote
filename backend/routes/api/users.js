@@ -162,7 +162,6 @@ router.delete('/:id/notebooks/:notebookId', requireAuth, asyncHandler(async (req
 }));
 
 router.get('/:id/tags', requireAuth, asyncHandler(async (req, res) => {
-    console.log("test");
     const userId = req.params.id;
     const tags = await Tag.findAll({ 
         where: { userId },
