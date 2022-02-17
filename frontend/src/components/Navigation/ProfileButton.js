@@ -6,6 +6,7 @@ import { clearNotes } from "../../store/notes"
 import { clearNotebooks } from "../../store/notebooks"
 import { clearTags } from "../../store/tags";
 
+
 function ProfileButton({user}) {
     const dispatch = useDispatch();
     const [showMenu, setShowMenu] = useState(false)

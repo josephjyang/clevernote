@@ -21,6 +21,7 @@ function Navigation({ isLoaded, setShowSignup }) {
                         <ProfileButton user={sessionUser} />
                     </div>
                     <NavLink id="new-button" to="/notes/new" onClick={() => setScratchContent("")}>
+
                         <button id="new-note-btn">
                             <i className="fas fa-plus"/>
                             <span>New Note</span>

@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Redirect, useHistory } from 'react-router-dom';
 import './EnterPassword.css'
 
+
 function EnterPassword({ hideForm, use, email, username, firstName, lastName }) {
     const dispatch = useDispatch();
     const history = useHistory();
@@ -20,6 +21,7 @@ function EnterPassword({ hideForm, use, email, username, firstName, lastName }) 
         setErrors([]);
 
         if (use === "update") {
+            e.preventDefault();
             const updatedUser = await dispatch(sessionActions.updateUser({ id: sessionUser.id, email, username, password, firstName, lastName }))
                 .catch(async res => {
                     const data = await res.json();
@@ -43,22 +45,26 @@ function EnterPassword({ hideForm, use, email, username, firstName, lastName }) 
     }
 
     return (
-        <div className="password-form">
-            <form onSubmit={onSubmit}>
-                <ul className="error-list-notebook" hidden={errors.length === 0}>
-                    {errors.map((error, i) => <li key={i}>{error}</li>)}
-                </ul>
-                <p>Enter Password:</p>
-                <input
-                    type="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                    placeholder="Enter name"
-                />
-                <button type="submit">Confirm Password</button>
-            </form>
-        </div>
+        <>
+            {isLoaded && (
+                <div className="password-form">
+                    <form onSubmit={onSubmit}>
+                        <ul className="error-list-notebook" hidden={errors.length === 0}>
+                            {errors.map((error, i) => <li key={i}>{error}</li>)}
+                        </ul>
+                        <p>Enter Password:</p>
+                        <input
+                            type="password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            required
+                            placeholder="Enter name"
+                        />
+                        <button type="submit">Confirm Password</button>
+                    </form>
+                </div>
+            )}
+        </>
     )
 }
 

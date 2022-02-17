@@ -6,6 +6,7 @@ const { handleValidationErrors } = require('../../utils/validation');
 const { setTokenCookie, requireAuth } = require('../../utils/auth');
 const { User, Note, Notebook, Tag, NoteTag } = require('../../db/models');
 
+
 const router = express.Router();
 
 const validateSignup = [
@@ -51,7 +52,7 @@ const validateNotebook = [
     check('name')
         .exists({ checkFalsy: true })
         .isLength({ min: 1 })
-        .withMessage('Please provide a title for the note.'),
+        .withMessage('Please provide a title for the notebook.'),
     handleValidationErrors
 ];
 
@@ -98,6 +99,21 @@ router.delete('/:id', asyncHandler(async (req, res, next) => {
         err.errors = ['The provided password was incorrect.'];
         return next(err);
     }
+    await Tag.destroy({
+        where: {
+            userId: user.id
+        }
+    })
+    await Note.destroy({
+        where: {
+            userId: user.id
+        }
+    })
+    await Notebook.destroy({
+        where: {
+            userId: user.id
+        }
+    })
     await user.destroy();
 
     res.clearCookie('token');

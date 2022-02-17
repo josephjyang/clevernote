@@ -25,14 +25,33 @@ function NotesSidebar() {
 
     return (
         <>
-            <div id="notes-sidebar" >
-                <div id="notes-sidebar-header">
-                    <h2>
-                        <i className="fas fa-file-alt" /> Notes
-                    </h2>
-                    <p>
-                        {userNotes.length} notes
-                    </p>
+            {isLoaded && (
+                <div id="notes-sidebar" >
+                    <div id="notes-sidebar-header">
+                        <h2>
+                            <i className="fas fa-file-alt" /> Notes
+                        </h2>
+                        <p>
+                            {userNotes.length} notes
+                        </p>
+                    </div>
+                    {userNotes.map(note => {
+                        const date = new Date(note.updatedAt);
+                        const options = { year: 'numeric', month: 'short', day: 'numeric' };
+                        return (
+                            <div onClick={() => setNoteId(note.id)} key={note.id} className={note.id === noteId ? "selected note-block" : "note-block"}>
+                                    <h3>
+                                        {note.name}
+                                    </h3>
+                                    <p id="note-block-content">
+                                        {note.content}
+                                    </p>
+                                    <p id="note-update-time">
+                                    {`${date.toLocaleDateString('en-US', options)}`}
+                                    </p>
+                            </div>
+                        )
+                    })}
                 </div>
                 {userNotes.map(note => {
                     const date = new Date(note.updatedAt);

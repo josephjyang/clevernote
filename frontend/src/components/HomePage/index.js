@@ -28,6 +28,7 @@ function HomePage({ isLoaded }) {
                         Organize your business plans, jokes, solutions, and more, all in one place.
                     </h3>
                     <NavLink to="/signup">
+
                         <button id="sign-up-btn">
                             Sign up for free
                         </button>

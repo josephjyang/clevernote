@@ -270,8 +270,8 @@ a.notebook:hover {
 }
 
 #notes-container i:hover {
-    /* color: blue; */
     background-color: rgb(220, 220, 220);
+    cursor: pointer;
 }
 
 #notes-container i {
