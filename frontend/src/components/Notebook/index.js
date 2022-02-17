@@ -11,8 +11,9 @@ import NoteForm from '../NoteForm';
 import './Notebook.css'
 
 function Notebook({ isLoaded }) {
-    const {notebookId} = useParams();
+    const { notebookId } = useParams();
     const [showForm, setShowForm] = useState(false);
+    const [showDelete, setShowDelete] = useState(false);
     const [showButtons, setShowButtons] = useState(false);
     const user = useSelector(state => state.session.user);
     const notebooks = useSelector(state => state.notebooks)
@@ -32,7 +33,6 @@ function Notebook({ isLoaded }) {
     }, [dispatch, user]);
 
 
-   
     const openActions = (id) => {
         if (showButtons) return;
         return setShowButtons(id);
@@ -55,43 +55,21 @@ function Notebook({ isLoaded }) {
         <Redirect to="/" />
     )
 
-    if(!notebook) return null;
+    if (!notebook) return null;
 
     return (
         <>
-            {isLoaded && (
-                <div id="notebook-content">
-                    <div id="notebook-sidebar" >
-                        <div id="sidebar-header">
-                            <div id="notebook-header">
-                                <h2>
-                                    <i className="fas fa-book" />
-                                    {notebook.name}
-                                </h2>
-                                <p>
-                                    {userNotes.length} notes
-                                </p>
-                            </div>
-                            <div id="notebook-buttons">
-                                <i onClick={() => openActions(notebook.id)} className="fas fa-ellipsis-h"></i>
-                                {showButtons === notebook.id &&
-                                    <div className="notebook-actions-dropdown">
-                                        <button id="edit-notebook-link" onClick={() => setShowForm(notebook.id + "edit")}>Rename Notebook</button>
-                                        <button id="delete-notebook-link" onClick={() => setShowForm(notebook.id + "delete")}>Delete Notebook</button>
-                                        <button id="new-note-link" onClick={() => setNoteId(false)}>New Note</button>
-                                    </div>
-                                }
-                            </div>
-                            {showForm === (notebook.id + "edit") && (
-                                <Modal onClose={() => setShowForm(false)}>
-                                    <NotebookFormUpdate isLoaded={isLoaded} id={notebook.id} hideForm={() => setShowForm(false)} />
-                                </Modal>
-                            )}
-                            {showForm === (notebook.id + "delete") && (
-                                <Modal onClose={() => setShowForm(false)}>
-                                    <NotebookFormDelete isLoaded={isLoaded} id={notebook.id} hideForm={() => setShowForm(false)} />
-                                </Modal>
-                            )}
+            <div id="notebook-content">
+                <div id="notebook-sidebar" >
+                    <div id="sidebar-header">
+                        <div id="notebook-header">
+                            <h2>
+                                <i className="fas fa-book" />
+                                {notebook.name}
+                            </h2>
+                            <p>
+                                {userNotes && userNotes.length} notes
+                            </p>
                         </div>
                         <div id="notebook-buttons">
                             <i onClick={() => openActions(notebook.id)} className="fas fa-ellipsis-h"></i>
@@ -116,7 +94,7 @@ function Notebook({ isLoaded }) {
                             </Modal>
                         )}
                     </div>
-                    {userNotes.map(note => {
+                    {userNotes && userNotes.map(note => {
                         const date = new Date(note.updatedAt);
                         const options = { year: 'numeric', month: 'short', day: 'numeric' };
                         return (

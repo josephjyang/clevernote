@@ -8,8 +8,6 @@ import EnterPassword from '../EnterPassword';
 function AccountInfo({ isLoaded }) {
     const user = useSelector(state => state.session.user);
 
-
-    // Form - controlled inputs
     const [firstName, setFirstName] = useState(user ? user.firstName : null);
     const [lastName, setLastName] = useState(user ? user.lastName : null);
     const [email, setEmail] = useState(user ? user.email : null);
@@ -68,10 +66,10 @@ function AccountInfo({ isLoaded }) {
             }}>Delete Account</button>
             {showForm && (
                 <Modal onClose={() => setShowForm(false)}>
-                    <EnterPassword use={use} email={email} username={username} firstName={firstName} lastName={lastName} hideForm={() => setShowForm(false)} />
+                    <EnterPassword use={use} email={email} username={username} firstName={firstName} lastName={lastName} hideForm={() => setShowForm(false)} isLoaded={isLoaded} />
                 </Modal>
             )}
-        </>
+        </div>
     )
 }
 

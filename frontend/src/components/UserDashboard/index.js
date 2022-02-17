@@ -85,28 +85,12 @@ function UserDashBoard({ isLoaded, setPage }) {
                             <NavLink to={`/notes/${note.id}`} key={note.id} className="note">
                                 <div className="note-grid">
                                     <h3>
-                                        Write your first Clevernote!
+                                        {note.name}
                                     </h3>
-                                </div>
-                            </div>
-                                )}
-                        </div>
-                    </div>
-                <div id="bottom-container">
-                    <div id="notebooks-container">
-                        <h3>NOTEBOOKS</h3>
-                        {userNotebooks.length > 0 ? userNotebooks.map(notebook => {
-                            const date = new Date(notebook.updatedAt);
-                            const options = { year: 'numeric', month: 'short', day: 'numeric' };
-                            return (
-                                <div onClick={() => {
-                                    setPage("notebooks")
-                                    setNotebookId(notebook.id)
-                                }} key={notebook.id} className="notebook">
-                                    <p className="notebook-notecount">
-                                        {notebook.name}
+                                    <p id="note-content">
+                                        {note.content}
                                     </p>
-                                    <p className="update-time">
+                                    <p id="update-time">
                                         {`${date.toLocaleDateString('en-US', options)}`}
                                     </p>
                                 </div>

@@ -67,7 +67,7 @@ function Tag({ isLoaded }) {
                                 {tag.name}
                             </h2>
                             <p>
-                                {notes.length} notes
+                                {notes && notes.length} notes
                             </p>
                         </div>
                         <div id="tag-buttons">
@@ -95,7 +95,7 @@ function Tag({ isLoaded }) {
                             </Modal>
                         )}
                     </div>
-                    {notes.map(note => {
+                    {notes && notes.map(note => {
                         const date = new Date(note.updatedAt);
                         const options = { year: 'numeric', month: 'short', day: 'numeric' };
                         return (

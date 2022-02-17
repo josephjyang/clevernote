@@ -5,7 +5,7 @@ import { Redirect, useHistory } from 'react-router-dom';
 import './EnterPassword.css'
 
 
-function EnterPassword({ hideForm, use, email, username, firstName, lastName }) {
+function EnterPassword({ hideForm, use, email, username, firstName, lastName, isLoaded }) {
     const dispatch = useDispatch();
     const history = useHistory();
     const sessionUser = useSelector(state => state.session.user);
