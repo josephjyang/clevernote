@@ -132,6 +132,10 @@ i.fa-ellipsis-h:hover {
     cursor:pointer;
 }
 
+a.tag-cell:hover {
+    color: black;
+}
+
 .tag-cell {
     display: flex;
     justify-content: flex-start;
