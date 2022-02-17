@@ -24,7 +24,7 @@ function NotebookFormDelete({ isLoaded, id, hideForm }) {
         await dispatch(notebookActions.removeNotebook(notebook))
 
         hideForm();
-        history.push("/dashboard");
+        history.push("/notebooks");
     }
 
     return (

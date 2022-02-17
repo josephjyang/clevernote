@@ -5,12 +5,12 @@ import ProfileButton from './ProfileButton'
 import DemoLoginButton from '../DemoLoginButton'
 import LoginFormModal from '../LoginFormModal';
 import { usePage } from '../../context/ClevernoteContext';
+import logo from '../LoginFormModal/logo.png'
 import './Navigation.css'
 
-function Navigation({ isLoaded, setShowPage }) {
-    const { setPage, setNoteId, setNotebookId, setScratchContent } = usePage();
+function Navigation({ isLoaded, setShowSignup }) {
+    const { setScratchContent } = usePage();
     const sessionUser = useSelector(state => state.session.user); 
-    
     let sessionLinks;
 
     if (sessionUser) {
@@ -20,46 +20,30 @@ function Navigation({ isLoaded, setShowPage }) {
                     <div id="user-header">
                         <ProfileButton user={sessionUser} />
                     </div>
-                    <div id="new-button" onClick={() => {
-                        setPage("notes");
-                        setNoteId(false);
-                        setNotebookId("select");
-                        setScratchContent();
-                        }}>
+                    <NavLink id="new-button" to="/notes/new" onClick={() => setScratchContent("")}>
+
                         <button id="new-note-btn">
                             <i className="fas fa-plus"/>
                             <span>New Note</span>
                         </button>
-                    </div>
+                    </NavLink>
                     <div id="navbar-links">
-                        <div className="navbar-link" onClick={() => {
-                            setNoteId(false);
-                            setNotebookId("select");
-                            setPage("dashboard");
-                            setScratchContent();
-                            }
-                            }>
+                        <NavLink className="navbar-link" to="/dashboard">
                             <i className="fas fa-home"/>
                             <span>Home</span>
-                        </div>
-                        <div className="navbar-link" onClick={() => {
-                            setPage("notes");
-                            setNoteId(false);
-                            setNotebookId("select");
-                            setScratchContent();
-                        }}>
+                        </NavLink>
+                        <NavLink className="navbar-link" exact to="/notes/new" onClick={() => setScratchContent("")}>
                             <i className="fas fa-file-alt" />
                             <span>Notes</span>
-                        </div>
-                        <div className="navbar-link" onClick={() => {
-                            setPage("notebooks");
-                            setNotebookId("select");
-                            setNoteId(false);
-                            setScratchContent();
-                        }}>
+                        </NavLink>
+                        <NavLink className="navbar-link" to="/notebooks">
                             <i className="fas fa-book" />
                             <span>Notebooks</span>
-                        </div>
+                        </NavLink>
+                        <NavLink className="navbar-link" to="/tags">
+                            <i className="fa-solid fa-tag fas"/>
+                            <span>Tags</span>
+                        </NavLink>
                     </div>
                 </div>
             </>
@@ -69,9 +53,9 @@ function Navigation({ isLoaded, setShowPage }) {
             <>
                 <div id="homenav">
                     <div id="left">
-                        <NavLink exact to="/" onClick={() => setShowPage(false)}>
+                        <NavLink exact to="/">
                             <div id="home-links">
-                                <img src="/images/logo.png" alt="clevernote-logo" id="logo" />
+                                <img src={logo} alt="clevernote-logo" id="logo" />
                                 <span id="home-title">Clevernote</span>
                             </div>
                         </NavLink>
@@ -83,19 +67,21 @@ function Navigation({ isLoaded, setShowPage }) {
                                 <DemoLoginButton />
                             </li>
                             <li>
-                                <NavLink exact to="/" id="home-link" onClick={() => setShowPage(false)}>Home</NavLink>
+                                <NavLink exact to="/" id="home-link" >Home</NavLink>
                             </li>
                             <li>
                                 <LoginFormModal />
                             </li>
                             <li>
-                                <button onClick={() => setShowPage("signup")} id="signup">Sign Up</button>
+                                <NavLink to="/signup">
+                                    <button id="signup">Sign Up</button>
+                                </NavLink>
                             </li>
                         </ul>
                     </div>
                 </div>
                 <div id="homepage-footer">
-                    <span id="about" onClick={() => setShowPage("about")}>ABOUT CLEVERNOTE</span>
+                    <NavLink id="about" to="/about">ABOUT CLEVERNOTE</NavLink>
                 </div>
             </>
         )

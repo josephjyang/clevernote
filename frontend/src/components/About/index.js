@@ -14,18 +14,18 @@ function About() {
                             Created by Joe Yang (@josephjyang)
                         </h3>
                         <p>
-                            Prospective App Academy Grad (February '22)
+                            App Academy Graduate (February '22)
                         </p>
                         <ul>
                             <li className="social-links">
                                 <a href="https://github.com/josephjyang">
-                                    <img className="social-logo" src="https://imgr.search.brave.com/J0XDD5xZ0YfShJPzNfzZSR5bOb8MgViNxMM5_DlM-QE/fit/1200/1200/ce/1/aHR0cHM6Ly9sb2dv/cy1kb3dubG9hZC5j/b20vd3AtY29udGVu/dC91cGxvYWRzLzIw/MTYvMDkvR2l0SHVi/X2xvZ28ucG5n" alt="github logo" />
+                                    <img className="social-logo github" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="github logo" />
                                     Github
                                 </a>
                             </li>
                             <li className="social-links">
                                 <a href="https://www.linkedin.com/in/josephjyang/">
-                                    <img className="social-logo" src="https://imgr.search.brave.com/oci9T4S5bGXWq3sOR7sMGmCk1l_gBVkq1xga6cPMSww/fit/1200/1200/ce/1/aHR0cHM6Ly9jZG4u/ZnJlZWJpZXN1cHBs/eS5jb20vbG9nb3Mv/bGFyZ2UvMngvbGlu/a2VkaW4taWNvbi1s/b2dvLXBuZy10cmFu/c3BhcmVudC5wbmc" alt="linked in logo" />
+                                    <img className="social-logo" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linkedin/linkedin-original.svg" alt="linked in logo" />
                                     LinkedIn
                                 </a>
                             </li>

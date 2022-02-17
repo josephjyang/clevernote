@@ -44,7 +44,6 @@ nav {
 }
 
 #left-navbar a {
-    display: block;
     box-sizing: border-box;
 }
 
@@ -97,9 +96,26 @@ nav {
     padding-left: 20px;
 }
 
-.navbar-link:hover {
+.navbar-link.active {
+    color: white;
+}
+
+a.navbar-link:hover {
     cursor: pointer;
     background-color: rgb(123, 123, 123);
+    color: rgb(45, 45, 45);
+}
+
+.dropdown-link a:hover {
+    cursor: pointer;
+    background-color: rgb(123, 123, 123);
+    color: rgb(45, 45, 45);
+}
+
+.dropdown-link {
+    margin: 3px 0;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .navbar-link > .fas {
@@ -114,10 +130,6 @@ nav {
     font-weight: bold;
 }
 
-#left-navbar li:nth-child(n+3) {
-    margin: 5px 0;
-}
-
 #user-header {
     display: flex;
     align-items: center;
@@ -128,9 +140,9 @@ nav {
 #user-info {
     display: flex;
     box-sizing: border-box;
-    padding-left: 20px;
+    padding-left: 10px;
     padding-bottom: 10px;
-    
+    border-bottom: 1px gray solid;
 }
 
 #logo {
@@ -154,13 +166,10 @@ ul {
     align-items: center;
 }
 
-li {
-    margin-right: 20px;
-}
+
 
 a {
     text-decoration: none;
-    /* color: white; */
 }
 
 .profile-dropdown a {
@@ -239,7 +248,7 @@ a:hover {
     font-size: 14px;
     font-weight: bold;
     margin-bottom: 5px;
-    padding-left: 20px;
+    padding-left: 10px;
     padding-top: 10px;
 }
 
@@ -249,18 +258,8 @@ a:hover {
 }
 
 .profile-dropdown li:nth-child(-n+2) {
-    color: rgba(79, 79, 79, 0.8);
+    color: rgba(38, 38, 38, 0.9);
     font-weight: bold;
-}
-
-.profile-dropdown li:nth-child(3) {
-    padding-top: 8px;
-    border-top: 1px gray solid;
-}
-
-.profile-dropdown li:nth-child(4) {
-    padding-bottom: 10px;
-    border-bottom: 1px gray solid;
 }
 
 .profile-dropdown span {
@@ -286,5 +285,10 @@ a:hover {
 }
 
 .profile-dropdown button:hover {
-    background-color: grey;
+    background-color: rgb(200, 200, 200);
+    cursor: pointer;
+}
+
+#right li {
+    margin: 15px;
 }

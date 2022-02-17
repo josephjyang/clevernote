@@ -63,7 +63,6 @@
 
 #sidebar-header button {
     border: none;
-    border-radius: 5px;
     height: 20px;
     display: flex;
     align-items: center;
@@ -87,13 +86,29 @@
     cursor:pointer;
 }
 
-#edit-notebook-link {
-    margin: 0;
+#new-note-link {
     display: inline-flex;
-
-}
-.notebook-block:active{
+    border: none;
+    color: rgb(60, 60, 60);
     background-color: white;
+    width: 100%;
+    min-height: 25px;
+    margin: 5px 0px;
+    align-items: center;
+}
+
+#new-note-link a {
+    color: rgb(60, 60, 60);
+}
+
+.notebook-block.active{
+    background-color: rgb(160, 160, 160);
+    border: 2px solid rgb(120, 120, 255);
+    color: black;
+}
+
+a.notebook-block {
+    color: black;
 }
 
 .notebook-block:hover {
@@ -107,8 +122,8 @@
     color: black;
 }
 
-.selected > #notebook-block-content,
-.selected > #notebook-update-time {
+.notebook-block.active > #notebook-block-content,
+.notebook-block.active > #notebook-update-time {
     color: black;
 }
 

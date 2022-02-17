@@ -1,24 +1,25 @@
 import React, { useState, useEffect } from "react";
+import { NavLink, useHistory } from "react-router-dom";
 import { useDispatch } from 'react-redux';
-import { Redirect } from "react-router";
 import * as sessionActions from '../../store/session';
 import { clearNotes } from "../../store/notes"
 import { clearNotebooks } from "../../store/notebooks"
-import { usePage } from "../../context/ClevernoteContext"
+import { clearTags } from "../../store/tags";
 
-function ProfileButton({ user }) {
-    const { setPage } = usePage();
+
+function ProfileButton({user}) {
     const dispatch = useDispatch();
     const [showMenu, setShowMenu] = useState(false)
 
-    const logout = (e) => {
+    const history = useHistory();
+
+    const logout = async (e) => {
         e.preventDefault();
-        dispatch(sessionActions.logout());
-        dispatch(clearNotes());
-        dispatch(clearNotebooks());
-        return (
-            <Redirect to="/" />
-        )
+        await dispatch(sessionActions.logout());
+        await dispatch(clearNotes());
+        await dispatch(clearNotebooks());
+        await dispatch(clearTags());
+        history.push("/");
     };
 
     const openMenu = () => {
@@ -54,13 +55,12 @@ function ProfileButton({ user }) {
                         <span id="email">{user.email}</span>
                     </div>
                 </li>
-                <li onClick={() => setPage("account")}>
-                    <button id="account-info">Account info...</button>
+                <li className="dropdown-link">
+                    <NavLink to="/account">
+                        <button id="account-info">Account info...</button>
+                    </NavLink>
                 </li>
-                {/* <li>
-                    Preferences
-                </li> */}
-                <li>
+                <li className="dropdown-link">
                     <button id="logout" onClick={logout}>Sign out {user.firstName} {user.lastName}</button>
                 </li>
             </ul>

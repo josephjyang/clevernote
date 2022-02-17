@@ -1,29 +1,26 @@
 import React from 'react';
-import Notes from '../Notes';
-import Notebooks from '../Notebooks';
-import Navigation from '../Navigation';
+import { useSelector } from 'react-redux';
 import UserDashBoard from '../UserDashboard';
-import AccountInfo from '../AccountInfo';
-import { usePage } from '../../context/ClevernoteContext'
 
 function Dashboard({ isLoaded }) {
-    const { page } = usePage();
+    const notes = useSelector(state => state.notes)
+    const userNotes = Object.values(notes);
+    userNotes.sort((a, b) => {
+        return Date.parse(b.updatedAt) - Date.parse(a.updatedAt);
+    })
+    
+    const notebooks = useSelector(state => state.notebooks)
+    const userNotebooks = Object.values(notebooks);
+    userNotebooks.sort((a, b) => {
+        return Date.parse(b.updatedAt) - Date.parse(a.updatedAt);
+    })
+
 
     return (
         <>
             {isLoaded && (
-                <div id="content">
-                    <Navigation isLoaded={isLoaded} />
-                    {page === "dashboard" && (
-                        <UserDashBoard isLoaded={isLoaded} />)}
-                    {page === "notes" && (
-                        <Notes isLoaded={isLoaded} />)}
-                    {page === "notebooks" && (
-                        <Notebooks isLoaded={isLoaded} />)}
-                    {page === "account" && (
-                        <AccountInfo isLoaded={isLoaded} />)}
-                </div>
-            )}
+                    <UserDashBoard isLoaded={isLoaded} />
+                )}
         </>
     );
 }
