@@ -64,7 +64,7 @@ function Tags({ isLoaded }) {
                 </div>
                 <div id="tag-grid">
                     <div id="header">
-                        <div className="header">TITLE</div>
+                        <div className="header">NAME</div>
                         <div className="header">CREATED</div>
                         <div className="header">UPDATED</div>
                         <div className="header">ACTIONS</div>
@@ -75,7 +75,7 @@ function Tags({ isLoaded }) {
                         const options = { year: 'numeric', month: 'short', day: 'numeric' };
                         return (
                             <div className="tag-row" key={tag.id}>
-                                <NavLink to={`/tags/${tag.id}`} className="tag-cell">
+                                <NavLink to={`/tags/${tag.id}/notes/new`} className="tag-cell">
                                     {tag.name} ({tag.Notes ? tag.Notes.length : 0})
                                 </NavLink>
                                 <div className="tag-cell time">

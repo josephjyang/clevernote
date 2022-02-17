@@ -7,6 +7,7 @@ import Notes from './components/Notes';
 import Notebooks from './components/Notebooks';
 import Notebook from './components/Notebook';
 import Tags from './components/Tags';
+import Tag from './components/Tag';
 import Navigation from './components/Navigation';
 import AccountInfo from './components/AccountInfo';
 import About from './components/About';
@@ -47,6 +48,9 @@ function App() {
             </Route>
             <Route path='/tags' exact>
               <Tags isLoaded={isLoaded} />
+            </Route>
+            <Route path='/tags/:tagId'>
+              <Tag isLoaded={isLoaded} />
             </Route>
             <Route path='/account'>
               <AccountInfo isLoaded={isLoaded} />

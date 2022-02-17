@@ -75,7 +75,7 @@ function Notebooks({ isLoaded }) {
                         const options = { year: 'numeric', month: 'short', day: 'numeric' };
                         return (
                             <div className="notebook-row" key={notebook.id}>
-                                <NavLink to={`/notebooks/${notebook.id}`} className="notebook-cell">
+                                <NavLink to={`/notebooks/${notebook.id}/notes/new`} className="notebook-cell">
                                     {notebook.name} ({notebook.Notes ? notebook.Notes.length : 0})
                                 </NavLink>
                                 <div className="notebook-cell time">

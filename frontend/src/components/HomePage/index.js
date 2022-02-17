@@ -4,13 +4,10 @@ import { NavLink, Redirect } from 'react-router-dom';
 import { Modal } from "../../context/Modal"
 import LoginForm from '../LoginFormModal/LoginForm';
 import Navigation from '../Navigation';
-import SignupFormPage from '../SignupFormPage';
-import About from '../About';
 import './HomePage.css'
 
 function HomePage({ isLoaded }) {
     const sessionUser = useSelector(state => state.session.user);
-    const [showSignup, setShowSignup] = useState(false);
     const [showModal, setShowModal] = useState(false);
 
     if (sessionUser) return (
@@ -20,7 +17,7 @@ function HomePage({ isLoaded }) {
     if (!sessionUser) return (
         <>
             <div id="container">
-                <Navigation setShowSignup={setShowSignup} isLoaded={isLoaded} />
+                <Navigation isLoaded={isLoaded} />
                 <div id="homepage">
                     <h1>
                         Save your ideas, shock the world

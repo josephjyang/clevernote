@@ -126,6 +126,7 @@ i.fa-ellipsis-h:hover {
     align-items: center;
 }
 
+#new-note-link:hover,
 #edit-notebook-link:hover,
 #delete-notebook-link:hover {
     background-color: rgb(160, 160, 160);
@@ -150,6 +151,10 @@ i.fa-ellipsis-h:hover {
 .notebook-cell:nth-child(4n) {
     justify-content: flex-end;
     padding-right: 10px;
+}
+
+a.notebook-cell:hover {
+    color: black;
 }
 
 .notebook-cell:nth-child(4n):hover {

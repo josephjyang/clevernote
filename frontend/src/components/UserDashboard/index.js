@@ -117,7 +117,7 @@ function UserDashBoard({ isLoaded, setPage }) {
                     const date = new Date(notebook.updatedAt);
                     const options = { year: 'numeric', month: 'short', day: 'numeric' };
                     return (
-                        <NavLink to={`/notebooks/${notebook.id}`} key={notebook.id} className="notebook">
+                        <NavLink to={`/notebooks/${notebook.id}/notes/new`} key={notebook.id} className="notebook">
                             <p className="notebook-notecount">
                                 {notebook.name}
                             </p>

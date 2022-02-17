@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import * as sessionActions from '../../store/session';
 import { useDispatch, useSelector } from 'react-redux';
 import { Redirect, useHistory } from 'react-router-dom';
-import { usePage } from '../../context/ClevernoteContext';
 import './EnterPassword.css'
 
 function EnterPassword({ hideForm, use, email, username, firstName, lastName }) {

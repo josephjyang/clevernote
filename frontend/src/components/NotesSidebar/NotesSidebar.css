@@ -51,12 +51,14 @@
     cursor:pointer;
 }
 
-.selected {
-    background-color: rgb(120, 120, 120);
+.note-block.active {
+    background-color: rgb(160, 160, 160);
+    border: 2px solid rgb(120, 120, 255);
+    color: white;
 }
 
-.selected > #note-block-content,
-.selected > #note-update-time {
+.note-block.active > #note-block-content,
+.note-block.active > #note-update-time {
     color: black;
 }
 

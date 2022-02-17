@@ -55,12 +55,12 @@ function ProfileButton({user}) {
                         <span id="email">{user.email}</span>
                     </div>
                 </li>
-                <li>
+                <li className="dropdown-link">
                     <NavLink to="/account">
                         <button id="account-info">Account info...</button>
                     </NavLink>
                 </li>
-                <li>
+                <li className="dropdown-link">
                     <button id="logout" onClick={logout}>Sign out {user.firstName} {user.lastName}</button>
                 </li>
             </ul>

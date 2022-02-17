@@ -3,6 +3,7 @@ import * as sessionActions from '../../store/session';
 import { useDispatch, useSelector } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { usePage } from '../../context/ClevernoteContext';
+import logo from './logo.png'
 import './LoginForm.css'
 
 function LoginForm() {
@@ -30,7 +31,7 @@ function LoginForm() {
 
     return (
         <div className="login-form">
-            <img src="/images/logo.png" alt="clevernote-logo" id="sign-up-logo" />
+            <img src={logo} alt="clevernote-logo" id="sign-up-logo" />
             <h1 id="title">Clevernote</h1>
             <form onSubmit={onSubmit}>
                 <ul className="error-list" hidden={errors.length === 0}>

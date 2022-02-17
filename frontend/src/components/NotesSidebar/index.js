@@ -3,11 +3,9 @@ import { NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
 import { loadNotes } from '../../store/notes'
 import { Redirect } from "react-router";
-import { usePage } from "../../context/ClevernoteContext";
 import './NotesSidebar.css'
 
 function NotesSidebar() {
-    const { noteId, setNoteId } = usePage();
     const user = useSelector(state => state.session.user);
     const notes = useSelector(state => state.notes)
     const userNotes = Object.values(notes);
@@ -40,7 +38,7 @@ function NotesSidebar() {
                     const date = new Date(note.updatedAt);
                     const options = { year: 'numeric', month: 'short', day: 'numeric' };
                     return (
-                        <NavLink to={`/notes/${note.id}`} key={note.id} className={note.id === noteId ? "selected note-block" : "note-block"}>
+                        <NavLink to={`/notes/${note.id}`} key={note.id} className="note-block">
                             <h3>
                                 {note.name}
                             </h3>

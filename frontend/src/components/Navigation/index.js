@@ -5,6 +5,7 @@ import ProfileButton from './ProfileButton'
 import DemoLoginButton from '../DemoLoginButton'
 import LoginFormModal from '../LoginFormModal';
 import { usePage } from '../../context/ClevernoteContext';
+import logo from '../LoginFormModal/logo.png'
 import './Navigation.css'
 
 function Navigation({ isLoaded, setShowSignup }) {
@@ -39,7 +40,7 @@ function Navigation({ isLoaded, setShowSignup }) {
                             <span>Notebooks</span>
                         </NavLink>
                         <NavLink className="navbar-link" to="/tags">
-                            <i className="fas fa-book" />
+                            <i className="fa-solid fa-tag fas"/>
                             <span>Tags</span>
                         </NavLink>
                     </div>
@@ -53,7 +54,7 @@ function Navigation({ isLoaded, setShowSignup }) {
                     <div id="left">
                         <NavLink exact to="/">
                             <div id="home-links">
-                                <img src="/images/logo.png" alt="clevernote-logo" id="logo" />
+                                <img src={logo} alt="clevernote-logo" id="logo" />
                                 <span id="home-title">Clevernote</span>
                             </div>
                         </NavLink>

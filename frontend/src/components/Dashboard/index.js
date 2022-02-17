@@ -1,12 +1,8 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import UserDashBoard from '../UserDashboard';
-import AccountInfo from '../AccountInfo';
-import { usePage } from '../../context/ClevernoteContext'
 
 function Dashboard({ isLoaded }) {
-    const { page, setPage } = usePage();
-    
     const notes = useSelector(state => state.notes)
     const userNotes = Object.values(notes);
     userNotes.sort((a, b) => {
@@ -22,7 +18,7 @@ function Dashboard({ isLoaded }) {
     return (
         <>
             {isLoaded && (
-                    <UserDashBoard setPage={setPage} isLoaded={isLoaded} />
+                    <UserDashBoard isLoaded={isLoaded} />
                 )}
         </>
     );

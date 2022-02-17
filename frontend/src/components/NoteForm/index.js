@@ -10,7 +10,7 @@ import './NoteForm.css'
 
 function NoteForm({ isLoaded }) {
     const dispatch = useDispatch();
-    const { noteId, notebookId } = useParams();
+    const { noteId, notebookId, tagId } = useParams();
     const { scratchContent } = usePage();
     const sessionUser = useSelector(state => state.session.user);
     const notes = useSelector(state => state.notes)
@@ -32,11 +32,10 @@ function NoteForm({ isLoaded }) {
     const [showTags, setShowTags] = useState(false);
     const [noteTags, setNoteTags] = useState({});
     const arr = note.Tags?.map(tag => parseInt(tag.id, 10))
-    const availTags = userTags.filter(tag => !arr?.includes(tag.id));
-    const usedTags = userTags.filter(tag => arr?.includes(tag.id));
+    const availTags = userTags.filter(tag => !arr?.includes(tag.id) && !noteTags[tag.id]);
+    const usedTags = userTags.filter(tag => arr?.includes(tag.id) || noteTags[tag.id]);
     const [newTag, setNewTag] = useState("");
-    console.log(availTags);
-    console.log(usedTags);
+    console.log(noteTags)
 
     useEffect(() => {
         const newNotesTags = {}
@@ -45,12 +44,13 @@ function NoteForm({ isLoaded }) {
                 newNotesTags[tag.id] = tag;
             });
         }
+        if (tagId) newNotesTags[tagId] = tags[tagId];
 
         setName(note.name || '');
         setContent(note.content || scratchContent || '');
-        setNotebook(note.notebookId || null);
+        setNotebook(note.notebookId || notebookId || null);
         setNoteTags(newNotesTags);
-    }, [note, setNotebook, scratchContent])
+    }, [note, setNotebook, scratchContent, notebookId, tagId, tags])
 
     const openActions = () => {
         if (showActions) return;
@@ -73,20 +73,6 @@ function NoteForm({ isLoaded }) {
         <Redirect to="/" />
     );
 
-    const tagSubmit = async e => {
-        e.preventDefault();
-        setErrors([]);
-        const createdTag = await dispatch(tagsActions.createTag({ name: newTag, userId: sessionUser.id }))
-            .catch(async res => {
-                const data = await res.json();
-                if (data && data.errors) setErrors(data.errors);
-            })
-        setNewTag("");
-        if (createdTag) {
-            dispatch(loadTags(sessionUser));
-        }
-    }
-
     const onSubmit = async e => {
         e.preventDefault();
         setShowTags(false);
@@ -103,9 +89,11 @@ function NoteForm({ isLoaded }) {
                     const data = await res.json();
                     if (data && data.errors) setErrors(data.errors);
                 })
-            Object.values(noteTags).forEach(async tag => {
-                    await dispatch(notesActions.createNoteTag(newNote, tag))
-                })
+            if (Object.keys(noteTags).length > 0) {
+                Object.values(noteTags).forEach(async tag => {
+                        await dispatch(notesActions.createNoteTag(newNote, tag))
+                    })
+            }
         } else {
             let payload = {
                 ...note,
@@ -153,9 +141,24 @@ function NoteForm({ isLoaded }) {
         }
 
         setTimeout(() => {
-            dispatch(loadNotes(sessionUser))
-        }, 1000)
-        history.push(`/notes/${newNote.id}`);
+            if(notebookId && newNote.notebookId) {
+                dispatch(notesActions.loadNotebookNotes(sessionUser, notebooks[newNote.notebookId]));
+                dispatch(loadTags(sessionUser));
+            }
+            else {
+                dispatch(loadNotes(sessionUser));
+                dispatch(loadTags(sessionUser));
+            }
+        }, 1000);
+
+        if (notebookId && newNote.notebookId) {
+            history.push(`/notebooks/${newNote.notebookId}/notes/${newNote.id}`)
+        } else if (tagId && noteTags[tagId]) {
+            history.push(`/tags/${tagId}/notes/${newNote.id}`)
+        } else if (tagId) {
+            history.push(`/tags/${tagId}/notes/new`)
+        }
+        else history.push(`/notes/${newNote.id}`);
 
     }
 
@@ -163,7 +166,22 @@ function NoteForm({ isLoaded }) {
         e.preventDefault()
 
         await dispatch(notesActions.removeNote(noteId));
-        return history.push("/notes");
+        setTimeout(() => {
+            if (notebookId) {
+                dispatch(notesActions.loadNotebookNotes(sessionUser, notebooks[notebookId]));
+                dispatch(loadTags(sessionUser));
+            }
+            else {
+                dispatch(loadNotes(sessionUser));
+                dispatch(loadTags(sessionUser));
+            }
+        }, 1000);
+        if (notebookId) {
+            history.push(`/notebooks/${notebookId}/notes/new`)
+        } else if (tagId) {
+            history.push(`/tags/${tagId}/notes/new`)
+        }
+        else history.push(`/notes/new`);
     }
 
     const handleNoteTags = tag => {
@@ -244,14 +262,6 @@ function NoteForm({ isLoaded }) {
                     </div>
                 </form>
             </div>
-            <form onSubmit={tagSubmit} id="new-tag-form">
-                    <input id="new-tag"
-                        type="text"
-                        value={newTag}
-                        onChange={e => setNewTag(e.target.value)}
-                        required
-                        placeholder="Enter new tag"/>
-            </form>
         </>
     )
 }

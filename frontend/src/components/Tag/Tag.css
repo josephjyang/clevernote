@@ -1,4 +1,4 @@
-#notebook-content {
+#tag-content {
     display: grid;
     height: 100%;
     width: 100%;
@@ -8,7 +8,7 @@
     grid-template-columns: 40% 1fr;
 }
 
-#notebook-sidebar {
+#tag-sidebar {
     background-color: rgb(240, 240, 240);
     display: flex;
     flex-direction: column;
@@ -16,7 +16,7 @@
     height: 100vh;
 }
 
-#notebook-header {
+#tag-header {
     padding: 0px 0px 0px 25px;
     display: flex;
     flex-direction: column;
@@ -47,12 +47,12 @@
     margin: 0;
 }
 
-#notebook-buttons {
+#tag-buttons {
     position: absolute;
     right: 10px;
 }
 
-#notebook-actions-dropdown {
+#tag-actions-dropdown {
     position: relative;
     display: flex;
     flex-direction: column;
@@ -83,13 +83,8 @@
     margin-right: 10px;
 }
 
-#notebook-buttons .fas:hover {
+#tag-buttons .fas:hover {
     cursor:pointer;
-}
-
-#edit-notebook-link {
-    margin: 0;
-    display: inline-flex;
 }
 
 #new-note-link {
@@ -108,33 +103,33 @@
     color: rgb(60, 60, 60);
 }
 
-.notebook-block.active{
+.tag-block.active{
     background-color: rgb(160, 160, 160);
     border: 2px solid rgb(120, 120, 255);
     color: black;
 }
 
-a.notebook-block {
+a.tag-block {
     color: black;
 }
 
-.notebook-block:hover {
+.tag-block:hover {
     background-color: rgb(157, 157, 157);
     color: black;
     cursor:pointer;
 }
 
-.notebook-block:hover > #notebook-block-content,
-.notebook-block:hover > #notebook-update-time{
+.tag-block:hover > #tag-block-content,
+.tag-block:hover > #tag-update-time{
     color: black;
 }
 
-.notebook-block.active > #notebook-block-content,
-.notebook-block.active > #notebook-update-time {
+.tag-block.active > #tag-block-content,
+.tag-block.active > #tag-update-time {
     color: black;
 }
 
-.notebook-block {
+.tag-block {
     box-sizing: border-box;
     height: 130px;
     overflow-y: hidden;
@@ -144,7 +139,7 @@ a.notebook-block {
     padding: 10px 25px;
 }
 
-.notebook-block > h3 {
+.tag-block > h3 {
     font-size: 14px;
     margin: 0;
     text-align: left;
@@ -152,7 +147,7 @@ a.notebook-block {
     align-items: center;
 }
 
-#notebook-block-content {
+#tag-block-content {
     padding: 5px 0;
     margin: 0;
     font-size: 14px;
@@ -163,10 +158,14 @@ a.notebook-block {
     align-items: flex-start;
 }
 
-#notebook-update-time {
+#tag-update-time {
     color: rgb(138, 138, 138);
     margin: 0;
     font-size: 12px;
     display: flex;
     align-items: flex-end;
+}
+
+.tag-actions-dropdown a {
+    width: 100%;
 }
