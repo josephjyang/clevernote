@@ -4,19 +4,10 @@ const LOAD_TAGS = "tags/LOAD_TAGS";
 const NEW_TAG = "tags/NEW_TAG";
 const CLEAR_TAGS = "tags/CLEAR_TAGS"
 const DELETE_TAG = "tags/DELETE_TAG"
-const LOAD_NOTETAGS = "tags/LOAD_NOTETAGS";
 
 const getTags = (user, tags) => {
     return {
         type: LOAD_TAGS,
-        user,
-        tags
-    };
-};
-
-const getNoteTags = (user, tags) => {
-    return {
-        type: LOAD_NOTETAGS,
         user,
         tags
     };
@@ -76,13 +67,6 @@ export const loadTags = user => async dispatch => {
     return tags;
 }
 
-export const loadNoteTags = (user, note) => async dispatch => {
-    const res = await csrfFetch(`/api/users/${user.id}/notes/${note.id}/notes`);
-    const tags = await res.json();
-    dispatch(getNoteTags(user, tags));
-    return res;
-}
-
 export const createTag = data => async dispatch => {
     const res = await csrfFetch(`/api/users/${data.userId}/tags`, {
         method: 'POST',
@@ -115,12 +99,6 @@ export const tagsReducer = (state = initialState, action) => {
             return newState
         case CLEAR_TAGS:
             return {}
-        case LOAD_NOTETAGS:
-            const noteTags = {}
-            action.tags.forEach(tag => {
-                noteTags[tag.id] = tag;
-            })
-            return noteTags;
         default:
             return state;
     }
