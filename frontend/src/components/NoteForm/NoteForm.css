@@ -145,6 +145,7 @@ select:-webkit-autofill:focus {
 #new-note:hover {
     background-color:rgb(120, 120, 120);
     color: white;
+    cursor: pointer;
 }
 
 #new-note:active {
@@ -204,6 +205,11 @@ form input {
     padding: 5px 15px;
     border: none;
     margin-right: 20px;
+}
+
+#show-tags:hover {
+    cursor:pointer;
+    background-color:rgb(120, 120, 120);
 }
 
 #new-tag {
