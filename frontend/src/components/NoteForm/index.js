@@ -29,12 +29,13 @@ function NoteForm({ isLoaded }) {
     const [content, setContent] = useState(note.content || scratchContent || "");
     let [notebook, setNotebook] = useState(note.notebookId || notebookId || "");
     const [showActions, setShowActions] = useState(false);
+    const [success, setSuccess] = useState(false);
     const [showTags, setShowTags] = useState(false);
     const [noteTags, setNoteTags] = useState({});
     const arr = note.Tags?.map(tag => parseInt(tag.id, 10))
     const availTags = userTags.filter(tag => !arr?.includes(tag.id) && !noteTags[tag.id]);
     const usedTags = userTags.filter(tag => arr?.includes(tag.id) || noteTags[tag.id]);
-
+    
     useEffect(() => {
         const newNotesTags = {}
         if (note.Tags) {
@@ -137,6 +138,11 @@ function NoteForm({ isLoaded }) {
 
         }
 
+        setSuccess({name: newNote.name, noteId});
+        const timeout = setTimeout(function () {
+            setSuccess(false);
+        }, 2000);
+     
         setTimeout(() => {
             dispatch(loadNotes(sessionUser));
             dispatch(loadTags(sessionUser));
@@ -151,6 +157,9 @@ function NoteForm({ isLoaded }) {
             history.push(`/tags/${tagId}/notes/new`)
         }
         else history.push(`/notes/${newNote.id}`);
+
+        
+        return () => clearTimeout(timeout);
 
     }
 
@@ -189,6 +198,11 @@ function NoteForm({ isLoaded }) {
                     <ul className="error-list-note" hidden={errors.length === 0}>
                         {errors.map((error, i) => <li key={i}>{error}</li>)}
                     </ul>
+                    {success &&
+                        <div id="success-container">
+                            <div className="success-message">You have successfully {success.noteId === "new" ? "created" : "updated"} "{success.name}".</div>
+                        </div>
+                    }
                     <div id="note-form-header">
                         <select
                             id="notebook-select"
