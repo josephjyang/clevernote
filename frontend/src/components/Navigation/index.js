@@ -16,9 +16,11 @@ function Navigation({ isLoaded, setShowSignup }) {
     const dispatch = useDispatch();
     const history = useHistory();
     let sessionLinks;
+    console.log(searchTerms);
 
     const search = async e => {
         e.preventDefault();
+        history.push(`/search?key=${searchTerms}`);
         setErrors([]);
 
         const notes = await dispatch(notesActions.searchNotes({ user: sessionUser, searchTerms }))
@@ -26,6 +28,7 @@ function Navigation({ isLoaded, setShowSignup }) {
                 const data = await res.json();
                 if (data && data.errors) setErrors(data.errors);
             })
+        console.log(notes);
         if (notes) {
             setPage("notes");
         }
@@ -39,10 +42,9 @@ function Navigation({ isLoaded, setShowSignup }) {
                         <ProfileButton user={sessionUser} />
                     </div>
                     <div id="search-form">
-                        <form action="/api/notes/search" class="search-form">
+                        <form id="search-form" onSubmit={search}>
                             <i class="fas fa-search" />
-                            <input type="search" name="term" placeholder="Search for a note" />
-                            <input type="submit" value="Search" />
+                            <input onChange={e => setSearchTerms(e.target.value)} type="search" name="term" placeholder="Search for a note" />
                         </form>
                     </div>
                     <div id="new-button" onClick={() => {

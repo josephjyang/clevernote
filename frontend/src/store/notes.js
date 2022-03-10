@@ -78,11 +78,10 @@ export const loadNotes = user => async dispatch => {
 }
 
 export const searchNotes = ({user, searchTerms}) => async dispatch => {
-    console.log(searchTerms);
-    const res = await csrfFetch(`/api/notes/search`);
+    const res = await csrfFetch(`/api/notes/search/${searchTerms}`);
     const data = await res.json();
     dispatch(getNotes(user, data));
-    return res;
+    return data;
 }
 
 export const loadNotebookNotes = (user, notebook) => async dispatch => {

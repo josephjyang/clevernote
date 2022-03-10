@@ -3,7 +3,7 @@ const asyncHandler = require('express-async-handler');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 const { requireAuth } = require('../../utils/auth');
-const { Note } = require('../../db/models');
+const { Note, Sequelize: { Op } } = require('../../db/models');
 
 const router = express.Router();
 
@@ -36,15 +36,21 @@ router.delete('/:id', requireAuth, asyncHandler(async (req, res) => {
     return res.end();
 }))
 
-router.get('/search', (req, res) => {
+router.get('/search/:searchterm', async (req, res) => {
     console.log("test")
-    let { term } = req.query;
+    let term = req.params.searchterm
     console.log(term);
     term = term.toLowerCase();
 
-    const notes = Note.findAll({ where: { content: { [Op.like]: `%${term}%` } } })
-        .catch(err => res.render('error', { error: err }));
-    
+    const notes = await Note.findAll({
+        where: {
+            content: { 
+                [Op.like]: `%${term}%`
+            }
+        }
+    })
+    .catch(err => res.render('error', { error: err }));
+
     return res.json(notes);
 });
 
