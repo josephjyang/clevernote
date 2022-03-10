@@ -47,4 +47,5 @@ In the root directory, run `npm install` to install dependencies for both the fr
 - [React Components List](https://github.com/josephjyang/clevernote/wiki/React-Components-list)
 - [Database Schema](https://github.com/josephjyang/clevernote/wiki/Database-Schema)
 - [Frontend Routes](https://github.com/josephjyang/clevernote/wiki/Frontend-Routes)
-- [API Routes]
+- [API Routes](https://github.com/josephjyang/clevernote/wiki/API-Routes)
+- [Redux Store Tree](https://github.com/josephjyang/clevernote/wiki/Redux-Store-Tree)

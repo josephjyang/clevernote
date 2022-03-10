@@ -1,0 +1,53 @@
+.tag-form {
+    width: 25vw;
+    height: 10vh;
+    margin: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 50px;
+}
+
+.error-list-tag {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding-left: 0;
+    font-size: 14px;
+    color: red;
+}
+
+.error-list-tag li {
+    display:flex;
+    flex-direction: row;
+    margin: 0;
+    overflow-x: visible;
+    max-height: 20px;
+    white-space: nowrap;
+}
+
+form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+form input {
+    box-sizing: border-box;
+    height: 40px;
+    border-radius: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    margin-bottom: 10px;
+    padding-left: 10px;
+    width: 100%;
+}
+
+.tag-form button {
+    height: 40px;
+    border-radius: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    background-color: blue;
+    color: white;
+}

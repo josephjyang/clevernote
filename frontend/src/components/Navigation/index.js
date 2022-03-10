@@ -6,17 +6,17 @@ import DemoLoginButton from '../DemoLoginButton'
 import LoginFormModal from '../LoginFormModal';
 import { usePage } from '../../context/ClevernoteContext';
 import * as notesActions from '../../store/notes'
+import logo from '../LoginFormModal/logo.png'
 import './Navigation.css'
 
 function Navigation({ isLoaded, setShowSignup }) {
-    const { setPage, setNoteId, setNotebookId } = usePage();
-    const sessionUser = useSelector(state => state.session.user);
+    const sessionUser = useSelector(state => state.session.user); 
     const [searchTerms, setSearchTerms] = useState('');
     const [errors, setErrors] = useState([]);
     const dispatch = useDispatch();
     const history = useHistory();
+    const { setScratchContent } = usePage();
     let sessionLinks;
-    console.log(searchTerms);
 
     const search = async e => {
         e.preventDefault();
@@ -29,9 +29,6 @@ function Navigation({ isLoaded, setShowSignup }) {
                 if (data && data.errors) setErrors(data.errors);
             })
         console.log(notes);
-        if (notes) {
-            setPage("notes");
-        }
     }
 
     if (sessionUser) {
@@ -47,42 +44,30 @@ function Navigation({ isLoaded, setShowSignup }) {
                             <input onChange={e => setSearchTerms(e.target.value)} type="search" name="term" placeholder="Search for a note" />
                         </form>
                     </div>
-                    <div id="new-button" onClick={() => {
-                        setPage("notes");
-                        setNoteId(false);
-                        setNotebookId("select")
-                    }}>
+                    <NavLink id="new-button" to="/notes/new" onClick={() => setScratchContent("")}>
+
                         <button id="new-note-btn">
                             <i className="fas fa-plus" />
                             <span>New Note</span>
                         </button>
-                    </div>
+                    </NavLink>
                     <div id="navbar-links">
-                        <div className="navbar-link" onClick={() => {
-                            setNoteId(null);
-                            setNotebookId(null);
-                            setPage("dashboard");
-                        }
-                        }>
-                            <i className="fas fa-home" />
+                        <NavLink className="navbar-link" to="/dashboard">
+                            <i className="fas fa-home"/>
                             <span>Home</span>
-                        </div>
-                        <div className="navbar-link" onClick={() => {
-                            setPage("notes");
-                            setNoteId(null);
-                            setNotebookId(null);
-                        }}>
+                        </NavLink>
+                        <NavLink className="navbar-link" exact to="/notes/new" onClick={() => setScratchContent("")}>
                             <i className="fas fa-file-alt" />
                             <span>Notes</span>
-                        </div>
-                        <div className="navbar-link" onClick={() => {
-                            setPage("notebooks");
-                            setNotebookId(null);
-                            setNoteId(null);
-                        }}>
+                        </NavLink>
+                        <NavLink className="navbar-link" to="/notebooks">
                             <i className="fas fa-book" />
                             <span>Notebooks</span>
-                        </div>
+                        </NavLink>
+                        <NavLink className="navbar-link" to="/tags">
+                            <i className="fa-solid fa-tag fas"/>
+                            <span>Tags</span>
+                        </NavLink>
                     </div>
                 </div>
             </>
@@ -92,9 +77,9 @@ function Navigation({ isLoaded, setShowSignup }) {
             <>
                 <div id="homenav">
                     <div id="left">
-                        <NavLink exact to="/" onClick={() => setShowSignup(false)}>
+                        <NavLink exact to="/">
                             <div id="home-links">
-                                <img src="/images/logo.png" alt="clevernote-logo" id="logo" />
+                                <img src={logo} alt="clevernote-logo" id="logo" />
                                 <span id="home-title">Clevernote</span>
                             </div>
                         </NavLink>
@@ -106,19 +91,21 @@ function Navigation({ isLoaded, setShowSignup }) {
                                 <DemoLoginButton />
                             </li>
                             <li>
-                                <NavLink exact to="/" id="home-link" onClick={() => setShowSignup(false)}>Home</NavLink>
+                                <NavLink exact to="/" id="home-link" >Home</NavLink>
                             </li>
                             <li>
                                 <LoginFormModal />
                             </li>
                             <li>
-                                <button onClick={() => setShowSignup("signup")} id="signup">Sign Up</button>
+                                <NavLink to="/signup">
+                                    <button id="signup">Sign Up</button>
+                                </NavLink>
                             </li>
                         </ul>
                     </div>
                 </div>
                 <div id="homepage-footer">
-                    <span id="about" onClick={() => setShowSignup("about")}>ABOUT CLEVERNOTE</span>
+                    <NavLink id="about" to="/about">ABOUT CLEVERNOTE</NavLink>
                 </div>
             </>
         )

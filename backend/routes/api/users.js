@@ -4,7 +4,8 @@ const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 
 const { setTokenCookie, requireAuth } = require('../../utils/auth');
-const { User, Note, Notebook } = require('../../db/models');
+const { User, Note, Notebook, Tag, NoteTag } = require('../../db/models');
+
 
 const router = express.Router();
 
@@ -51,7 +52,7 @@ const validateNotebook = [
     check('name')
         .exists({ checkFalsy: true })
         .isLength({ min: 1 })
-        .withMessage('Please provide a title for the note.'),
+        .withMessage('Please provide a title for the notebook.'),
     handleValidationErrors
 ];
 
@@ -98,6 +99,21 @@ router.delete('/:id', asyncHandler(async (req, res, next) => {
         err.errors = ['The provided password was incorrect.'];
         return next(err);
     }
+    await Tag.destroy({
+        where: {
+            userId: user.id
+        }
+    })
+    await Note.destroy({
+        where: {
+            userId: user.id
+        }
+    })
+    await Notebook.destroy({
+        where: {
+            userId: user.id
+        }
+    })
     await user.destroy();
 
     res.clearCookie('token');
@@ -105,8 +121,8 @@ router.delete('/:id', asyncHandler(async (req, res, next) => {
 }))
 
 router.get('/:id/notes', requireAuth, asyncHandler(async (req, res) => {
-    const userId = req.params.id;
-    const notes = await Note.findAll({ order: [['updatedAt', 'DESC']], where: { userId }  });
+    const userId = req.params.id
+    const notes = await Note.findAll({ where: { userId }, include: { model: Tag }  });
 
     return res.json(notes);
 }))
@@ -120,7 +136,7 @@ router.post('/:id/notes', requireAuth, validateNote, asyncHandler(async (req, re
 
 router.get('/:id/notebooks', requireAuth, asyncHandler(async (req, res) => {
     const userId = req.params.id
-    const notebooks = await Notebook.findAll({ order: [['updatedAt', 'DESC']], where: { userId }, include: Note });
+    const notebooks = await Notebook.findAll({ where: { userId }, include: { model: Note } });
 
     return res.json(notebooks)
 }))
@@ -136,7 +152,7 @@ router.post('/:id/notebooks', requireAuth, validateNotebook, asyncHandler(async 
 router.get('/:id/notebooks/:notebookId/notes', requireAuth, asyncHandler(async (req, res) => {
     const { id: userId, notebookId } = req.params
     
-    const notes = await Note.findAll({ where: { userId, notebookId } });
+    const notes = await Note.findAll({ where: { userId, notebookId }, include: { model: Tag } });
 
     return res.json(notes)
 }))
@@ -159,6 +175,50 @@ router.delete('/:id/notebooks/:notebookId', requireAuth, asyncHandler(async (req
     const deletedNotebook = await notebook.destroy();
 
     return res.json(deletedNotebook)
+}));
+
+router.get('/:id/tags', requireAuth, asyncHandler(async (req, res) => {
+    const userId = req.params.id;
+    const tags = await Tag.findAll({ 
+        where: { userId },
+        include: { model: Note }
+    });
+
+    return res.json(tags)
+}));
+
+router.post('/:id/tags', requireAuth, asyncHandler(async (req, res) => {
+    const userId = req.params.id;
+    const { name } = req.body;
+    const newTag = await Tag.create({
+        userId, name
+    });
+
+    return res.json(newTag)
+}));
+
+router.delete('/:id/tags/:tagId', requireAuth, asyncHandler(async (req, res) => {
+    const { tagId } = req.params
+    const tag = await Tag.findByPk(tagId);
+    await NoteTag.destroy({
+        where: {
+            tagId
+        }
+    });
+
+    const deletedTag = await tag.destroy();
+
+    return res.json(deletedTag)
+}));
+
+router.put('/:id/tags/:tagId', requireAuth, asyncHandler(async (req, res) => {
+    const { tagId } = req.params;
+    const { name } = req.body;
+    const tag = await Tag.findByPk(tagId);
+
+    const updatedTag = await tag.update({ name });
+
+    return res.json(updatedTag)
 }))
 
 module.exports = router;

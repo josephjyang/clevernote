@@ -1,24 +1,17 @@
 import React, { useState } from 'react';
-import * as sessionActions from '../../store/session';
-import { useDispatch, useSelector } from 'react-redux';
-import { Redirect, useHistory } from 'react-router-dom';
-import { FormModal } from '../../context/FormModal';
-import NotebookFormNew from '../NotebookFormNew';
+import { useSelector } from 'react-redux';
+import { Redirect } from 'react-router-dom';
+import { Modal } from '../../context/Modal';
 import './AccountInfo.css'
 import EnterPassword from '../EnterPassword';
 
 function AccountInfo({ isLoaded }) {
-    const dispatch = useDispatch();
     const user = useSelector(state => state.session.user);
 
-    const [errors, setErrors] = useState([]);
     const [firstName, setFirstName] = useState(user ? user.firstName : null);
     const [lastName, setLastName] = useState(user ? user.lastName : null);
     const [email, setEmail] = useState(user ? user.email : null);
     const [username, setUsername] = useState(user ? user.username : null);
-    const [password, setPassword] = useState();
-    const [confirmPassword, setConfirmPassword] = useState();
-    const history = useHistory();
     const [showForm, setShowForm] = useState(false);
     const [use, setUse] = useState(false);
 
@@ -26,27 +19,10 @@ function AccountInfo({ isLoaded }) {
         <Redirect to="/" />
     );
 
-
-
-    const onSubmit = e => {
-        e.preventDefault();
-        if (password === confirmPassword) {
-            setErrors([]);
-            return dispatch(sessionActions.updateUser({ id: user.id, email, username, password, firstName, lastName }))
-                .catch(async res => {
-                    const data = await res.json();
-                    if (data && data.errors) setErrors(data.errors);
-                })
-        } else return setErrors(['Confirm Password field must match the Password field'])
-    }
-
     return (
         <div className="account-info">
-            <h2>My Account</h2>
-            <form onSubmit={onSubmit}>
-                {errors.length > 0 && <ul>
-                    {errors.map((error, i) => <li key={i}>{error}</li>)}
-                </ul>}
+            <h2>My Clevernote Account</h2>
+            <form>
                 <label>Email: </label>
                 <input
                     type="text"
@@ -89,9 +65,9 @@ function AccountInfo({ isLoaded }) {
                 setShowForm(true);
             }}>Delete Account</button>
             {showForm && (
-                <FormModal onClose={() => setShowForm(false)}>
-                    <EnterPassword use={use} email={email} username={username} firstName={firstName} lastName={lastName} hideForm={() => setShowForm(false)} />
-                </FormModal>
+                <Modal onClose={() => setShowForm(false)}>
+                    <EnterPassword use={use} email={email} username={username} firstName={firstName} lastName={lastName} hideForm={() => setShowForm(false)} isLoaded={isLoaded} />
+                </Modal>
             )}
         </div>
     )

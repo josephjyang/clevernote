@@ -1,0 +1,111 @@
+#tag-content {
+    display: grid;
+    height: 100%;
+    width: 100%;
+    position: relative;
+    top: 0;
+    left: 0;
+    grid-template-columns: 40% 1fr;
+}
+
+#tag-sidebar {
+    background-color: rgb(240, 240, 240);
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    height: 100vh;
+}
+
+#tag-header {
+    padding: 0px 0px 0px 25px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+}
+
+#tag-buttons {
+    position: absolute;
+    right: 10px;
+}
+
+#tag-actions-dropdown {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-start;
+    padding: 0 10px 0 0;
+}
+
+
+#tag-buttons .fas:hover {
+    cursor:pointer;
+}
+
+.tag-block.active{
+    background-color: rgb(160, 160, 160);
+    border: 2px solid rgb(120, 120, 255);
+    color: black;
+}
+
+a.tag-block {
+    color: black;
+}
+
+.tag-block:hover {
+    background-color: rgb(157, 157, 157);
+    color: black;
+    cursor:pointer;
+}
+
+.tag-block:hover > #tag-block-content,
+.tag-block:hover > #tag-update-time{
+    color: black;
+}
+
+.tag-block.active > #tag-block-content,
+.tag-block.active > #tag-update-time {
+    color: black;
+}
+
+.tag-block {
+    box-sizing: border-box;
+    height: 130px;
+    overflow-y: hidden;
+    border-bottom: 1px gray solid;
+    display: grid;
+    grid-template-rows: 22% 1fr 22%;
+    padding: 10px 25px;
+}
+
+.tag-block > h3 {
+    font-size: 14px;
+    margin: 0;
+    text-align: left;
+    display: flex;
+    align-items: center;
+}
+
+#tag-block-content {
+    padding: 5px 0;
+    margin: 0;
+    font-size: 14px;
+    color: rgb(138, 138, 138);
+    overflow-y: hidden;
+    text-overflow:ellipsis;
+    display: flex;
+    align-items: flex-start;
+}
+
+#tag-update-time {
+    color: rgb(138, 138, 138);
+    margin: 0;
+    font-size: 12px;
+    display: flex;
+    align-items: flex-end;
+}
+
+.tag-actions-dropdown a {
+    width: 100%;
+}

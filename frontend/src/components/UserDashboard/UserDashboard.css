@@ -137,6 +137,10 @@ h4 {
     padding: 5px 10px;
 }
 
+#scratchpad-actions-dropdown a {
+    color: black;
+}
+
 #scratchpad-actions-dropdown button:hover {
     background-color: rgb(220, 220, 220);
     cursor: pointer;
@@ -160,7 +164,7 @@ h4 {
     display: grid;
     width: 100%;
     grid-template-columns: 70% 1fr;
-    border-radius: 5px;
+    color: black;
 }
 
 .notebook:nth-child(odd) {
@@ -171,9 +175,10 @@ h4 {
     margin: 5px 0;
 }
 
-.notebook:hover {
-    background-color: gray;
+a.notebook:hover {
+    background-color: rgb(160, 160, 160);
     cursor: pointer;
+    color:black;
 }
 
 #note-container {
@@ -265,8 +270,8 @@ h4 {
 }
 
 #notes-container i:hover {
-    /* color: blue; */
     background-color: rgb(220, 220, 220);
+    cursor: pointer;
 }
 
 #notes-container i {

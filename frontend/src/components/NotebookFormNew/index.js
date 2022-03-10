@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import './NotebookFormNew.css'
 
-function NotebookFormNew({ hideForm }) {
+function NotebookFormNew({ isLoaded, hideForm }) {
     const dispatch = useDispatch();
     const sessionUser = useSelector(state => state.session.user);
     const [name, setName] = useState('');
@@ -23,28 +23,36 @@ function NotebookFormNew({ hideForm }) {
             userId: sessionUser.id
         }
 
-        const newNotebook = await dispatch(notebookActions.createNotebook(payload));
+        const newNotebook = await dispatch(notebookActions.createNotebook(payload))
+            .catch(async res => {
+                const data = await res.json();
+                if (data && data.errors) setErrors(data.errors);
+            })
 
         if (newNotebook) hideForm();
     }
 
     return (
-        <div className="notebook-form">
-            <form onSubmit={onSubmit}>
-                <ul className="error-list-notebook" hidden={errors.length === 0}>
-                    {errors.map((error, i) => <li key={i}>{error}</li>)}
-                </ul>
-                <p>Enter Notebook Name:</p>
-                <input
-                    type="text"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    required
-                    placeholder="Enter name"
-                />
-                <button type="submit">Create Notebook</button>
-            </form>
-        </div>
+        <>
+            {isLoaded && (
+                <div className="notebook-form">
+                    <form onSubmit={onSubmit}>
+                        <ul className="error-list-notebook" hidden={errors.length === 0}>
+                            {errors.map((error, i) => <li key={i}>{error}</li>)}
+                        </ul>
+                        <p>Enter Notebook Name:</p>
+                        <input
+                            type="text"
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
+                            required
+                            placeholder="Enter name"
+                        />
+                        <button type="submit">Create Notebook</button>
+                    </form>
+                </div>
+            )}
+        </>
     )
 }
 

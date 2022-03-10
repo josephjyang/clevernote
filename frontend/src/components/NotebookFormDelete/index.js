@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Redirect, useHistory } from 'react-router-dom';
 import './NotebookFormDelete.css'
 
-function NotebookFormDelete({ id, hideForm }) {
+function NotebookFormDelete({ isLoaded, id, hideForm }) {
     const dispatch = useDispatch();
     const history = useHistory();
     const sessionUser = useSelector(state => state.session.user);
@@ -24,19 +24,23 @@ function NotebookFormDelete({ id, hideForm }) {
         await dispatch(notebookActions.removeNotebook(notebook))
 
         hideForm();
-        history.push("/dashboard");
+        history.push("/notebooks");
     }
 
     return (
-        <div className="notebook-delete-form">
-            <form onSubmit={onSubmit}>
-                <ul hidden={errors.length === 0}>
-                    {errors.map((error, i) => <li key={i}>{error}</li>)}
-                </ul>
-                <p>Are you sure you want to delete "{notebook.name}"?</p>
-                <button type="submit">Delete Notebook</button>
-            </form>
-        </div>
+        <>
+            {isLoaded && (
+                <div className="notebook-delete-form">
+                    <form onSubmit={onSubmit}>
+                        <ul hidden={errors.length === 0}>
+                            {errors.map((error, i) => <li key={i}>{error}</li>)}
+                        </ul>
+                        <p>Are you sure you want to delete "{notebook.name}"?</p>
+                        <button type="submit">Delete Notebook</button>
+                    </form>
+                </div>
+            )}
+        </>
     )
 }
 
