@@ -5,30 +5,19 @@ import ProfileButton from './ProfileButton'
 import DemoLoginButton from '../DemoLoginButton'
 import LoginFormModal from '../LoginFormModal';
 import { usePage } from '../../context/ClevernoteContext';
-import * as notesActions from '../../store/notes'
 import logo from '../LoginFormModal/logo.png'
 import './Navigation.css'
 
 function Navigation({ isLoaded, setShowSignup }) {
     const sessionUser = useSelector(state => state.session.user); 
     const [searchTerms, setSearchTerms] = useState('');
-    const [errors, setErrors] = useState([]);
-    const dispatch = useDispatch();
     const history = useHistory();
     const { setScratchContent } = usePage();
     let sessionLinks;
 
     const search = async e => {
         e.preventDefault();
-        history.push(`/search?key=${searchTerms}`);
-        setErrors([]);
-
-        const notes = await dispatch(notesActions.searchNotes({ user: sessionUser, searchTerms }))
-            .catch(async res => {
-                const data = await res.json();
-                if (data && data.errors) setErrors(data.errors);
-            })
-        console.log(notes);
+        history.push(`/notes/search?key=${searchTerms}`);
     }
 
     if (sessionUser) {

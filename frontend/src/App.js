@@ -12,6 +12,7 @@ import Navigation from './components/Navigation';
 import AccountInfo from './components/AccountInfo';
 import About from './components/About';
 import SignupFormPage from './components/SignupFormPage';
+import SearchPage from './components/SearchPage';
 import * as sessionActions from './store/session';
 
 function App() {
@@ -36,6 +37,9 @@ function App() {
             </Route>
             <Route path='/dashboard' exact>
               <Dashboard isLoaded={isLoaded} />
+            </Route>
+            <Route path='/notes/search'>
+              <SearchPage isLoaded={isLoaded} />
             </Route>
             <Route path='/notes'>
               <Notes isLoaded={isLoaded} />

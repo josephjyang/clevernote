@@ -42,19 +42,18 @@ router.delete('/:id', requireAuth, asyncHandler(async (req, res) => {
 }))
 
 router.get('/search/:searchterm', async (req, res) => {
-    console.log("test")
     let term = req.params.searchterm
-    console.log(term);
     term = term.toLowerCase();
 
     const notes = await Note.findAll({
         where: {
-            content: { 
-                [Op.like]: `%${term}%`
-            }
+            [Op.or]: [
+                { content: { [Op.like]: `%${term}%` } },
+                { name: { [Op.like]: `%${term}%` } },
+            ]
         }
     })
-    .catch(err => res.render('error', { error: err }));
+        .catch(err => res.render('error', { error: err }));
 
     return res.json(notes);
 });
@@ -73,8 +72,9 @@ router.delete('/:noteId/tags/:tagId', requireAuth, asyncHandler(async (req, res)
         where: {
             noteId,
             tagId
-        } });
-        res.status = 204;
+        }
+    });
+    res.status = 204;
     return res.end();
 }))
 

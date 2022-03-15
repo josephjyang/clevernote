@@ -160,7 +160,8 @@ export const notesReducer = (state = initialState, action) => {
             action.notes.forEach(note => {
                 notes[note.id] = note;
             })
-            return { ...state, ...notes }
+            console.log(notes);
+            return { ...notes }
         case NEW_NOTE:
             newState[action.note.id] = action.note
             return newState;
