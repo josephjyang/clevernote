@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import { useLocation, NavLink } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { useLocation, NavLink, Route } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import NoteForm from '../NoteForm';
 import * as notesActions from '../../store/notes'
 
 const useQuery = () => {
@@ -8,7 +9,7 @@ const useQuery = () => {
   return React.useMemo(() => new URLSearchParams(search), [search]);
 }
 
-function SearchPage() {
+function SearchPage({isLoaded}) {
   const sessionUser = useSelector(state => state.session.user); 
 
   const notes = useSelector(state => state.notes); 
@@ -40,7 +41,7 @@ function SearchPage() {
         const date = new Date(note.updatedAt);
         const options = { year: 'numeric', month: 'short', day: 'numeric' };
         return (
-          <NavLink key={note.id} to={`/notes/search?key=${searchKey}/${note.id}`} className="notebook-block">
+          <NavLink key={note.id} to={`/notes/${note.id}`} className="notebook-block">
             <h3>
               {note.name}
             </h3>

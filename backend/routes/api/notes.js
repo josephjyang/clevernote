@@ -48,8 +48,8 @@ router.get('/search/:searchterm', async (req, res) => {
     const notes = await Note.findAll({
         where: {
             [Op.or]: [
-                { content: { [Op.like]: `%${term}%` } },
-                { name: { [Op.like]: `%${term}%` } },
+                { content: { [Op.iLike]: `%${term}%` } },
+                { name: { [Op.iLike]: `%${term}%` } },
             ]
         }
     })
