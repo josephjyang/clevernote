@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
-import { useLocation, NavLink, Route } from 'react-router-dom';
+import { useLocation, NavLink } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import NoteForm from '../NoteForm';
 import * as notesActions from '../../store/notes'
 
 const useQuery = () => {
@@ -17,7 +16,6 @@ function SearchPage({isLoaded}) {
   userNotes.sort((a, b) => {
     return Date.parse(b.updatedAt) - Date.parse(a.updatedAt);
   })
-  console.log(notes);
 
   let query = useQuery();
   const searchKey = query.get("key");

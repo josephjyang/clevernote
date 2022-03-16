@@ -3,7 +3,6 @@ import { useSelector } from 'react-redux';
 import { NavLink, Redirect } from 'react-router-dom';
 import { Modal } from "../../context/Modal"
 import LoginForm from '../LoginFormModal/LoginForm';
-import Navigation from '../Navigation';
 import splash_clevernote from './splash_clevernote.svg'
 import './HomePage.css'
 
@@ -18,7 +17,6 @@ function HomePage({ isLoaded }) {
     if (!sessionUser) return (
         <>
             <div id="container">
-                {/* <Navigation isLoaded={isLoaded} /> */}
                 <div id="homepage">
                     <div id="splash-img-ctr">
                         <img id="splash-img" src={splash_clevernote} alt="splash" />

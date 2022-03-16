@@ -7,7 +7,7 @@ import { clearNotebooks } from "../../store/notebooks"
 import { clearTags } from "../../store/tags";
 
 
-function ProfileButton({user}) {
+function ProfileButton({ user }) {
     const dispatch = useDispatch();
     const [showMenu, setShowMenu] = useState(false)
 
@@ -46,24 +46,24 @@ function ProfileButton({user}) {
                 <span>{user.firstName} {user.lastName} <i className="fas fa-angle-down"></i></span>
             </div>
             {showMenu && (
-            <ul className="profile-dropdown">
-                <li>ACCOUNT</li>
-                <li id="user-info">
-                    <i className="fas fa-user-circle"></i>
-                    <div id="user-name">
-                        <span>{user.firstName} {user.lastName}</span><br />
-                        <span id="email">{user.email}</span>
-                    </div>
-                </li>
-                <li className="dropdown-link">
-                    <NavLink to="/account">
-                        <button id="account-info">Account info...</button>
-                    </NavLink>
-                </li>
-                <li className="dropdown-link">
-                    <button id="logout" onClick={logout}>Sign out {user.firstName} {user.lastName}</button>
-                </li>
-            </ul>
+                <ul className="profile-dropdown">
+                    <li>ACCOUNT</li>
+                    <li id="user-info">
+                        <i className="fas fa-user-circle"></i>
+                        <div id="user-name">
+                            <span>{user.firstName} {user.lastName}</span><br />
+                            <span id="email">{user.email}</span>
+                        </div>
+                    </li>
+                    <li className="dropdown-link">
+                        <NavLink to="/account">
+                            <button id="account-info">Account info...</button>
+                        </NavLink>
+                    </li>
+                    <li className="dropdown-link">
+                        <button id="logout" onClick={logout}>Sign out {user.firstName} {user.lastName}</button>
+                    </li>
+                </ul>
             )}
         </>
     )

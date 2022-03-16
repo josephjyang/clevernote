@@ -29,7 +29,7 @@ function Navigation({ isLoaded, setShowSignup }) {
                     </div>
                     <div id="search-form-ctr">
                         <form id="search-form" onSubmit={search}>
-                            <i class="fas fa-search" />
+                            <i className="fas fa-search" />
                             <input id="search-input" onChange={e => setSearchTerms(e.target.value)} type="search" name="term" placeholder="Search for a note" />
                         </form>
                     </div>

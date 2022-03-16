@@ -1,4 +1,3 @@
-import { useReducer } from "react";
 import { csrfFetch } from "./csrf";
 
 const LOAD_NOTES = "notes/LOAD_NOTES";
@@ -160,7 +159,6 @@ export const notesReducer = (state = initialState, action) => {
             action.notes.forEach(note => {
                 notes[note.id] = note;
             })
-            console.log(notes);
             return { ...notes }
         case NEW_NOTE:
             newState[action.note.id] = action.note
