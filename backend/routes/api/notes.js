@@ -3,7 +3,7 @@ const asyncHandler = require('express-async-handler');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 const { requireAuth } = require('../../utils/auth');
-const { Note, NoteTag, Tag } = require('../../db/models');
+const { Note, NoteTag, Tag, Sequelize: { Op } } = require('../../db/models');
 
 const router = express.Router();
 
@@ -41,6 +41,23 @@ router.delete('/:id', requireAuth, asyncHandler(async (req, res) => {
     return res.end();
 }))
 
+router.get('/search/:searchterm', async (req, res) => {
+    let term = req.params.searchterm
+    term = term.toLowerCase();
+
+    const notes = await Note.findAll({
+        where: {
+            [Op.or]: [
+                { content: { [Op.iLike]: `%${term}%` } },
+                { name: { [Op.iLike]: `%${term}%` } },
+            ]
+        }
+    })
+        .catch(err => res.render('error', { error: err }));
+
+    return res.json(notes);
+});
+
 router.post('/:id/tags', requireAuth, asyncHandler(async (req, res) => {
     const noteId = req.params.id;
     const { tagId } = req.body;
@@ -55,8 +72,9 @@ router.delete('/:noteId/tags/:tagId', requireAuth, asyncHandler(async (req, res)
         where: {
             noteId,
             tagId
-        } });
-        res.status = 204;
+        }
+    });
+    res.status = 204;
     return res.end();
 }))
 

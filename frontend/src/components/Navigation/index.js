@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useHistory } from 'react-router-dom';
 import ProfileButton from './ProfileButton'
 import DemoLoginButton from '../DemoLoginButton'
 import LoginFormModal from '../LoginFormModal';
@@ -9,9 +9,16 @@ import logo from '../LoginFormModal/logo.png'
 import './Navigation.css'
 
 function Navigation({ isLoaded, setShowSignup }) {
-    const { setScratchContent } = usePage();
     const sessionUser = useSelector(state => state.session.user); 
+    const [searchTerms, setSearchTerms] = useState('');
+    const history = useHistory();
+    const { setScratchContent } = usePage();
     let sessionLinks;
+
+    const search = e => {
+        e.preventDefault();
+        history.push(`/notes/search?key=${searchTerms}`);
+    }
 
     if (sessionUser) {
         sessionLinks = (
@@ -20,10 +27,16 @@ function Navigation({ isLoaded, setShowSignup }) {
                     <div id="user-header">
                         <ProfileButton user={sessionUser} />
                     </div>
+                    <div id="search-form-ctr">
+                        <form id="search-form" onSubmit={search}>
+                            <i class="fas fa-search" />
+                            <input id="search-input" onChange={e => setSearchTerms(e.target.value)} type="search" name="term" placeholder="Search for a note" />
+                        </form>
+                    </div>
                     <NavLink id="new-button" to="/notes/new" onClick={() => setScratchContent("")}>
 
                         <button id="new-note-btn">
-                            <i className="fas fa-plus"/>
+                            <i className="fas fa-plus" />
                             <span>New Note</span>
                         </button>
                     </NavLink>

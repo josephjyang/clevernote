@@ -1,3 +1,4 @@
+import { useReducer } from "react";
 import { csrfFetch } from "./csrf";
 
 const LOAD_NOTES = "notes/LOAD_NOTES";
@@ -94,6 +95,13 @@ export const loadNotes = user => async dispatch => {
     return data;
 }
 
+export const searchNotes = ({user, searchTerms}) => async dispatch => {
+    const res = await csrfFetch(`/api/notes/search/${searchTerms}`);
+    const data = await res.json();
+    dispatch(getNotes(user, data));
+    return data;
+}
+
 export const loadNotebookNotes = (user, notebook) => async dispatch => {
     const res = await csrfFetch(`/api/users/${user.id}/notebooks/${notebook.id}/notes`);
     const data = await res.json();
@@ -152,7 +160,8 @@ export const notesReducer = (state = initialState, action) => {
             action.notes.forEach(note => {
                 notes[note.id] = note;
             })
-            return { ...state, ...notes }
+            console.log(notes);
+            return { ...notes }
         case NEW_NOTE:
             newState[action.note.id] = action.note
             return newState;
