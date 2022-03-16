@@ -294,3 +294,29 @@ a:hover {
 #right li {
     margin: 15px;
 }
+
+#search-form-ctr {
+    display: flex;
+    justify-content: center;
+    margin: 10px 0;
+}
+
+#search-form {
+    width: 80%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background-color: white;
+    padding: 0 10px;
+    border-radius: 10px;
+}
+
+#search-input {
+    margin: 0;
+    border: none;
+}
+
+#search-input:focus-visible {
+    border: none;
+    outline: none;
+}

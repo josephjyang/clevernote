@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { NavLink, useHistory } from 'react-router-dom';
 import ProfileButton from './ProfileButton'
 import DemoLoginButton from '../DemoLoginButton'
@@ -15,7 +15,7 @@ function Navigation({ isLoaded, setShowSignup }) {
     const { setScratchContent } = usePage();
     let sessionLinks;
 
-    const search = async e => {
+    const search = e => {
         e.preventDefault();
         history.push(`/notes/search?key=${searchTerms}`);
     }
@@ -27,10 +27,10 @@ function Navigation({ isLoaded, setShowSignup }) {
                     <div id="user-header">
                         <ProfileButton user={sessionUser} />
                     </div>
-                    <div id="search-form">
+                    <div id="search-form-ctr">
                         <form id="search-form" onSubmit={search}>
                             <i class="fas fa-search" />
-                            <input onChange={e => setSearchTerms(e.target.value)} type="search" name="term" placeholder="Search for a note" />
+                            <input id="search-input" onChange={e => setSearchTerms(e.target.value)} type="search" name="term" placeholder="Search for a note" />
                         </form>
                     </div>
                     <NavLink id="new-button" to="/notes/new" onClick={() => setScratchContent("")}>
